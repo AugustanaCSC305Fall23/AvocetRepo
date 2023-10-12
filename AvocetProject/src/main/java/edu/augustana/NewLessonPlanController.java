@@ -31,18 +31,27 @@ public class NewLessonPlanController {
 
         }
         //String imagePath =  App.cardCollection.get(0).getImg();
-        //Image image = new Image("/1.png");
-        //ImageView imageView = new ImageView(image);
-       // cardsGrid.add(imageView, 0,0);
-       // keyWordsComboBox.getItems().addAll("Floor", "Bar", "Mushroom", "Rings", "KeyWord1", "KeyWord2");
-//        for (int i = 0; i < App.cardCollection.size(); i++) {
-//
-//                String imagePath =  App.cardCollection.get(i).getImg();
-//                Image image = new Image(imagePath);
-//                ImageView imageView = new ImageView(image);
-//                cardsGrid.add(imageView, j, i);
-//
-//        }
+        // keyWordsComboBox.getItems().addAll("Floor", "Bar", "Mushroom", "Rings", "KeyWord1", "KeyWord2");
+        int numRows = cardsGrid.getRowConstraints().size();
+        int numCols = cardsGrid.getColumnConstraints().size();
+
+        int col = 0;
+        int row = 0;
+        for (int i = 0; i < 6; i++) {
+
+                Image image = new Image("file:images/" + App.cardCollection.get(i).getImg());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100); // Adjust as needed
+                imageView.setFitHeight(100);
+                cardsGrid.add(imageView, col,row);
+
+                col++;
+                if (col >= numCols) {
+                    col = 0;
+                    row++;
+                }
+
+        }
 
     }
 
