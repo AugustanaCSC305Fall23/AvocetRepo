@@ -31,7 +31,7 @@ public class NewLessonPlanController {
 
         }
         //String imagePath =  App.cardCollection.get(0).getImg();
-        // keyWordsComboBox.getItems().addAll("Floor", "Bar", "Mushroom", "Rings", "KeyWord1", "KeyWord2");
+        keyWordsComboBox.getItems().addAll("Floor", "Bar", "Mushroom", "Rings", "KeyWord1", "KeyWord2");
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = cardsGrid.getColumnConstraints().size();
 
