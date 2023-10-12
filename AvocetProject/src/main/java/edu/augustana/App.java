@@ -5,10 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import java.awt.Dimension;
 import java.io.IOException;
 import com.opencsv.CSVReader;
-
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,10 @@ public class App extends Application {
     public static List<Card> cardCollection = new ArrayList<>();
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("WelcomeScreenView"), 640, 480);
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight() - 0.10*(screenSize.getHeight());
+        scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         stage.setScene(scene);
         stage.show();
     }
