@@ -10,4 +10,6 @@ public class WelcomeScreenController {
     private void switchToMainScreen() throws IOException {
         App.setRoot("NewLessonPlanView");
     }
+
+
 }
