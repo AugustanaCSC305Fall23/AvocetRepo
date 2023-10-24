@@ -3,6 +3,7 @@ package edu.augustana;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,7 +44,9 @@ public class NewLessonPlanController {
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(100); // Adjust as needed
                 imageView.setFitHeight(100);
-                cardsGrid.add(imageView, col,row);
+                Button cardButton = new Button();
+                cardButton.setGraphic(imageView);
+                cardsGrid.add(cardButton, col,row);
 
                 col++;
                 if (col >= numCols) {
