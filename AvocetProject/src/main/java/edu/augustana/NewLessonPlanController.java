@@ -38,11 +38,11 @@ public class NewLessonPlanController {
         //String imagePath =  App.cardCollection.get(0).getImg();
         keyWordsComboBox.getItems().addAll("Floor", "Bar", "Mushroom", "Rings", "KeyWord1", "KeyWord2");
         int numRows = cardsGrid.getRowConstraints().size();
-        int numCols = cardsGrid.getColumnConstraints().size();
+        int numCols = 2;
 
         int col = 0;
         int row = 0;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < App.cardCollection.size(); i++) {
 
                 Image image = new Image("file:images/" + App.cardCollection.get(i).getImg());
                 ImageView imageView = new ImageView(image);
