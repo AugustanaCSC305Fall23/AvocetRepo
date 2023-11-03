@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -29,22 +30,25 @@ public class CardInfo {
         Title.setStyle("-fx-font-size:28; -fx-font-weight:bold");
 
         Label equipmentLabel = new Label();
-        equipmentLabel.setText("Equipment: " + clickCard.getEquipment());
-        equipmentLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
+        equipmentLabel.setText("Equipment: \n" + clickCard.getEquipment());
+        equipmentLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        equipmentLabel.setWrapText(true);
 
         Label levelLabel = new Label();
-        levelLabel.setText("Level: "+ clickCard.getLevel());
-        levelLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
+        levelLabel.setText("Level: \n"+ clickCard.getLevel());
+        levelLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        levelLabel.setWrapText(true);
 
         Label genderLabel = new Label();
-        genderLabel.setText("Gender: " + clickCard.getGender());
-        genderLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
-
+        genderLabel.setText("Gender: \n" + clickCard.getGender());
+        genderLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        genderLabel.setWrapText(true);
         Label keywordLabel = new Label();
-        keywordLabel.setText("Keywords: "+clickCard.getKeywords());
-        keywordLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
+        keywordLabel.setText("Keywords: \n"+clickCard.getKeywords());
+        keywordLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        keywordLabel.setWrapText(true);
 
-        HBox hBox = new HBox(40);
+        HBox hBox = new HBox(25);
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
         Image image = new Image("file:images/" + clickCard.getImg());
@@ -52,9 +56,9 @@ public class CardInfo {
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
 
-        Pane imagePane = new Pane();
-        imagePane.setStyle("-fx-background-color: black");
-        imagePane.getChildren().add(imageView);
+//        Pane imagePane = new Pane();
+//        imagePane.setStyle("-fx-background-color: black");
+//        imagePane.getChildren().add(imageView);
         VBox vBox = new VBox();
         vBox.setMinWidth(10);
         VBox vBox1 = new VBox();
@@ -68,7 +72,7 @@ public class CardInfo {
                 "-fx-background-color: #ff6e4e");
 
         borderPane.setTop(Title);
-        borderPane.setCenter(imagePane);
+        borderPane.setCenter(imageView);
         borderPane.setBottom(hBox);
         borderPane.setRight(vBox);
         borderPane.setLeft(vBox1);
