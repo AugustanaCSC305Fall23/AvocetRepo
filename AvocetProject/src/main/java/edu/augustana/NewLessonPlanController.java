@@ -50,7 +50,7 @@ public class NewLessonPlanController {
                 imageView.setFitHeight(100);
                 Button cardButton = new Button();
                 Card clickCard = App.cardCollection.get(i);
-                cardButton.setOnAction(event -> displayPopup(clickCard));
+                cardButton.setOnAction(event -> cardInfo.displayPopup(clickCard));
                 cardButton.setGraphic(imageView);
                 cardsGrid.add(cardButton, col,row);
 
@@ -65,44 +65,7 @@ public class NewLessonPlanController {
 
     }
 
-    private void displayPopup(Card clickCard) {
-        Popup popup = new Popup();
-        popup.setWidth(300);
-        popup.setHeight(300);
-        Label Title = new Label();
-        Title.setText("Card Information");
-        Title.setStyle("-fx-font-size:28; -fx-font-weight:bold");
 
-        Label equipmentLabel = new Label();
-        equipmentLabel.setText("Equipment: ");
-        equipmentLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
-
-        Label levelLabel = new Label();
-        levelLabel.setText("Level: " );
-        levelLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
-
-        Label genderLabel = new Label();
-        genderLabel.setText("Gender: " + clickCard.getGender());
-        genderLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
-
-        Label keywordLabel = new Label();
-        keywordLabel.setText("Keywords: ");
-        keywordLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
-
-        HBox hBox = new HBox(equipmentLabel,levelLabel,genderLabel,keywordLabel);
-        Image image = new Image("file:images/"+clickCard.getImg());
-        ImageView imageView = new ImageView(image);
-
-
-
-
-
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(Title);
-        borderPane.setCenter(imageView);
-        popup.getContent().add(borderPane);
-        
-    }
 
 
 }

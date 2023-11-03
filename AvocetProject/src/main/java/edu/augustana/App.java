@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class App extends Application {
 
-    private static Scene scene;
+    public static Scene scene;
     public static List<Card> cardCollection = new ArrayList<>();
     @Override
     public void start(Stage stage) throws IOException {
@@ -31,6 +31,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         stage.setScene(scene);
         stage.show();
+        
     }
 
     static void setRoot(String fxml) throws IOException {
