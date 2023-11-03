@@ -29,11 +29,11 @@ public class CardInfo {
         Title.setStyle("-fx-font-size:28; -fx-font-weight:bold");
 
         Label equipmentLabel = new Label();
-        equipmentLabel.setText("Equipment: ");
+        equipmentLabel.setText("Equipment: " + clickCard.getEquipment());
         equipmentLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
 
         Label levelLabel = new Label();
-        levelLabel.setText("Level: ");
+        levelLabel.setText("Level: "+ clickCard.getLevel());
         levelLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
 
         Label genderLabel = new Label();
@@ -41,10 +41,10 @@ public class CardInfo {
         genderLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
 
         Label keywordLabel = new Label();
-        keywordLabel.setText("Keywords: ");
+        keywordLabel.setText("Keywords: "+clickCard.getKeywords());
         keywordLabel.setStyle("-fx-font-size:14; -fx-font-weight:bold");
 
-        HBox hBox = new HBox(60);
+        HBox hBox = new HBox(40);
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
         Image image = new Image("file:images/" + clickCard.getImg());
