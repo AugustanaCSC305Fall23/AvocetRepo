@@ -4,9 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Popup;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +35,8 @@ public class NewLessonPlanController {
     private GridPane cardsGrid;
     @FXML
     private Button searchButton;
+    @FXML
+    private ScrollPane cardsGridScrollPane;
     @FXML
     void initialize() {
     for (Card c : App.cardCollection) {
@@ -65,6 +72,8 @@ public class NewLessonPlanController {
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
             Button cardButton = new Button();
+            Card clickCard = myCard;
+            cardButton.setOnAction(event -> cardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
             cardsGrid.add(cardButton, col, row);
             col++;
