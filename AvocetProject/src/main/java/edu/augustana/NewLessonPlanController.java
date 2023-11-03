@@ -68,6 +68,7 @@ public class NewLessonPlanController {
         double width = screenSize.getWidth();
         cardsGridVbox.setPrefWidth(width/2);
         cardsGrid.setPrefWidth(width/2);
+        cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
@@ -79,7 +80,12 @@ public class NewLessonPlanController {
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
-            cardsGrid.add(cardButton, col, row);
+            Button addButton = new Button();
+            addButton.setText("Add");
+            addButton.setStyle("-fx-background-color: #ff6e4e");
+            VBox cardVbox = new VBox(cardButton, addButton);
+            cardsGrid.add(cardVbox, col, row);
+
             col++;
             if (col >= numCols) {
                 col = 0;
