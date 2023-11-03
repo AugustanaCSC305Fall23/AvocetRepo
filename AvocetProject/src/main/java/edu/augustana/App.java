@@ -44,6 +44,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
         try (CSVReader reader = new CSVReader(new FileReader("DEMO1.csv"))) {
             List<String[]> data = reader.readAll();
             for (int i = 1; i < data.size(); i++) {
@@ -58,6 +59,7 @@ public class App extends Application {
 
                 Card newCard = new Card(code, event, category, title, img, gender);
                 cardCollection.add(newCard);
+                //System.out.println(code + event + category + title + img + gender);
 
 
             }
