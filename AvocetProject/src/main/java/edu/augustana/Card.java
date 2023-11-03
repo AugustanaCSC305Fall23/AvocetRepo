@@ -1,6 +1,6 @@
 package edu.augustana;
 
-public class Card {
+public class Card{
     private String code;
     private String event;
     private String category;
@@ -18,6 +18,17 @@ public class Card {
         this.img = img;
         this.gender = gender;
 
+    }
+
+    public boolean matchesSearchText(String searchText) {
+        searchText = searchText.toLowerCase(); // Convert search text to lowercase for case-insensitive search
+
+        // Check if any of the card's properties contain the search text
+        return code.toLowerCase().contains(searchText)
+                || event.toLowerCase().contains(searchText)
+                || category.toLowerCase().contains(searchText)
+                || title.toLowerCase().contains(searchText)
+                || gender.toLowerCase().contains(searchText);
     }
 
     public String getCode() {

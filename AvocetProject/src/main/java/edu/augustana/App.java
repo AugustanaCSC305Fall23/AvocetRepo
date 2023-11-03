@@ -37,6 +37,10 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
+    public static List<Card> getCardCollection() {
+        return cardCollection;
+    }
+
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
@@ -47,25 +51,18 @@ public class App extends Application {
             List<String[]> data = reader.readAll();
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-
                 String code = row[0];
                 String event = row[1];
                 String category = row[2];
                 String title = row[3];
                 String img = row[5];
                 String gender = row[6];
-
                 Card newCard = new Card(code, event, category, title, img, gender);
                 cardCollection.add(newCard);
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         launch();
     }
-
 }
