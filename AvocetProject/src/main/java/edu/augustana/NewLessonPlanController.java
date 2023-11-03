@@ -8,7 +8,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ public class NewLessonPlanController {
     private Button searchButton;
     @FXML
     private ScrollPane cardsGridScrollPane;
+    @FXML
+    private VBox cardsGridVbox;
     @FXML
     void initialize() {
     for (Card c : App.cardCollection) {
@@ -59,14 +63,18 @@ public class NewLessonPlanController {
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
-        int numCols = cardsGrid.getColumnConstraints().size();
+        int numCols = 3;
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        cardsGridVbox.setPrefWidth(width/2);
+        cardsGrid.setPrefWidth(width/2);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
             Image image = new Image("file:images/" + myCard.getImg());
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(100);
+            imageView.setFitWidth(200);
+            imageView.setFitHeight(200);
             Button cardButton = new Button();
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
