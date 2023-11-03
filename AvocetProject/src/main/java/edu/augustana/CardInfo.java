@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 
-public class cardInfo {
+public class CardInfo {
 
     private static Scene scene;
     private static Boolean popupShowing = false;
