@@ -37,15 +37,9 @@ public class NewLessonPlanController {
     @FXML
     private GridPane cardsGrid;
     @FXML
-    private Button searchButton;
-    @FXML
     private ScrollPane cardsGridScrollPane;
     @FXML
     private VBox cardsGridVbox;
-    @FXML
-    private CheckBox neutralBox;
-    @FXML
-    private CheckBox femaleBox;
     @FXML
     private GridPane lessonPlanGrid;
     @FXML
@@ -55,42 +49,16 @@ public class NewLessonPlanController {
     @FXML
     void initialize() {
         comboBoxInitializer(filteredBox);
+        ComboBox<String> eventComboBox = new ComboBox<String>();
+        comboBoxInitializer(eventComboBox);
         filteredBox.getSelectionModel().select(0);
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGrid.setPrefWidth(width/2);
         lessonPlanGrid.setPrefWidth(width/2);
-        ComboBox<String> eventComboBox = new ComboBox<String>();
-        for (Card c : App.cardCollection) {
-            if (!eventComboBox.getItems().contains(c.getEvent())) {
-                eventComboBox.getItems().add(c.getEvent());
-            }
-        }
-
-
-        // initialize the cardGrid
-        //displayCards(App.cardCollection);
         displayCards(eventCardList());
-
-
-
-//    CheckBox box1 = new CheckBox("Neutral");
-//    CheckBox box2 = new CheckBox("Female");
-//    Button genderFilteringButton = new Button("Filter");
-//    genderFilteringButton.setOnAction(e -> filteringBaseOnGender(box1, box2));
-
     }
-
-//    @FXML
-//    void femaleGenderFilter(ActionEvent event) {
-//
-//    }
-//
-//    @FXML
-//    void neutralGenderFilter(ActionEvent event) {
-//
-//    }
 
     @FXML
     void eventFiltering(ActionEvent event) {
@@ -120,33 +88,7 @@ public class NewLessonPlanController {
             }
         }
     }
-//=======
-//    private GridPane lessonPlanGrid;
-//    @FXML
-//    private Button addEventButton;
-//    private double width;
-//    private Course course;
-//    @FXML
-//    void initialize() {
-//        course = new Course();
-//
-//        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-//        width = screenSize.getWidth();
-//        cardsGrid.setPrefWidth(width/2);
-//        lessonPlanGrid.setPrefWidth(width/2);
-//        ComboBox<String> eventComboBox = new ComboBox<String>();
-//        for (Card c : App.cardCollection) {
-//            if (!eventComboBox.getItems().contains(c.getEvent())) {
-//                eventComboBox.getItems().add(c.getEvent());
-//            }
-//        }
-//
-//
-//        // initialize the cardGrid
-//        displayCards(App.cardCollection);
-//    }
-//
-//>>>>>>> 824ec6a0ef8cfeb011ea47590362d1f0dc0648f3
+
     @FXML
     void searchFunction() {
         String searchText = searchBox.getText().toLowerCase();
@@ -160,29 +102,6 @@ public class NewLessonPlanController {
         cardsGrid.getChildren().clear();
         displayCards(outputList);
     }
-//    @FXML
-//    public void filteringBaseOnGender(CheckBox box1, CheckBox box2){
-//        if (box1.isSelected()){
-//            List<Card> outputList = new ArrayList<>();
-//            for (Card myCard: App.cardCollection) {
-//                if (myCard.getGender().equals("N")) {
-//                    outputList.add(myCard);
-//                }
-//            }
-//            cardsGrid.getChildren().clear();
-//            displayCards(outputList);
-//        }
-//        if (box2.isSelected()){
-//            List<Card> outputList = new ArrayList<>();
-//            for (Card myCard: App.cardCollection){
-//                if (myCard.getGender().equals("F")) {
-//                    outputList.add(myCard);
-//                }
-//            }
-//            cardsGrid.getChildren().clear();
-//            displayCards(outputList);
-//        }
-//    }
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
@@ -250,18 +169,6 @@ public class NewLessonPlanController {
 
         lessonPlanGrid.getChildren().remove(plan.getHBox());
         lessonPlanGrid.add(plan.getHBox(), 0, plan.getIndex());
-
-
-//            for (Card card : plan.getCards()) {
-//                Image image = new Image("file:images/" + card.getImg());
-//                ImageView imageView = new ImageView(image);
-//                imageView.setFitWidth(200);
-//                imageView.setFitHeight(200);
-//                plan.getHBox().getChildren().add(imageView);
-//            }
-//            //Button deleteButton = new Button("Delete");
-//
-//            lessonPlanGrid.getChildren().remove();
     }
 
 }
