@@ -1,10 +1,13 @@
 package edu.augustana;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,6 +23,9 @@ import java.util.ResourceBundle;
 
 public class NewLessonPlanController {
 
+
+    @FXML
+    private ComboBox<String> filteredBox;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -37,6 +43,10 @@ public class NewLessonPlanController {
     @FXML
     private VBox cardsGridVbox;
     @FXML
+    private CheckBox neutralBox;
+    @FXML
+    private CheckBox femaleBox;
+    @FXML
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
@@ -44,6 +54,8 @@ public class NewLessonPlanController {
     private Course course;
     @FXML
     void initialize() {
+        comboBoxInitializer(filteredBox);
+        filteredBox.getSelectionModel().select(0);
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
@@ -58,15 +70,90 @@ public class NewLessonPlanController {
         }
 
 
-    // initialize the cardGrid
-    displayCards(App.cardCollection);
-}
+        // initialize the cardGrid
+        //displayCards(App.cardCollection);
+        displayCards(eventCardList());
 
+
+
+//    CheckBox box1 = new CheckBox("Neutral");
+//    CheckBox box2 = new CheckBox("Female");
+//    Button genderFilteringButton = new Button("Filter");
+//    genderFilteringButton.setOnAction(e -> filteringBaseOnGender(box1, box2));
+
+    }
+
+//    @FXML
+//    void femaleGenderFilter(ActionEvent event) {
+//
+//    }
+//
+//    @FXML
+//    void neutralGenderFilter(ActionEvent event) {
+//
+//    }
+
+    @FXML
+    void eventFiltering(ActionEvent event) {
+        cardsGrid.getChildren().clear();
+        displayCards(eventCardList());
+    }
+
+    private List<Card> eventCardList() {
+        List<Card> outputList = new ArrayList<>();
+        String keywords = filteredBox.getValue();
+        if (keywords.equals("ALL")) {
+            outputList = App.cardCollection;
+        } else {
+            for (Card myCard: App.cardCollection) {
+                if (myCard.getEvent().contains(keywords)) {
+                    outputList.add(myCard);
+                }
+            }
+        }
+        return outputList;
+    }
+
+    private void comboBoxInitializer(ComboBox<String> comboBox) {
+        for (Card c : App.cardCollection) {
+            if (!comboBox.getItems().contains(c.getEvent())) {
+                comboBox.getItems().add(c.getEvent());
+            }
+        }
+    }
+//=======
+//    private GridPane lessonPlanGrid;
+//    @FXML
+//    private Button addEventButton;
+//    private double width;
+//    private Course course;
+//    @FXML
+//    void initialize() {
+//        course = new Course();
+//
+//        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//        width = screenSize.getWidth();
+//        cardsGrid.setPrefWidth(width/2);
+//        lessonPlanGrid.setPrefWidth(width/2);
+//        ComboBox<String> eventComboBox = new ComboBox<String>();
+//        for (Card c : App.cardCollection) {
+//            if (!eventComboBox.getItems().contains(c.getEvent())) {
+//                eventComboBox.getItems().add(c.getEvent());
+//            }
+//        }
+//
+//
+//        // initialize the cardGrid
+//        displayCards(App.cardCollection);
+//    }
+//
+//>>>>>>> 824ec6a0ef8cfeb011ea47590362d1f0dc0648f3
     @FXML
     void searchFunction() {
         String searchText = searchBox.getText().toLowerCase();
+        List<Card> searchList = eventCardList();
         List<Card> outputList = new ArrayList<>();
-        for (Card myCard : App.cardCollection) {
+        for (Card myCard : searchList) {
             if (myCard.matchesSearchText(searchText)) {
                 outputList.add(myCard);
             }
@@ -74,6 +161,29 @@ public class NewLessonPlanController {
         cardsGrid.getChildren().clear();
         displayCards(outputList);
     }
+//    @FXML
+//    public void filteringBaseOnGender(CheckBox box1, CheckBox box2){
+//        if (box1.isSelected()){
+//            List<Card> outputList = new ArrayList<>();
+//            for (Card myCard: App.cardCollection) {
+//                if (myCard.getGender().equals("N")) {
+//                    outputList.add(myCard);
+//                }
+//            }
+//            cardsGrid.getChildren().clear();
+//            displayCards(outputList);
+//        }
+//        if (box2.isSelected()){
+//            List<Card> outputList = new ArrayList<>();
+//            for (Card myCard: App.cardCollection){
+//                if (myCard.getGender().equals("F")) {
+//                    outputList.add(myCard);
+//                }
+//            }
+//            cardsGrid.getChildren().clear();
+//            displayCards(outputList);
+//        }
+//    }
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
