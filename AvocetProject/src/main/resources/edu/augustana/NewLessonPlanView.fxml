@@ -87,8 +87,12 @@
     <left>
         <VBox fx:id="cardsGridVbox" prefHeight="400.0" style="-fx-background-color: FFF2EF;" BorderPane.alignment="CENTER">
             <children>
-            <TextField fx:id="searchBox" />
-            <Button mnemonicParsing="false" onAction="#searchFunction" text="Button" />
+            <HBox prefHeight="33.0" prefWidth="322.0">
+               <children>
+                  <TextField fx:id="searchBox" prefHeight="26.0" prefWidth="261.0" />
+                  <Button mnemonicParsing="false" onAction="#searchFunction" text="Search" />
+               </children>
+            </HBox>
                 <ScrollPane fx:id="cardsGridScrollPane">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -126,7 +130,7 @@
                         </TextField>
                     </children>
                 </HBox>
-            <ScrollPane>
+            <ScrollPane minHeight="200.0">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

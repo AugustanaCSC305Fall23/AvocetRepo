@@ -3,6 +3,7 @@ package edu.augustana;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,12 @@ public class LessonPlan {
 
     private ComboBox<String> eventComboBox;
     private int index;
+    private VBox vb;
 
     public LessonPlan(int index) {
         this.cards = new ArrayList<Card>();
         this.event = "";
+        this.vb = new VBox();
         this.hb = new HBox();
         this.eventComboBox = new ComboBox<String>();
         for (Card c : App.cardCollection) {
@@ -55,6 +58,10 @@ public class LessonPlan {
 
     public int getIndex() {
         return index;
+    }
+
+    public VBox getVBox() {
+        return vb;
     }
 
 }

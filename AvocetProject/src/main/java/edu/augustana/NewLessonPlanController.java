@@ -45,11 +45,11 @@ public class NewLessonPlanController {
     @FXML
     void initialize() {
         course = new Course();
-
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGrid.setPrefWidth(width/2);
         lessonPlanGrid.setPrefWidth(width/2);
+        lessonPlanGrid.setVgap(10);
         ComboBox<String> eventComboBox = new ComboBox<String>();
         for (Card c : App.cardCollection) {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
@@ -94,6 +94,7 @@ public class NewLessonPlanController {
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
             Button addButton = new Button("Add");
+            addButton.setPrefWidth(220);
             addButton.setOnAction(event -> addCardToPlan(myCard));
 
             //addButton.setStyle("-fx-background-color: #ff6e4e");
@@ -114,9 +115,14 @@ public class NewLessonPlanController {
         LessonPlan plan = new LessonPlan(lessonPlanGrid.getRowCount());
 
         //cardsHBox.getChildren().add(eventComboBox);
-        plan.getHBox().getChildren().add(plan.getEventComboBox());
+        plan.getHBox().setSpacing(10);
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(event -> deletePlan(plan));
+        HBox topHB = new HBox(plan.getEventComboBox(), deleteButton);
+        plan.getVBox().getChildren().add(topHB);
+        plan.getVBox().getChildren().add(plan.getHBox());
         course.addLessonPlan(plan);
-        lessonPlanGrid.add(plan.getHBox(), 0, plan.getIndex());
+        lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
 
     }
     @FXML
@@ -140,7 +146,7 @@ public class NewLessonPlanController {
         plan.getHBox().getChildren().add(imageView);
 
         lessonPlanGrid.getChildren().remove(plan.getHBox());
-        lessonPlanGrid.add(plan.getHBox(), 0, plan.getIndex());
+        lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
 
 
 //            for (Card card : plan.getCards()) {
@@ -153,6 +159,12 @@ public class NewLessonPlanController {
 //            //Button deleteButton = new Button("Delete");
 //
 //            lessonPlanGrid.getChildren().remove();
+    }
+
+    private void deletePlan(LessonPlan plan) {
+
+        lessonPlanGrid.getChildren().remove(plan.getVBox());
+        course.getPlans().remove(plan);
     }
 
 }
