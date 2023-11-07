@@ -64,7 +64,11 @@ public class App extends Application {
                 String title = row[3];
                 String img = row[5];
                 String gender = row[6];
-                Card newCard = new Card(code, event, category, title, img, gender);
+                String modelSex = row[7];
+                String level = row[8];
+                String equipment = row[9];
+                String keywords = row[10];
+                Card newCard = new Card(code, event, category, title, img, gender, modelSex, level, equipment,keywords);
                 cardCollection.add(newCard);
             }
         } catch (Exception e) {

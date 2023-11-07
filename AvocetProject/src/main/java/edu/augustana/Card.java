@@ -7,16 +7,24 @@ public class Card{
     private String title;
     private String img;
     private String gender;
+    private String modelSex;
+    private String level;
+    private String equipment;
+    private String keywords;
 
 
 
-    public Card(String code, String event, String category, String title, String img, String gender) {
+    public Card(String code, String event, String category, String title, String img, String gender, String modelSex,String level, String equipment, String keywords) {
         this.code = code;
         this.event = event;
         this.category = category;
         this.title = title;
         this.img = img;
         this.gender = gender;
+        this.modelSex = modelSex;
+        this.level = level;
+        this.equipment = equipment;
+        this.keywords = keywords;
 
     }
 
@@ -47,6 +55,14 @@ public class Card{
     public String getImg() {
         return img;
     }
+
+    public String getModelSex() {return modelSex;}
+
+    public String getLevel() {return level;}
+
+    public String getEquipment() {return equipment;}
+
+    public String getKeywords() {return keywords;}
 
     public String getGender() {
         return gender;

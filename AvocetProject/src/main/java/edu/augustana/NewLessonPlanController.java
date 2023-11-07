@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
@@ -30,8 +31,6 @@ public class NewLessonPlanController {
     @FXML
     private URL location;
     @FXML
-    private ComboBox<String> eventComboBox;
-    @FXML
     private ComboBox<String> keyWordsComboBox;
     @FXML
     private TextField searchBox;
@@ -48,11 +47,33 @@ public class NewLessonPlanController {
     @FXML
     private CheckBox femaleBox;
     @FXML
+    private GridPane lessonPlanGrid;
+    @FXML
+    private Button addEventButton;
+    private double width;
+    private Course course;
+    @FXML
     void initialize() {
-        comboBoxInitializer(eventComboBox);
         comboBoxInitializer(filteredBox);
         filteredBox.getSelectionModel().select(0);
+        course = new Course();
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        width = screenSize.getWidth();
+        cardsGrid.setPrefWidth(width/2);
+        lessonPlanGrid.setPrefWidth(width/2);
+        ComboBox<String> eventComboBox = new ComboBox<String>();
+        for (Card c : App.cardCollection) {
+            if (!eventComboBox.getItems().contains(c.getEvent())) {
+                eventComboBox.getItems().add(c.getEvent());
+            }
+        }
+
+
+        // initialize the cardGrid
+        //displayCards(App.cardCollection);
         displayCards(eventCardList());
+
+
 
 //    CheckBox box1 = new CheckBox("Neutral");
 //    CheckBox box2 = new CheckBox("Female");
@@ -99,6 +120,33 @@ public class NewLessonPlanController {
             }
         }
     }
+//=======
+//    private GridPane lessonPlanGrid;
+//    @FXML
+//    private Button addEventButton;
+//    private double width;
+//    private Course course;
+//    @FXML
+//    void initialize() {
+//        course = new Course();
+//
+//        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//        width = screenSize.getWidth();
+//        cardsGrid.setPrefWidth(width/2);
+//        lessonPlanGrid.setPrefWidth(width/2);
+//        ComboBox<String> eventComboBox = new ComboBox<String>();
+//        for (Card c : App.cardCollection) {
+//            if (!eventComboBox.getItems().contains(c.getEvent())) {
+//                eventComboBox.getItems().add(c.getEvent());
+//            }
+//        }
+//
+//
+//        // initialize the cardGrid
+//        displayCards(App.cardCollection);
+//    }
+//
+//>>>>>>> 824ec6a0ef8cfeb011ea47590362d1f0dc0648f3
     @FXML
     void searchFunction() {
         String searchText = searchBox.getText().toLowerCase();
@@ -139,10 +187,10 @@ public class NewLessonPlanController {
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
-        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
+
         cardsGridVbox.setPrefWidth(width/2);
-        cardsGrid.setPrefWidth(width/2);
+
+        cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
@@ -154,7 +202,13 @@ public class NewLessonPlanController {
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
-            cardsGrid.add(cardButton, col, row);
+            Button addButton = new Button("Add");
+            addButton.setOnAction(event -> addCardToPlan(myCard));
+
+            //addButton.setStyle("-fx-background-color: #ff6e4e");
+            VBox cardVbox = new VBox(cardButton, addButton);
+            cardsGrid.add(cardVbox, col, row);
+
             col++;
             if (col >= numCols) {
                 col = 0;
@@ -162,6 +216,54 @@ public class NewLessonPlanController {
             }
         }
     }
+
+    @FXML
+    private void addLessonPlan() {
+
+        LessonPlan plan = new LessonPlan(lessonPlanGrid.getRowCount());
+
+        //cardsHBox.getChildren().add(eventComboBox);
+        plan.getHBox().getChildren().add(plan.getEventComboBox());
+        course.addLessonPlan(plan);
+        lessonPlanGrid.add(plan.getHBox(), 0, plan.getIndex());
+
+    }
+    @FXML
+    private void addCardToPlan(Card card) {
+        for (LessonPlan plan : course.getPlans()) {
+            if (plan.getEvent().equals(card.getEvent())){
+                plan.addCard(card);
+                displayPlanCards(plan);
+
+            }
+        }
+    }
+
+    private void displayPlanCards(LessonPlan plan) {
+        int numCards = (plan.getCards().size());
+        Card newCard = plan.getCards().get(numCards-1);
+        Image image = new Image("file:images/" + newCard.getImg());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        plan.getHBox().getChildren().add(imageView);
+
+        lessonPlanGrid.getChildren().remove(plan.getHBox());
+        lessonPlanGrid.add(plan.getHBox(), 0, plan.getIndex());
+
+
+//            for (Card card : plan.getCards()) {
+//                Image image = new Image("file:images/" + card.getImg());
+//                ImageView imageView = new ImageView(image);
+//                imageView.setFitWidth(200);
+//                imageView.setFitHeight(200);
+//                plan.getHBox().getChildren().add(imageView);
+//            }
+//            //Button deleteButton = new Button("Delete");
+//
+//            lessonPlanGrid.getChildren().remove();
+    }
+
 }
 
 

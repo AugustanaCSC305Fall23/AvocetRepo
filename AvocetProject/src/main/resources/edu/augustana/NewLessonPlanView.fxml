@@ -132,73 +132,19 @@
                         </TextField>
                     </children>
                 </HBox>
-                <GridPane prefHeight="300.0" prefWidth="315.0" vgap="10.0">
+            <ScrollPane>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <content>
+                  <GridPane fx:id="lessonPlanGrid">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-style: solid;">
-                            <children>
-                                <GridPane>
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <ComboBox fx:id="eventComboBox" prefHeight="26.0" prefWidth="85.0" promptText="Event" styleClass="button" stylesheets="@style.css" />
-                                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                                            <children>
-                                                <Button fx:id="deleteButton" alignment="CENTER_RIGHT" mnemonicParsing="false" stylesheets="@style.css" text="Delete" />
-                                            </children>
-                                            <GridPane.margin>
-                                                <Insets />
-                                            </GridPane.margin>
-                                        </HBox>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                    </padding>
-                                </GridPane>
-                                <Label text="Drag and drop cards to add" />
-                            </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-style: solid;" GridPane.rowIndex="1">
-                            <children>
-                                <GridPane>
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <ComboBox prefHeight="26.0" prefWidth="85.0" promptText="Event" styleClass="button" stylesheets="@style.css" />
-                                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                                            <children>
-                                                <Button alignment="CENTER_RIGHT" mnemonicParsing="false" stylesheets="@style.css" text="Delete" />
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                    </padding>
-                                </GridPane>
-                                <Label text="Drag and drop cards to add" />
-                            </children>
-                        </VBox>
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </VBox.margin>
-                </GridPane>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Button fx:id="addEventButton" mnemonicParsing="false" onAction="#addLessonPlan" text="Add Event" />
             </children>
         </VBox>
     </center>
