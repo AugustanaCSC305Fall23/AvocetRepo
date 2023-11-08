@@ -1,7 +1,5 @@
 package edu.augustana;
 
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -67,10 +65,6 @@ public class NewLessonPlanController {
     private void cardGridHandler(){
         cardsGrid.getChildren().clear();
         searchFunction(levelFunction(genderFunction(eventFunction())));
-//        List<Card> tempList1 = eventFunction();
-//        List<Card> tempList2 = genderFunction(tempList1);
-//        List<Card> tempList3 = levelFunction(tempList2);
-//        searchFunction(tempList3);
     }
 
     @FXML
@@ -131,13 +125,16 @@ public class NewLessonPlanController {
         } else {
             for (Card myCard : tempList) {
                 String[] cardLevels = myCard.getLevelList();
+
                 for (String level : cardLevels) {
                     if (keywords.equals(level)) {
+
                         levelOutputList.add(myCard);
                     }
                 }
             }
         }
+        System.out.println(levelOutputList);
         return levelOutputList;
     }
 
@@ -190,10 +187,9 @@ public class NewLessonPlanController {
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
-            Image image = new Image("file:images/" + myCard.getImg());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(200);
+            ImageView imageView = new ImageView(myCard.getImageThumbnail());
+            //imageView.setFitWidth(200);
+            //imageView.setFitHeight(200);
             Button cardButton = new Button();
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
@@ -236,7 +232,6 @@ public class NewLessonPlanController {
             if (plan.getEvent().equals(card.getEvent())){
                 plan.addCard(card);
                 displayPlanCards(plan);
-
             }
         }
     }
@@ -244,7 +239,7 @@ public class NewLessonPlanController {
     private void displayPlanCards(LessonPlan plan) {
         int numCards = (plan.getCards().size());
         Card newCard = plan.getCards().get(numCards-1);
-        Image image = new Image("file:images/" + newCard.getImg());
+        Image image = new Image("file:images/" + newCard.getImageFileName());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
