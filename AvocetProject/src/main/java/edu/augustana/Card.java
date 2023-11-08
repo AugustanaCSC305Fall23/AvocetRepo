@@ -14,22 +14,22 @@ public class Card{
     private String level;
     private String equipment;
     private String keywords;
+    private String packName;
 
-
-
-    public Card(String code, String event, String category, String title, String imgFileName, String gender, String modelSex,String level, String equipment, String keywords) {
+    public Card(String code, String event, String category, String title, String imgFileName, String gender, String modelSex,String level, String equipment, String keywords, String packName) {
         this.code = code;
         this.event = event;
         this.category = category;
         this.title = title;
         this.imageFileName = imgFileName;
-        this.imageThumbnail = ImageUtilities.scale(new Image("file:images/" + imageFileName), 200, 200, true);
+        this.imageThumbnail = new Image("file:packs/" + packName + "/" + imgFileName);
+//        this.imageThumbnail = ImageUtilities.scale(new Image("file:packs/" + packName + "/" + imgFileName),200,200,true);
         this.gender = gender;
         this.modelSex = modelSex;
         this.level = level;
         this.equipment = equipment;
         this.keywords = keywords;
-
+        this.packName = packName;
     }
 
     public boolean matchesSearchText(String searchText) {
@@ -72,13 +72,12 @@ public class Card{
 
     public String getKeywords() {return keywords;}
 
-    public String getGender() {
-        return gender;
-    }
+    public String getGender() {return gender;}
+
+    public String getPackName() {return packName;}
 
     public String[] getLevelList() {
         String[] levels = level.split("[,\\s]+");
         return levels;
     }
-
 }
