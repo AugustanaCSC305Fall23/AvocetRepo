@@ -11,10 +11,11 @@ public class Card{
     private String level;
     private String equipment;
     private String keywords;
+    private String packName;
 
 
 
-    public Card(String code, String event, String category, String title, String img, String gender, String modelSex,String level, String equipment, String keywords) {
+    public Card(String code, String event, String category, String title, String img, String gender, String modelSex,String level, String equipment, String keywords, String packName) {
         this.code = code;
         this.event = event;
         this.category = category;
@@ -25,6 +26,7 @@ public class Card{
         this.level = level;
         this.equipment = equipment;
         this.keywords = keywords;
+        this.packName = packName;
 
     }
 
@@ -66,5 +68,8 @@ public class Card{
 
     public String getGender() {
         return gender;
+    }
+    public String getPackName() {
+        return packName;
     }
 }

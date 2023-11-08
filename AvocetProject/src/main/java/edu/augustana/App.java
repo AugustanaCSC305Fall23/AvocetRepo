@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import com.opencsv.CSVReader;
 import javafx.application.Application;
@@ -17,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -53,27 +56,47 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-
-        try (CSVReader reader = new CSVReader(new FileReader("DEMO1.csv"))) {
-            List<String[]> data = reader.readAll();
-            for (int i = 1; i < data.size(); i++) {
-                String[] row = data.get(i);
-                String code = row[0];
-                String event = row[1];
-                String category = row[2];
-                String title = row[3];
-                String img = row[5];
-                String gender = row[6];
-                String modelSex = row[7];
-                String level = row[8];
-                String equipment = row[9];
-                String keywords = row[10];
-                Card newCard = new Card(code, event, category, title, img, gender, modelSex, level, equipment,keywords);
-                cardCollection.add(newCard);
+        File directory = new File("packs");
+        File[] packs = directory.listFiles();
+        Arrays.sort(packs);
+        FileFilter filter = new FileFilter() {
+            public boolean accept(File f)
+            {
+                return f.getName().endsWith("csv");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        };
+        for (File pack : packs) {
+            
+            if (pack.getName().charAt(0) != '.') {
+                File[] files = pack.listFiles(filter);
+                File csvFile = files[0];
+                try (CSVReader reader = new CSVReader(new FileReader("packs/" + pack.getName() + "/" + csvFile.getName()))) {
+                    List<String[]> data = reader.readAll();
+                    for (int i = 1; i < data.size(); i++) {
+                        String[] row = data.get(i);
+                        String code = row[0];
+                        String event = row[1];
+                        String category = row[2];
+                        String title = row[3];
+                        String img = row[5];
+                        String gender = row[6];
+                        String modelSex = row[7];
+                        String level = row[8];
+                        String equipment = row[9];
+                        String keywords = row[10];
+                        String packName = pack.getName();
+                        Card newCard = new Card(code, event, category, title, img, gender, modelSex, level, equipment,keywords, packName);
+                        cardCollection.add(newCard);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
+
+
         launch();
     }
 }
