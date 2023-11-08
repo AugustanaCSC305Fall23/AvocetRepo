@@ -67,4 +67,17 @@ public class Card{
     public String getGender() {
         return gender;
     }
+
+//    public String[] getLevelList() {
+//        String[] levels;
+//        levels = level.split(" ");
+//        return levels;
+//    }
+
+    public String[] getLevelList() {
+        // Split the level string based on spaces and commas
+        String[] levels = level.split("[,\\s]+");
+        return levels;
+    }
+
 }
