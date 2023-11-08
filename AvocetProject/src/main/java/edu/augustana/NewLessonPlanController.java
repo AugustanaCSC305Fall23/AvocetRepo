@@ -30,6 +30,10 @@ public class NewLessonPlanController {
     @FXML
     private ComboBox<String> eventFilterComboBox;
     @FXML
+    private ComboBox<String> levelFilterComboBox;
+    @FXML
+    private ComboBox<String> genderFilterComboBox;
+    @FXML
     private ResourceBundle resources;
     @FXML
     private URL location;
@@ -55,8 +59,13 @@ public class NewLessonPlanController {
 
     @FXML
     void initialize() {
+
         job = PrinterJob.createPrinterJob();
-        comboBoxInitializer(eventFilterComboBox);
+
+        comboBoxInitializer(eventFilterComboBox, "event");
+        comboBoxInitializer(genderFilterComboBox, "gender");
+        comboBoxInitializer(levelFilterComboBox, "level");
+
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
@@ -66,50 +75,129 @@ public class NewLessonPlanController {
         displayCards(App.cardCollection);
     }
 
-    @FXML
-    void eventFiltering(ActionEvent event) {
+    private void cardGridHandler(){
         cardsGrid.getChildren().clear();
-        displayCards(eventCardList());
+        searchFunction(levelFunction(genderFunction(eventFunction())));
+//        List<Card> tempList1 = eventFunction();
+//        List<Card> tempList2 = genderFunction(tempList1);
+//        List<Card> tempList3 = levelFunction(tempList2);
+//        searchFunction(tempList3);
     }
 
-    private List<Card> eventCardList() {
-        List<Card> outputList = new ArrayList<>();
+    @FXML
+    void searchFiltering() {
+        cardGridHandler();
+    }
+
+    @FXML
+    void eventFiltering(ActionEvent event) {
+        cardGridHandler();
+    }
+
+    @FXML
+    void genderFiltering(ActionEvent event) {
+        cardGridHandler();
+    }
+
+    @FXML
+    void levelFiltering(ActionEvent event) {
+        cardGridHandler();
+    }
+
+    private List<Card> eventFunction() {
+        List<Card> eventOutputList = new ArrayList<>();
         String keywords = eventFilterComboBox.getValue();
-        for (Card myCard : App.cardCollection) {
-            if (myCard.getEvent().contains(keywords)) {
-                outputList.add(myCard);
+        if (keywords == null || keywords.equals("All Events")) {
+            eventOutputList = App.getCardCollection();
+        } else {
+            for (Card myCard : App.cardCollection) {
+                if (myCard.getEvent().contains(keywords)) {
+                    eventOutputList.add(myCard);
+                }
             }
         }
-        return outputList;
+        return eventOutputList;
     }
 
-    private void comboBoxInitializer(ComboBox<String> comboBox) {
-        for (Card c : App.cardCollection) {
-            if (!comboBox.getItems().contains(c.getEvent())) {
-                comboBox.getItems().add(c.getEvent());
+    private List<Card> genderFunction(List<Card> tempList) {
+        List<Card> genderOutputList = new ArrayList<>();
+        String keywords = genderFilterComboBox.getValue();
+        if (keywords == null || keywords.equals("All Genders")) {
+            genderOutputList = tempList;
+        } else {
+            for (Card myCard : tempList) {
+                if (myCard.getGender().contains(keywords)) {
+                    genderOutputList.add(myCard);
+                }
             }
         }
+        return genderOutputList;
     }
 
-    @FXML
-    void searchFunction() {
+    private List<Card> levelFunction(List<Card> tempList) {
+        List<Card> levelOutputList = new ArrayList<>();
+        String keywords = levelFilterComboBox.getValue();
+        if (keywords == null || keywords.equals("All Levels") || keywords.equals("ALL")) {
+            levelOutputList = tempList;
+        } else {
+            for (Card myCard : tempList) {
+                String[] cardLevels = myCard.getLevelList();
+                for (String level : cardLevels) {
+                    if (keywords.equals(level)) {
+                        levelOutputList.add(myCard);
+                    }
+                }
+            }
+        }
+        return levelOutputList;
+    }
+
+    private void searchFunction(List<Card> tempList) {
         String searchText = searchBox.getText().toLowerCase();
-        List<Card> searchList = eventCardList();
-        List<Card> outputList = new ArrayList<>();
-        for (Card myCard : searchList) {
+        List<Card> searchOutputList = new ArrayList<>();
+        for (Card myCard : tempList) {
             if (myCard.matchesSearchText(searchText)) {
-                outputList.add(myCard);
+                searchOutputList.add(myCard);
             }
         }
         cardsGrid.getChildren().clear();
-        displayCards(outputList);
+        displayCards(searchOutputList);
+    }
+
+    private void comboBoxInitializer(ComboBox<String> comboBox, String category) {
+        if (category.equals("event")) {
+            comboBox.getItems().add("All Events");
+            for (Card c : App.cardCollection) {
+                if (!comboBox.getItems().contains(c.getEvent())) {
+                    comboBox.getItems().add(c.getEvent());
+                }
+            }
+        } else if (category.equals("gender")) {
+            comboBox.getItems().add("All Genders");
+            for (Card c : App.cardCollection) {
+                if (!comboBox.getItems().contains(c.getGender())) {
+                    comboBox.getItems().add(c.getGender());
+                }
+            }
+        } else if (category.equals("level")) {
+            comboBox.getItems().add("All Levels");
+            for (Card c : App.cardCollection) {
+                String[] lvl = c.getLevelList();
+                for (String tempLevel : lvl) {
+                    if (!comboBox.getItems().contains(tempLevel)) {
+                        comboBox.getItems().add(tempLevel);
+                    }
+                }
+            }
+        }
     }
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
 
-       // cardsGridVbox.setPrefWidth(width/2);
+
+        cardsGridVbox.setPrefWidth(width/2);
 
         cardsGrid.setVgap(10);
         int col = 0;
