@@ -195,10 +195,7 @@ public class NewLessonPlanController {
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
-
-
         cardsGridVbox.setPrefWidth(width/2);
-
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
@@ -257,7 +254,8 @@ public class NewLessonPlanController {
     private void displayPlanCards(LessonPlan plan) {
             int numCards = plan.getCards().size();
             Card newCard = plan.getCards().get(numCards - 1);
-            Image image = new Image("file:images/" + newCard.getImg());
+            Image image = new Image("file:packs/" + newCard.getPackName() + "/" + newCard.getImg());
+
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
@@ -265,11 +263,9 @@ public class NewLessonPlanController {
 
 
 
-        //lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
     }
 
     private void deletePlan(LessonPlan plan) {
-
         lessonPlanGrid.getChildren().remove(plan.getVBox());
         course.getPlans().remove(plan);
     }
