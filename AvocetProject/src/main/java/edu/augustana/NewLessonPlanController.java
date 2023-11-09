@@ -230,11 +230,7 @@ public class NewLessonPlanController {
                 printerJob.endJob();
             }
         }
-
-
-
     }
-
     @FXML
     void SaveButton(ActionEvent event) {
         SaveCourse.saveFile();

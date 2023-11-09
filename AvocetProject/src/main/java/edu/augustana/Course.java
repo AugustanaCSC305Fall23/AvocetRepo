@@ -15,11 +15,7 @@ public class Course {
 
     private static List<LessonPlan> plans;
 
-
     private List<String> selectedEvents;
-
-    //private String title;
-
 
     public Course() {
         this.plans = new ArrayList<LessonPlan>();
@@ -48,33 +44,27 @@ public class Course {
         @Override
         public JsonElement serialize(Course course, Type type, JsonSerializationContext context) {
             JsonObject jsonCourse = new JsonObject();
-
             JsonArray plansArray = new JsonArray();
             for (LessonPlan lessonPlan : course.getPlans()) {
                 JsonObject jsonLessonPlan = new JsonObject();
                 jsonLessonPlan.addProperty("event", lessonPlan.getEvent());
-
                 JsonArray cardsArray = new JsonArray();
                 for (Card card : lessonPlan.getCards()) {
                     JsonObject jsonCard = new JsonObject();
                     jsonCard.addProperty("code", card.getCode());
                     cardsArray.add(jsonCard);
                 }
-
+                
                 jsonLessonPlan.add("cards", cardsArray);
                 plansArray.add(jsonLessonPlan);
             }
 
             jsonCourse.add("lessonPlans", plansArray);
-
             return jsonCourse;
         }
     }
 
-
     public List<String> getSelectedEvents() {
         return selectedEvents;
     }
-
-
 }
