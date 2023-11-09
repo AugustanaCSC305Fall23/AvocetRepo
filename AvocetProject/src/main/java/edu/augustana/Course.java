@@ -1,17 +1,30 @@
 package edu.augustana;
 
+
 import java.lang.reflect.Type;
+
+import javafx.scene.control.ComboBox;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.*;
 
 public class Course {
+
     private static List<LessonPlan> plans;
+
+
+    private List<String> selectedEvents;
+
     //private String title;
+
 
     public Course() {
         this.plans = new ArrayList<LessonPlan>();
+        this.selectedEvents = new ArrayList<>();
+
     }
 
     public List<LessonPlan> getPlans() {
@@ -56,6 +69,11 @@ public class Course {
 
             return jsonCourse;
         }
+    }
+
+
+    public List<String> getSelectedEvents() {
+        return selectedEvents;
     }
 
 

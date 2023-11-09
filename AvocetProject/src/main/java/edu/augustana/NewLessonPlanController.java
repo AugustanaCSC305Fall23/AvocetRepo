@@ -1,21 +1,25 @@
 package edu.augustana;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.print.PrinterJob;
+import javafx.print.*;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,15 +59,17 @@ public class NewLessonPlanController {
     private PrinterJob job;
     @FXML
     private Button printButton;
+    @FXML
+    private BorderPane newLessonPlanBorderPane;
+    private Boolean revert;
 
     @FXML
     void initialize() {
-
         job = PrinterJob.createPrinterJob();
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
-
+        revert = false;
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
@@ -130,7 +136,44 @@ public class NewLessonPlanController {
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> deletePlan(plan));
-        HBox topHB = new HBox(plan.getEventComboBox(), deleteButton);
+        ComboBox<String> eventComboBox = new ComboBox<>();
+        FilterController.comboBoxInitializer(eventComboBox, "event");
+
+        eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (course.getSelectedEvents().contains(newValue)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Message");
+                    alert.setHeaderText("This event already exists in the course");
+                    alert.showAndWait();
+                    if (plan.getCards().isEmpty()) {
+                        eventComboBox.setValue(null);
+                    } else {
+                        course.getSelectedEvents().remove(oldValue);
+                        revert = true;
+                        eventComboBox.setValue(oldValue);
+                    }
+
+                } else {
+                        if (!revert) {
+                            course.getSelectedEvents().add(newValue);
+                            plan.setEvent(newValue);
+                            plan.getCards().clear();
+                            plan.getHBox().getChildren().clear();
+                        }
+                        revert = false;
+
+
+
+
+
+                }
+
+            }
+        });
+        HBox topHB = new HBox(eventComboBox, deleteButton);
+
         plan.getVBox().getChildren().add(topHB);
         plan.getVBox().getChildren().add(plan.getHBox());
         course.addLessonPlan(plan);
@@ -158,11 +201,29 @@ public class NewLessonPlanController {
 
     private void deletePlan(LessonPlan plan) {
         lessonPlanGrid.getChildren().remove(plan.getVBox());
+        course.getSelectedEvents().remove(plan.getEvent());
         course.getPlans().remove(plan);
     }
     @FXML
     private void printLessonPlan() {
-        Node node = App.scene.getRoot();
+
+        Node centerNode = newLessonPlanBorderPane.getCenter();
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+
+        if (printerJob != null && printerJob.showPrintDialog(null)) {
+            WritableImage snapshot = centerNode.snapshot(new SnapshotParameters(), null);
+            ImageView center = new ImageView(snapshot);
+
+
+            boolean success = printerJob.printPage(center);
+
+            if (success) {
+                printerJob.endJob();
+            }
+        }
+
+
+
     }
 
     @FXML
