@@ -33,6 +33,7 @@ public class App extends Application {
         double width = screenSize.getWidth();
         double height = screenSize.getHeight() - 0.10 * (screenSize.getHeight());
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
