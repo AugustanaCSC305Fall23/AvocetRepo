@@ -7,8 +7,8 @@ public class Card{
     private String event;
     private String category;
     private String title;
-    private String imageFileName;
-    private Image imageThumbnail;
+    private transient String imageFileName;
+    private transient Image imageThumbnail;
     private String gender;
     private String modelSex;
     private String level;

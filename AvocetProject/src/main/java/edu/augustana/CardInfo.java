@@ -53,7 +53,7 @@ public class CardInfo {
         ImageView imageView = new ImageView(clickCard.getImageThumbnail());
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
-        
+
         VBox vBox = new VBox();
         vBox.setMinWidth(10);
         VBox vBox1 = new VBox();

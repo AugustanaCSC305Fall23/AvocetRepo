@@ -3,6 +3,7 @@ package edu.augustana;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.print.*;
 import javafx.scene.Node;
@@ -51,6 +52,8 @@ public class NewLessonPlanController {
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
+    @FXML
+    private Button saveButton;
     private double width;
     private Course course;
     private PrinterJob job;
@@ -105,10 +108,14 @@ public class NewLessonPlanController {
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
             Button cardButton = new Button();
+            cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            cardButton.getStyleClass().add("cardPopup");
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
             Button addButton = new Button("Add");
+            addButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            addButton.getStyleClass().add("buttonWhite");
             addButton.setPrefWidth(220);
             addButton.setOnAction(event -> addCardToPlan(myCard));
 
@@ -132,8 +139,13 @@ public class NewLessonPlanController {
         //cardsHBox.getChildren().add(eventComboBox);
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
+        deleteButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        deleteButton.getStyleClass().add("buttonOrange");
         deleteButton.setOnAction(event -> deletePlan(plan));
         ComboBox<String> eventComboBox = new ComboBox<>();
+        eventComboBox.promptTextProperty().set("Filter Events");
+        eventComboBox.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        eventComboBox.getStyleClass().add("combo-boxWhite");
         FilterController.comboBoxInitializer(eventComboBox, "event");
 
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
@@ -215,9 +227,10 @@ public class NewLessonPlanController {
                 printerJob.endJob();
             }
         }
-
-
-
+    }
+    @FXML
+    void SaveButton(ActionEvent event) {
+        SaveCourse.saveFile();
     }
 
     private void showAlert() {

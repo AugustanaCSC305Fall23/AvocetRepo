@@ -1,11 +1,16 @@
 package edu.augustana;
 
+
+
+import com.google.gson.Gson;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
 import javafx.css.Stylesheet;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
@@ -16,13 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonPlan {
+
+
     private List<Card> cards;
+
     //private String Title;
     private String event;
-    private HBox hb;
-    private ComboBox<String> eventComboBox;
-    private int index;
-    private VBox vb;
+
+
+    private transient HBox hb;
+
+    private transient static ComboBox<String> eventComboBox;
+    private transient int index;
+    private transient VBox vb;
+
 
     public LessonPlan(int index) {
         this.cards = new ArrayList<Card>();
@@ -34,6 +46,7 @@ public class LessonPlan {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
                 eventComboBox.getItems().add(c.getEvent());
             }
+
         }
         this.eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -51,8 +64,10 @@ public class LessonPlan {
     public void setEvent(String evt) {
         this.event = evt;
     }
+
     public String getEvent() {
         return event;
+
     }
     public List<Card> getCards() {
         return cards;
