@@ -1,6 +1,8 @@
 package edu.augustana;
 
-import javafx.beans.binding.Bindings;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
@@ -34,21 +36,26 @@ public class LessonPlan {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
                 eventComboBox.getItems().add(c.getEvent());
             }
-            eventComboBox.promptTextProperty().set("Filter Events");
-            eventComboBox.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            eventComboBox.getStyleClass().add("combo-boxWhite");
+
         }
+        this.eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                cards.clear();
+                hb.getChildren().clear();
+            }
+        });
         this.index = index;
     }
 
     public void addCard(Card card) {
         cards.add(card);
     }
-    public void setEvent() {
-        this.event = eventComboBox.getValue();
+    public void setEvent(String evt) {
+        this.event = evt;
     }
     public String getEvent() {
-        return eventComboBox.getValue();
+        return event;
     }
     public List<Card> getCards() {
         return cards;
