@@ -9,7 +9,7 @@ import java.io.IOException;
 public class SaveCourse {
     public static Object saveFile;
 
-    private static void saveFile(){
+    static void saveFile(){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro (*.jrsm","*.jrsm");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -17,19 +17,17 @@ public class SaveCourse {
         File file = fileChooser.showSaveDialog(App.scene.getWindow());
 
         if (file != null) {
-            if (Course.getPlans() != null) {
-                Course course = new Course();
-
-                String json = Course.toJson();
-
-                try {
-                    FileWriter fileWriter = new FileWriter(file);
-                    fileWriter.write(json);
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//            Course course = Course.;
+            String json = Course.toJson();
+            System.out.println(json);
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(json);
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         }
     }
 }

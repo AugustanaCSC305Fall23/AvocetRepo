@@ -166,8 +166,8 @@ public class NewLessonPlanController {
     }
 
     @FXML
-    void saveCourse() {
-        saveButton.getOnAction();
+    void SaveButton(ActionEvent event) {
+        SaveCourse.saveFile();
     }
 
 }

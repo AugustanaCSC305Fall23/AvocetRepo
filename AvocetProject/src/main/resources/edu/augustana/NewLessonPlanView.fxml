@@ -64,7 +64,7 @@
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveCourse" styleClass="button1" stylesheets="@style.css" text="Save" textFill="#ff6e4e">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#SaveButton" styleClass="button1" stylesheets="@style.css" text="Save" textFill="#ff6e4e">
                             <HBox.margin>
                                 <Insets bottom="10.0" top="10.0" />
                             </HBox.margin>

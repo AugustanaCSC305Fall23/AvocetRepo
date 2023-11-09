@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
@@ -9,15 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonPlan {
-    private List<Card> cards;
+    public List<Card> cards;
     //private String Title;
     private String event;
 
-    private HBox hb;
+    private transient HBox hb;
 
-    private ComboBox<String> eventComboBox;
-    private int index;
-    private VBox vb;
+    private transient static ComboBox<String> eventComboBox;
+    private transient int index;
+    private transient VBox vb;
 
     public LessonPlan(int index) {
         this.cards = new ArrayList<Card>();
@@ -41,7 +42,7 @@ public class LessonPlan {
         this.event = eventComboBox.getValue();
     }
 
-    public String getEvent() {
+    public static String getEvent() {
         return eventComboBox.getValue();
     }
 
