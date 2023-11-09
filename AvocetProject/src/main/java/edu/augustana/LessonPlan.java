@@ -1,6 +1,7 @@
 package edu.augustana;
 
 
+
 import com.google.gson.Gson;
 
 import javafx.beans.value.ChangeListener;
@@ -20,7 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonPlan {
-    public List<Card> cards;
+
+
+    private List<Card> cards;
+
     //private String Title;
     private String event;
 
@@ -42,6 +46,7 @@ public class LessonPlan {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
                 eventComboBox.getItems().add(c.getEvent());
             }
+
         }
         this.eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override

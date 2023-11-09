@@ -107,7 +107,7 @@
                   <ComboBox fx:id="levelFilterComboBox" onAction="#levelFiltering" promptText="Filter Level" styleClass="combo-boxWhite" stylesheets="@style.css" />
                </children>
             </HBox>
-                <ScrollPane fx:id="cardsGridScrollPane">
+                <ScrollPane fx:id="cardsGridScrollPane" styleClass="scrollbarColor" stylesheets="@style.css">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
@@ -144,7 +144,7 @@
                         </TextField>
                     </children>
                 </HBox>
-            <ScrollPane minHeight="200.0">
+            <ScrollPane minHeight="200.0" styleClass="scrollbarColor" stylesheets="@style.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
