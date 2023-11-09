@@ -3,6 +3,7 @@ package edu.augustana;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -44,6 +45,8 @@ public class NewLessonPlanController {
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
+    @FXML
+    private Button saveButton;
     private double width;
     private Course course;
     @FXML
@@ -175,6 +178,11 @@ public class NewLessonPlanController {
 
         lessonPlanGrid.getChildren().remove(plan.getVBox());
         course.getPlans().remove(plan);
+    }
+
+    @FXML
+    void saveCourse() {
+        saveButton.getOnAction();
     }
 
 }

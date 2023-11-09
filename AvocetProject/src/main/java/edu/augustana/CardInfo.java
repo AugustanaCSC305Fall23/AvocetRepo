@@ -56,7 +56,7 @@ public class CardInfo {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
-        
+
         VBox vBox = new VBox();
         vBox.setMinWidth(10);
         VBox vBox1 = new VBox();
