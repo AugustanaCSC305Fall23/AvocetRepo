@@ -16,6 +16,8 @@
     -fx-background-color:  white;
     -fx-text-fill: #ff6e4e;
     -fx-background-radius: 20;
+    -fx-border-color: #ff6e4e;
+    -fx-border-radius: 20;
 }
 
 .buttonWhite:hover {
@@ -65,3 +67,19 @@
     -fx-border-radius: 20;
     -fx-background-radius: 20;
 }
+
+.cardPopup {
+    -fx-background-color: #ff6e4e;
+    -fx-text-fill: white;
+}
+
+.cardPopup:hover {
+    -fx-background-color: white;
+    -fx-text-fill: #ff6e4e;
+    -fx-border-color: #ff6e4e;
+}
+
+.scrollbarColor .viewport {
+    -fx-background-color: #fff2ef;
+}
+

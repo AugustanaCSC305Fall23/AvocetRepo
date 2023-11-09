@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonPlan {
+
     private List<Card> cards;
     //private String Title;
     private String event;
@@ -32,6 +34,9 @@ public class LessonPlan {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
                 eventComboBox.getItems().add(c.getEvent());
             }
+            eventComboBox.promptTextProperty().set("Filter Events");
+            eventComboBox.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            eventComboBox.getStyleClass().add("combo-boxWhite");
         }
         this.index = index;
     }

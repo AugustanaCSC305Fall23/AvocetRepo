@@ -99,10 +99,14 @@ public class NewLessonPlanController {
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
             Button cardButton = new Button();
+            cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            cardButton.getStyleClass().add("cardPopup");
             Card clickCard = myCard;
             cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             cardButton.setGraphic(imageView);
             Button addButton = new Button("Add");
+            addButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            addButton.getStyleClass().add("buttonWhite");
             addButton.setPrefWidth(220);
             addButton.setOnAction(event -> addCardToPlan(myCard));
 
@@ -126,6 +130,8 @@ public class NewLessonPlanController {
         //cardsHBox.getChildren().add(eventComboBox);
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
+        deleteButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        deleteButton.getStyleClass().add("buttonOrange");
         deleteButton.setOnAction(event -> deletePlan(plan));
         HBox topHB = new HBox(plan.getEventComboBox(), deleteButton);
         plan.getVBox().getChildren().add(topHB);

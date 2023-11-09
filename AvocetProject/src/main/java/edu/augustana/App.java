@@ -35,6 +35,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
     }
 
