@@ -1,11 +1,14 @@
 package edu.augustana;
 
+import javafx.scene.image.Image;
+
 public class Card{
     private String code;
     private String event;
     private String category;
     private String title;
-    private String img;
+    private String imageFileName;
+    private Image imageThumbnail;
     private String gender;
     private String modelSex;
     private String level;
@@ -13,27 +16,25 @@ public class Card{
     private String keywords;
     private String packName;
 
-
-
-    public Card(String code, String event, String category, String title, String img, String gender, String modelSex,String level, String equipment, String keywords, String packName) {
+    public Card(String code, String event, String category, String title, String imgFileName, String gender, String modelSex,String level, String equipment, String keywords, String packName) {
         this.code = code;
         this.event = event;
         this.category = category;
         this.title = title;
-        this.img = img;
+        this.imageFileName = imgFileName;
+        this.imageThumbnail = new Image("file:packs/" + packName + "/" + imgFileName);
+//        this.imageThumbnail = ImageUtilities.scale(new Image("file:packs/" + packName + "/" + imgFileName),200,200,true);
         this.gender = gender;
         this.modelSex = modelSex;
         this.level = level;
         this.equipment = equipment;
         this.keywords = keywords;
         this.packName = packName;
-
     }
 
     public boolean matchesSearchText(String searchText) {
-        searchText = searchText.toLowerCase(); // Convert search text to lowercase for case-insensitive search
+        searchText = searchText.toLowerCase();
 
-        // Check if any of the card's properties contain the search text
         return code.toLowerCase().contains(searchText)
                 || event.toLowerCase().contains(searchText)
                 || category.toLowerCase().contains(searchText)
@@ -48,15 +49,20 @@ public class Card{
     public String getEvent() {
         return event;
     }
+
     public String getCategory() {
         return category;
     }
+
     public String getTitle() {
         return title;
     }
-    public String getImg() {
-        return img;
+
+    public String getImageFileName() {
+        return imageFileName;
     }
+
+    public Image getImageThumbnail() { return imageThumbnail; }
 
     public String getModelSex() {return modelSex;}
 
@@ -66,26 +72,12 @@ public class Card{
 
     public String getKeywords() {return keywords;}
 
-    public String getGender() {
-        return gender;
-    }
+    public String getGender() {return gender;}
 
-    public String getPackName() {
-        return packName;
-    }
-
-
-//    public String[] getLevelList() {
-//        String[] levels;
-//        levels = level.split(" ");
-//        return levels;
-//    }
+    public String getPackName() {return packName;}
 
     public String[] getLevelList() {
-        // Split the level string based on spaces and commas
         String[] levels = level.split("[,\\s]+");
         return levels;
     }
-
-
 }

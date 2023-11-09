@@ -1,32 +1,76 @@
-.button {
-    -fx-background-color :  #ff6e4e;
-    -fx-text-fill:  white;
+.buttonOrange {
+    -fx-background-color: #ff6e4e;
+    -fx-text-fill: white;
     -fx-background-radius: 20;
+    -fx-border-radius: 20;
 }
 
-.button:hover {
+.buttonOrange:hover {
     -fx-background-color: white;
-    -fx-text-fill:  #ff6e4e;
+    -fx-text-fill: #ff6e4e;
     -fx-border-color: #ff6e4e;
     -fx-border-radius: 20;
 }
 
-.button1 {
-    -fx-background-color :  white;
-    -fx-text-fill:  #ff6e4e;
+.buttonWhite {
+    -fx-background-color:  white;
+    -fx-text-fill: #ff6e4e;
     -fx-background-radius: 20;
 }
 
-.button1:hover {
+.buttonWhite:hover {
     -fx-background-color: #ff6e4e;
-    -fx-text-fill:  white;
+    -fx-text-fill: white;
     -fx-border-color: white;
     -fx-border-radius: 20;
 }
+
 .welcomeScreen {
 -fx-background-image: url("https://wallpapercosmos.com/w/full/d/b/5/1126724-3840x2160-desktop-4k-acrobatic-gymnastics-background-photo.jpg");
 -fx-background-repeat: stretch;
     -fx-background-size: 900 506;
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.combo-boxWhite {
+    -fx-background-color: white;
+    -fx-text-fill: green;
+    -fx-background-radius: 20;
+    -fx-border-color: #ff6e4e;
+    -fx-border-radius: 20;
+}
+
+.combo-boxWhite:hover, .comboboxWhite:focused, .comboboxWhite .list-view .list-cell:focused{
+    -fx-background-color: #ff6e4e;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.combo-boxWhite .list-view:showing {
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.combo-boxWhite .list-view .list-cell:hover {
+    -fx-background-color: #ff6e4e;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.textField {
+    -fx-text-fill:  black;
+    -fx-border-color: #ff6e4e;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.textField:focused {
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+
 }
