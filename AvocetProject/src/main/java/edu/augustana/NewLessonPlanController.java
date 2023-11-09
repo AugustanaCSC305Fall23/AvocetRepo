@@ -1,10 +1,10 @@
 package edu.augustana;
 
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ import java.util.ResourceBundle;
 
 
 public class NewLessonPlanController {
-
-
     @FXML
     private ComboBox<String> eventFilterComboBox;
+    @FXML
+    private ComboBox<String> levelFilterComboBox;
+    @FXML
+    private ComboBox<String> genderFilterComboBox;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -49,69 +52,53 @@ public class NewLessonPlanController {
     private Button saveButton;
     private double width;
     private Course course;
+    private PrinterJob job;
+    @FXML
+    private Button printButton;
+
     @FXML
     void initialize() {
-        comboBoxInitializer(eventFilterComboBox);
+
+        job = PrinterJob.createPrinterJob();
+        FilterController.comboBoxInitializer(eventFilterComboBox, "event");
+        FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
+        FilterController.comboBoxInitializer(levelFilterComboBox, "level");
+
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGrid.setPrefWidth(width/2);
-        lessonPlanGrid.setPrefWidth(width/2);
+        lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
     }
 
-    @FXML
-    void eventFiltering(ActionEvent event) {
+    private void searchInitiator() {
         cardsGrid.getChildren().clear();
-        displayCards(eventCardList());
-    }
-
-    private List<Card> eventCardList() {
-        List<Card> outputList = new ArrayList<>();
-        String keywords = eventFilterComboBox.getValue();
-        for (Card myCard : App.cardCollection) {
-            if (myCard.getEvent().contains(keywords)) {
-                outputList.add(myCard);
-            }
-        }
-        return outputList;
-    }
-
-    private void comboBoxInitializer(ComboBox<String> comboBox) {
-        for (Card c : App.cardCollection) {
-            if (!comboBox.getItems().contains(c.getEvent())) {
-                comboBox.getItems().add(c.getEvent());
-            }
-        }
+        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, searchBox));
     }
 
     @FXML
-    void searchFunction() {
-        String searchText = searchBox.getText().toLowerCase();
-        List<Card> searchList = eventCardList();
-        List<Card> outputList = new ArrayList<>();
-        for (Card myCard : searchList) {
-            if (myCard.matchesSearchText(searchText)) {
-                outputList.add(myCard);
-            }
-        }
-        cardsGrid.getChildren().clear();
-        displayCards(outputList);
-    }
+    void searchFiltering() {searchInitiator();}
+
+    @FXML
+    void eventFiltering(ActionEvent event) {searchInitiator();}
+
+    @FXML
+    void genderFiltering(ActionEvent event) {searchInitiator();}
+
+    @FXML
+    void levelFiltering(ActionEvent event) {searchInitiator();}
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
-
         cardsGridVbox.setPrefWidth(width/2);
-
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
-            Image image = new Image("file:images/" + myCard.getImg());
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = new ImageView(myCard.getImageThumbnail());
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
             Button cardButton = new Button();
@@ -153,31 +140,29 @@ public class NewLessonPlanController {
     @FXML
     private void addCardToPlan(Card card) {
         for (LessonPlan plan : course.getPlans()) {
-            if (plan.getEvent().equals(card.getEvent())){
+            if (plan.getEvent().equals(card.getEvent()) && (!plan.getCards().contains(card)) ){
                 plan.addCard(card);
                 displayPlanCards(plan);
-
             }
         }
     }
 
     private void displayPlanCards(LessonPlan plan) {
-        int numCards = (plan.getCards().size());
-        Card newCard = plan.getCards().get(numCards-1);
-        Image image = new Image("file:images/" + newCard.getImg());
-        ImageView imageView = new ImageView(image);
+        int numCards = plan.getCards().size();
+        Card newCard = plan.getCards().get(numCards - 1);
+        ImageView imageView = new ImageView(newCard.getImageThumbnail());
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
         plan.getHBox().getChildren().add(imageView);
-
-        lessonPlanGrid.getChildren().remove(plan.getHBox());
-        lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
     }
 
     private void deletePlan(LessonPlan plan) {
-
         lessonPlanGrid.getChildren().remove(plan.getVBox());
         course.getPlans().remove(plan);
+    }
+    @FXML
+    private void printLessonPlan() {
+        Node node = App.scene.getRoot();
     }
 
     @FXML

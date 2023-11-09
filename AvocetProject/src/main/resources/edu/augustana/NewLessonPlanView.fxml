@@ -69,6 +69,11 @@
                                 <Insets bottom="10.0" top="10.0" />
                             </HBox.margin>
                         </Button>
+                  <Button fx:id="printButton" mnemonicParsing="false" onAction="#printLessonPlan" styleClass="button1" stylesheets="@style.css" text="Print" textFill="#ff6e4e">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -88,12 +93,12 @@
     <left>
         <VBox fx:id="cardsGridVbox" prefHeight="400.0" style="-fx-background-color: FFF2EF;" BorderPane.alignment="CENTER">
             <children>
-            <TextField fx:id="searchBox" onKeyTyped="#searchFunction" promptText="Search" />
+            <TextField fx:id="searchBox" onKeyTyped="#searchFiltering" promptText="Search" styleClass="button1" stylesheets="@style.css" />
             <HBox prefHeight="28.0" prefWidth="322.0">
                <children>
-                  <ComboBox fx:id="eventFilterComboBox" onAction="#eventFiltering" prefHeight="26.0" prefWidth="106.0" promptText="Filter Events" />
-                  <ComboBox prefHeight="25.0" prefWidth="112.0" promptText="Filter Gender" />
-                  <ComboBox prefHeight="25.0" prefWidth="105.0" promptText="Filter Level" />
+                  <ComboBox fx:id="eventFilterComboBox" onAction="#eventFiltering" prefHeight="26.0" prefWidth="106.0" promptText="Filter Events" styleClass="button" stylesheets="@style.css" />
+                  <ComboBox id="button2" fx:id="genderFilterComboBox" onAction="#genderFiltering" prefHeight="25.0" prefWidth="112.0" promptText="Filter Gender" styleClass="button" stylesheets="@style.css" />
+                  <ComboBox fx:id="levelFilterComboBox" onAction="#levelFiltering" prefHeight="25.0" prefWidth="105.0" promptText="Filter Level" styleClass="button" stylesheets="@style.css" />
                </children>
             </HBox>
                 <ScrollPane fx:id="cardsGridScrollPane">

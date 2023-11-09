@@ -5,13 +5,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 
@@ -52,8 +49,8 @@ public class CardInfo {
         HBox hBox = new HBox(25);
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
-        Image image = new Image("file:images/" + clickCard.getImg());
-        ImageView imageView = new ImageView(image);
+
+        ImageView imageView = new ImageView(clickCard.getImageThumbnail());
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
 
@@ -61,8 +58,6 @@ public class CardInfo {
         vBox.setMinWidth(10);
         VBox vBox1 = new VBox();
         vBox1.setMinWidth(10);
-
-
 
         BorderPane borderPane = new BorderPane();
         borderPane.setStyle("-fx-background-radius: 5; -fx-border-radius: 5; " +
