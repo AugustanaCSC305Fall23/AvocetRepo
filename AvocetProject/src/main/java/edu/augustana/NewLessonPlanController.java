@@ -140,10 +140,7 @@ public class NewLessonPlanController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (course.getSelectedEvents().contains(newValue)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Message");
-                    alert.setHeaderText("This event already exists in the course");
-                    alert.showAndWait();
+                   showAlert();
                     if (plan.getCards().isEmpty()) {
                         eventComboBox.setValue(null);
                     } else {
@@ -154,11 +151,11 @@ public class NewLessonPlanController {
 
                 } else {
                         if (!revert) {
-                            course.getSelectedEvents().add(newValue);
                             plan.setEvent(newValue);
                             plan.getCards().clear();
                             plan.getHBox().getChildren().clear();
                         }
+                        course.getSelectedEvents().add(newValue);
                         revert = false;
 
 
@@ -220,6 +217,14 @@ public class NewLessonPlanController {
         }
 
 
+
+    }
+
+    private void showAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Message");
+        alert.setHeaderText("This event already exists in the course");
+        alert.showAndWait();
 
     }
 
