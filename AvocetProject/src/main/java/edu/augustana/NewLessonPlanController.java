@@ -1,5 +1,7 @@
 package edu.augustana;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
@@ -56,15 +58,15 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
+    private Boolean revert;
 
     @FXML
     void initialize() {
-
         job = PrinterJob.createPrinterJob();
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
-
+        revert = false;
         course = new Course();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
@@ -131,7 +133,44 @@ public class NewLessonPlanController {
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> deletePlan(plan));
-        HBox topHB = new HBox(plan.getEventComboBox(), deleteButton);
+        ComboBox<String> eventComboBox = new ComboBox<>();
+        FilterController.comboBoxInitializer(eventComboBox, "event");
+
+        eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (course.getSelectedEvents().contains(newValue)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Message");
+                    alert.setHeaderText("This event already exists in the course");
+                    alert.showAndWait();
+                    if (plan.getCards().isEmpty()) {
+                        eventComboBox.setValue(null);
+                    } else {
+                        course.getSelectedEvents().remove(oldValue);
+                        revert = true;
+                        eventComboBox.setValue(oldValue);
+                    }
+
+                } else {
+                        if (!revert) {
+                            course.getSelectedEvents().add(newValue);
+                            plan.setEvent(newValue);
+                            plan.getCards().clear();
+                            plan.getHBox().getChildren().clear();
+                        }
+                        revert = false;
+
+
+
+
+
+                }
+
+            }
+        });
+        HBox topHB = new HBox(eventComboBox, deleteButton);
+
         plan.getVBox().getChildren().add(topHB);
         plan.getVBox().getChildren().add(plan.getHBox());
         course.addLessonPlan(plan);
@@ -159,6 +198,7 @@ public class NewLessonPlanController {
 
     private void deletePlan(LessonPlan plan) {
         lessonPlanGrid.getChildren().remove(plan.getVBox());
+        course.getSelectedEvents().remove(plan.getEvent());
         course.getPlans().remove(plan);
     }
     @FXML
