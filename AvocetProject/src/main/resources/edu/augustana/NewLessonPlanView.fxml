@@ -46,7 +46,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.NewLessonPlanController">
+<BorderPane fx:id="newLessonPlanBorderPane" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.NewLessonPlanController">
     <top>
         <GridPane prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: FF6E4E;" BorderPane.alignment="CENTER">
             <columnConstraints>
