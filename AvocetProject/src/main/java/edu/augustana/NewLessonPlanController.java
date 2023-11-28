@@ -132,8 +132,6 @@ public class NewLessonPlanController {
     private void addLessonPlan() {
 
         Course plan = new Course(lessonPlanGrid.getRowCount());
-
-        //cardsHBox.getChildren().add(eventComboBox);
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());

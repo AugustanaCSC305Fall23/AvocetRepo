@@ -17,7 +17,6 @@ public class Course {
 
     private List<Card> cards;
 
-    //private String Title;
     private String event;
 
 
@@ -29,11 +28,11 @@ public class Course {
 
 
     public Course(int index) {
-        this.cards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
         this.event = "";
         this.vb = new VBox();
         this.hb = new HBox();
-        this.eventComboBox = new ComboBox<String>();
+        this.eventComboBox = new ComboBox<>();
         for (Card c : App.cardCollection) {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
                 eventComboBox.getItems().add(c.getEvent());

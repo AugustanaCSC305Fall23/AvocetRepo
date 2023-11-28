@@ -1,23 +1,16 @@
 package edu.augustana;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import com.opencsv.CSVReader;
-
-import java.awt.Dimension;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +28,6 @@ public class App extends Application {
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
-//        stage.setFullScreen(true);
         stage.show();
     }
 

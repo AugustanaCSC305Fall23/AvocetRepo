@@ -1,7 +1,6 @@
 package edu.augustana;
 
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +16,6 @@ public class SaveCourse {
         File file = fileChooser.showSaveDialog(App.scene.getWindow());
 
         if (file != null) {
-//            Course course = Course.;
             String json = LessonPlan.toJson();
             System.out.println(json);
             try {

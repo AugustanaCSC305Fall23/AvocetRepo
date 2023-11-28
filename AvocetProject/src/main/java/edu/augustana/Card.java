@@ -23,7 +23,6 @@ public class Card{
         this.title = title;
         this.imageFileName = imgFileName;
         this.imageThumbnail = new Image("file:packs/" + packName + "/" + imgFileName);
-//        this.imageThumbnail = ImageUtilities.scale(new Image("file:packs/" + packName + "/" + imgFileName),200,200,true);
         this.gender = gender;
         this.modelSex = modelSex;
         this.level = level;
