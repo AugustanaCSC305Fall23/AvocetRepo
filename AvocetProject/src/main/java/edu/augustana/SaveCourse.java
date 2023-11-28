@@ -11,14 +11,14 @@ public class SaveCourse {
 
     static void saveFile(){
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro (*.jrsm","*.jrsm");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
         fileChooser.getExtensionFilters().add(extensionFilter);
 
         File file = fileChooser.showSaveDialog(App.scene.getWindow());
 
         if (file != null) {
 //            Course course = Course.;
-            String json = Course.toJson();
+            String json = LessonPlan.toJson();
             System.out.println(json);
             try {
                 FileWriter fileWriter = new FileWriter(file);

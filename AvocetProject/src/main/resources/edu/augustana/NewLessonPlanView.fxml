@@ -46,7 +46,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="newLessonPlanBorderPane" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.NewLessonPlanController">
+<BorderPane fx:id="newLessonPlanBorderPane" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.NewLessonPlanController">
 
     <top>
         <GridPane prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: FF6E4E;" BorderPane.alignment="CENTER">
@@ -65,11 +65,7 @@
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </HBox.margin>
                         </Button>
-
                         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#SaveButton" styleClass="buttonWhite" stylesheets="@style.css" text="Save" textFill="#ff6e4e">
-
-
-
                             <HBox.margin>
                                 <Insets bottom="10.0" top="10.0" />
                             </HBox.margin>
@@ -106,7 +102,7 @@
                   <ComboBox fx:id="levelFilterComboBox" onAction="#levelFiltering" promptText="Filter Level" styleClass="combo-boxWhite" stylesheets="@style.css" />
                </children>
             </HBox>
-                <ScrollPane fx:id="cardsGridScrollPane" styleClass="scrollbarColor" stylesheets="@style.css">
+                <ScrollPane fx:id="cardsGridScrollPane">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
@@ -143,7 +139,7 @@
                         </TextField>
                     </children>
                 </HBox>
-            <ScrollPane minHeight="200.0" styleClass="scrollbarColor" stylesheets="@style.css">
+            <ScrollPane minHeight="200.0">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

@@ -3,7 +3,6 @@ package edu.augustana;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.print.*;
 import javafx.scene.Node;
@@ -12,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
@@ -22,7 +20,6 @@ import javafx.scene.layout.VBox;
 
 import java.awt.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -55,7 +52,7 @@ public class NewLessonPlanController {
     @FXML
     private Button saveButton;
     private double width;
-    private Course course;
+    private LessonPlan course;
     private PrinterJob job;
     @FXML
     private Button printButton;
@@ -70,7 +67,7 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
         revert = false;
-        course = new Course();
+        course = new LessonPlan();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGrid.setPrefWidth(width/2);
@@ -134,7 +131,7 @@ public class NewLessonPlanController {
     @FXML
     private void addLessonPlan() {
 
-        LessonPlan plan = new LessonPlan(lessonPlanGrid.getRowCount());
+        Course plan = new Course(lessonPlanGrid.getRowCount());
 
         //cardsHBox.getChildren().add(eventComboBox);
         plan.getHBox().setSpacing(10);
@@ -143,7 +140,7 @@ public class NewLessonPlanController {
         deleteButton.getStyleClass().add("buttonOrange");
         deleteButton.setOnAction(event -> deletePlan(plan));
         ComboBox<String> eventComboBox = new ComboBox<>();
-        eventComboBox.promptTextProperty().set("Filter Events");
+        eventComboBox.promptTextProperty().set("Select Event");
         eventComboBox.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         eventComboBox.getStyleClass().add("combo-boxWhite");
         FilterController.comboBoxInitializer(eventComboBox, "event");
@@ -154,7 +151,9 @@ public class NewLessonPlanController {
                 if (course.getSelectedEvents().contains(newValue)) {
                    showAlert();
                     if (plan.getCards().isEmpty()) {
-                        eventComboBox.setValue(null);
+                        eventComboBox.cancelEdit();
+
+
                     } else {
                         course.getSelectedEvents().remove(oldValue);
                         revert = true;
@@ -188,7 +187,7 @@ public class NewLessonPlanController {
     }
     @FXML
     private void addCardToPlan(Card card) {
-        for (LessonPlan plan : course.getPlans()) {
+        for (Course plan : course.getPlans()) {
             if (plan.getEvent().equals(card.getEvent()) && (!plan.getCards().contains(card)) ){
                 plan.addCard(card);
                 displayPlanCards(plan);
@@ -196,7 +195,7 @@ public class NewLessonPlanController {
         }
     }
 
-    private void displayPlanCards(LessonPlan plan) {
+    private void displayPlanCards(Course plan) {
         int numCards = plan.getCards().size();
         Card newCard = plan.getCards().get(numCards - 1);
         ImageView imageView = new ImageView(newCard.getImageThumbnail());
@@ -205,7 +204,7 @@ public class NewLessonPlanController {
         plan.getHBox().getChildren().add(imageView);
     }
 
-    private void deletePlan(LessonPlan plan) {
+    private void deletePlan(Course plan) {
         lessonPlanGrid.getChildren().remove(plan.getVBox());
         course.getSelectedEvents().remove(plan.getEvent());
         course.getPlans().remove(plan);

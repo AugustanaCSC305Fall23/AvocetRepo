@@ -1,87 +1,68 @@
 package edu.augustana;
 
 
+import java.lang.reflect.Type;
 
-import com.google.gson.Gson;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.css.Styleable;
-import javafx.css.StyleableProperty;
-import javafx.css.Stylesheet;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import javax.swing.text.Style;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.*;
+
 public class LessonPlan {
 
+    private static List<Course> plans;
 
-    private List<Card> cards;
+    private List<String> selectedEvents;
 
-    //private String Title;
-    private String event;
+    public LessonPlan() {
+        this.plans = new ArrayList<Course>();
+        this.selectedEvents = new ArrayList<>();
 
+    }
 
-    private transient HBox hb;
+    public List<Course> getPlans() {
+        return plans;
+    }
 
-    private transient static ComboBox<String> eventComboBox;
-    private transient int index;
-    private transient VBox vb;
+    public void addLessonPlan(Course plan) {
+        this.plans.add(plan);
+        System.out.println(plan);
+    }
 
+    public static String toJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LessonPlan.class, new CourseSerializer());
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(plans);
+    }
 
-    public LessonPlan(int index) {
-        this.cards = new ArrayList<Card>();
-        this.event = "";
-        this.vb = new VBox();
-        this.hb = new HBox();
-        this.eventComboBox = new ComboBox<String>();
-        for (Card c : App.cardCollection) {
-            if (!eventComboBox.getItems().contains(c.getEvent())) {
-                eventComboBox.getItems().add(c.getEvent());
+    private static class CourseSerializer implements JsonSerializer<LessonPlan> {
+        @Override
+        public JsonElement serialize(LessonPlan course, Type type, JsonSerializationContext context) {
+            JsonObject jsonCourse = new JsonObject();
+            JsonArray plansArray = new JsonArray();
+            for (Course course1 : course.getPlans()) {
+                JsonObject jsonLessonPlan = new JsonObject();
+                jsonLessonPlan.addProperty("event", course1.getEvent());
+                JsonArray cardsArray = new JsonArray();
+                for (Card card : course1.getCards()) {
+                    JsonObject jsonCard = new JsonObject();
+                    jsonCard.addProperty("code", card.getCode());
+                    cardsArray.add(jsonCard);
+                }
+                
+                jsonLessonPlan.add("cards", cardsArray);
+                plansArray.add(jsonLessonPlan);
             }
 
+            jsonCourse.add("lessonPlans", plansArray);
+            return jsonCourse;
         }
-        this.eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                cards.clear();
-                hb.getChildren().clear();
-            }
-        });
-        this.index = index;
     }
 
-    public void addCard(Card card) {
-        cards.add(card);
-    }
-    public void setEvent(String evt) {
-        this.event = evt;
-    }
-
-    public String getEvent() {
-        return event;
-
-    }
-    public List<Card> getCards() {
-        return cards;
-    }
-    public HBox getHBox() {
-        return hb;
-    }
-    public ComboBox<String> getEventComboBox() {
-        return eventComboBox;
-    }
-    public int getIndex() {
-        return index;
-    }
-    public VBox getVBox() {
-        return vb;
+    public List<String> getSelectedEvents() {
+        return selectedEvents;
     }
 }
