@@ -130,59 +130,15 @@ public class NewLessonPlanController {
 
     @FXML
     private void addLessonPlan() {
-
         Course plan = new Course(lessonPlanGrid.getRowCount());
-        plan.getHBox().setSpacing(10);
-        Button deleteButton = new Button("Delete");
-        deleteButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        deleteButton.getStyleClass().add("buttonOrange");
-        deleteButton.setOnAction(event -> deletePlan(plan));
-        ComboBox<String> eventComboBox = new ComboBox<>();
-        eventComboBox.promptTextProperty().set("Select Event");
-        eventComboBox.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        eventComboBox.getStyleClass().add("combo-boxWhite");
-        FilterController.comboBoxInitializer(eventComboBox, "event");
-
-        eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (course.getSelectedEvents().contains(newValue)) {
-                   showAlert();
-                    if (plan.getCards().isEmpty()) {
-                        eventComboBox.cancelEdit();
-
-
-                    } else {
-                        course.getSelectedEvents().remove(oldValue);
-                        revert = true;
-                        eventComboBox.setValue(oldValue);
-                    }
-
-                } else {
-                        if (!revert) {
-                            plan.setEvent(newValue);
-                            plan.getCards().clear();
-                            plan.getHBox().getChildren().clear();
-                        }
-                        course.getSelectedEvents().add(newValue);
-                        revert = false;
-
-
-
-
-
-                }
-
-            }
-        });
-        HBox topHB = new HBox(eventComboBox, deleteButton);
-
-        plan.getVBox().getChildren().add(topHB);
-        plan.getVBox().getChildren().add(plan.getHBox());
-        course.addLessonPlan(plan);
-        lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
-
+        LessonPlanManager.addLessonPlan(course, plan, lessonPlanGrid, revert);
     }
+
+    private void displayPlanCards(Course plan) {
+        LessonPlanManager.displayPlanCards(plan, lessonPlanGrid);
+    }
+
+
     @FXML
     private void addCardToPlan(Card card) {
         for (Course plan : course.getPlans()) {
@@ -193,20 +149,6 @@ public class NewLessonPlanController {
         }
     }
 
-    private void displayPlanCards(Course plan) {
-        int numCards = plan.getCards().size();
-        Card newCard = plan.getCards().get(numCards - 1);
-        ImageView imageView = new ImageView(newCard.getImageThumbnail());
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(200);
-        plan.getHBox().getChildren().add(imageView);
-    }
-
-    private void deletePlan(Course plan) {
-        lessonPlanGrid.getChildren().remove(plan.getVBox());
-        course.getSelectedEvents().remove(plan.getEvent());
-        course.getPlans().remove(plan);
-    }
     @FXML
     private void printLessonPlan() {
 
@@ -229,15 +171,6 @@ public class NewLessonPlanController {
     void SaveButton(ActionEvent event) {
         SaveCourse.saveFile();
     }
-
-    private void showAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Message");
-        alert.setHeaderText("This event already exists in the course");
-        alert.showAndWait();
-
-    }
-
 }
 
 
