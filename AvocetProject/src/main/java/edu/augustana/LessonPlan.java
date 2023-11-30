@@ -1,6 +1,7 @@
 package edu.augustana;
 
 
+import java.awt.*;
 import java.lang.reflect.Type;
 
 
@@ -8,12 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.*;
+import javafx.fxml.FXML;
 
 public class LessonPlan {
 
     private static List<Course> plans;
 
     private List<String> selectedEvents;
+
+    public String title;
+
+
 
     public LessonPlan() {
         this.plans = new ArrayList<Course>();

@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -22,6 +23,8 @@ import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static javafx.geometry.Pos.TOP_RIGHT;
 
 
 public class NewLessonPlanController {
@@ -74,6 +77,7 @@ public class NewLessonPlanController {
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGrid.setPrefWidth(width/2);
+        cardsGrid.setHgap(20);
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
@@ -110,21 +114,26 @@ public class NewLessonPlanController {
             ImageView imageView = new ImageView(myCard.getImageThumbnail());
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
+            ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
+            maximizeIcon.setFitHeight(10);
+            maximizeIcon.setFitWidth(10);
+            Button maximizeButton = new Button();
+            maximizeButton.setGraphic(maximizeIcon);
             Button cardButton = new Button();
             cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             cardButton.getStyleClass().add("cardPopup");
             Card clickCard = myCard;
-            cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
+            cardButton.setOnAction(event -> addCardToPlan(myCard));
             cardButton.setGraphic(imageView);
-            Button addButton = new Button("Add");
-            addButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            addButton.getStyleClass().add("buttonWhite");
-            addButton.setPrefWidth(220);
-            addButton.setOnAction(event -> addCardToPlan(myCard));
 
-            //addButton.setStyle("-fx-background-color: #ff6e4e");
-            VBox cardVbox = new VBox(cardButton, addButton);
-            cardsGrid.add(cardVbox, col, row);
+            maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
+
+            //maximizeButton.setStyle("-fx-background-color: #ff6e4e");
+            VBox cardVbox = new VBox(maximizeButton, cardButton);
+            cardsGrid.add(cardButton, col, row);
+            cardsGrid.add(maximizeButton, col, row);
+            cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
+            cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
 
             col++;
             if (col >= numCols) {
