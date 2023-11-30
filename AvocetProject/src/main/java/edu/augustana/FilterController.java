@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterController {
-    public static List<Card> cardGridHandler(ComboBox<String> eventFilterComboBox, ComboBox<String> genderFilterComboBox, ComboBox<String> levelFilterComboBox, TextField searchBox){
-        return searchFunction(levelFunction(genderFunction(eventFunction(eventFilterComboBox), genderFilterComboBox), levelFilterComboBox), searchBox);
+    public static List<Card> cardGridHandler(ComboBox<String> eventFilterComboBox, ComboBox<String> genderFilterComboBox, ComboBox<String> levelFilterComboBox, ComboBox<String> modelFilterComboBox, TextField searchBox){
+        return searchFunction(modelFunction(levelFunction(genderFunction(eventFunction(eventFilterComboBox), genderFilterComboBox), levelFilterComboBox), modelFilterComboBox), searchBox);
     }
     private static List<Card> eventFunction(ComboBox<String> eventFilterComboBox) {
         List<Card> eventOutputList = new ArrayList<>();
@@ -31,7 +31,7 @@ public class FilterController {
             genderOutputList = tempList;
         } else {
             for (Card myCard : tempList) {
-                if (myCard.getGender().contains(keywords)) {
+                if (myCard.getGender().contains(keywords) || myCard.getGender().contains("N")) {
                     genderOutputList.add(myCard);
                 }
             }
@@ -56,6 +56,21 @@ public class FilterController {
             }
         }
         return levelOutputList;
+    }
+
+    private static List<Card> modelFunction(List<Card> tempList, ComboBox<String> modelFilterComboBox) {
+        List<Card> modelOutputList = new ArrayList<>();
+        String keywords = modelFilterComboBox.getValue();
+        if (keywords == null || keywords.equals("All Models")) {
+            modelOutputList = tempList;
+        } else {
+            for (Card myCard : tempList) {
+                if (myCard.getModelSex().contains(keywords)) {
+                    modelOutputList.add(myCard);
+                }
+            }
+        }
+        return modelOutputList;
     }
 
     private static List<Card> searchFunction(List<Card> tempList, TextField searchBox) {
@@ -92,6 +107,13 @@ public class FilterController {
                     if (!comboBox.getItems().contains(tempLevel)) {
                         comboBox.getItems().add(tempLevel);
                     }
+                }
+            }
+        } else if (category.equals("model")) {
+            comboBox.getItems().add("All Models");
+            for (Card c : App.cardCollection) {
+                if (!comboBox.getItems().contains(c.getModelSex())) {
+                    comboBox.getItems().add(c.getModelSex());
                 }
             }
         }

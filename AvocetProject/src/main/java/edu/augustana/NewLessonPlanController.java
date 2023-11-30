@@ -32,6 +32,8 @@ public class NewLessonPlanController {
     @FXML
     private ComboBox<String> genderFilterComboBox;
     @FXML
+    private ComboBox<String> modelFilterComboBox;
+    @FXML
     private ResourceBundle resources;
     @FXML
     private URL location;
@@ -66,6 +68,7 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
+        FilterController.comboBoxInitializer(modelFilterComboBox, "model");
         revert = false;
         course = new LessonPlan();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -78,7 +81,7 @@ public class NewLessonPlanController {
 
     private void searchInitiator() {
         cardsGrid.getChildren().clear();
-        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, searchBox));
+        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, searchBox));
     }
 
     @FXML
@@ -92,6 +95,9 @@ public class NewLessonPlanController {
 
     @FXML
     void levelFiltering(ActionEvent event) {searchInitiator();}
+
+    @FXML
+    void modelFiltering(ActionEvent event) {searchInitiator();}
 
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();

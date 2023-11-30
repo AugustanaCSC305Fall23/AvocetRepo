@@ -22,7 +22,7 @@ public class Card{
         this.category = category;
         this.title = title;
         this.imageFileName = imgFileName;
-        this.imageThumbnail = new Image("file:packs/" + packName + "/" + imgFileName);
+        this.imageThumbnail = new Image("file:packs/" + packName + "/thumbs/" + imgFileName.charAt(0) + ".jpg");
         this.gender = gender;
         this.modelSex = modelSex;
         this.level = level;
