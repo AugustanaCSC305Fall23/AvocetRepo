@@ -29,6 +29,8 @@ public class NewLessonPlanController {
     @FXML
     private ComboBox<String> genderFilterComboBox;
     @FXML
+    private ComboBox<String> modelFilterComboBox;
+    @FXML
     private ResourceBundle resources;
     @FXML
     private URL location;
@@ -49,7 +51,7 @@ public class NewLessonPlanController {
     @FXML
     private Button saveButton;
     private double width;
-    private LessonPlan course;
+    private LessonPlan plan;
     private PrinterJob job;
     @FXML
     private Button printButton;
@@ -63,11 +65,14 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
+        FilterController.comboBoxInitializer(modelFilterComboBox, "model");
         revert = false;
-        course = new LessonPlan();
+        plan = new LessonPlan();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
-        cardsGrid.setPrefWidth(width/2);
+        cardsGridVbox.setPrefWidth(width/2);
+        cardsGrid.setPrefWidth((width/2) - 60);
+        cardsGrid.setHgap(20);
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
@@ -75,7 +80,7 @@ public class NewLessonPlanController {
 
     private void searchInitiator() {
         cardsGrid.getChildren().clear();
-        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, searchBox));
+        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, searchBox));
     }
 
     @FXML
@@ -90,21 +95,42 @@ public class NewLessonPlanController {
     @FXML
     void levelFiltering(ActionEvent event) {searchInitiator();}
 
+    @FXML
+    void modelFiltering(ActionEvent event) {searchInitiator();}
+
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
-        cardsGridVbox.setPrefWidth(width/2);
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
 
-            Button addButton = new Button("Add");
-            addButton.setOnAction(event -> addCardToPlan(myCard));
+            ImageView imageView = new ImageView(myCard.getImageThumbnail());
+            imageView.setFitWidth(180);
+            imageView.setFitHeight(180);
 
-            CardVBox cardVbox = new CardVBox(myCard, addButton);
-            cardsGrid.add(cardVbox, col, row);
-            cardsGrid.add(new CardVBox(myCard,addButton), col, row);
+            ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
+            maximizeIcon.setFitHeight(10);
+            maximizeIcon.setFitWidth(10);
+            Button maximizeButton = new Button();
+            maximizeButton.setGraphic(maximizeIcon);
+            Button cardButton = new Button();
+            cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            cardButton.getStyleClass().add("cardPopup");
+            Card clickCard = myCard;
+            cardButton.setOnAction(event -> addCardToPlan(myCard));
+            cardButton.setGraphic(imageView);
+
+            maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
+
+            //maximizeButton.setStyle("-fx-background-color: #ff6e4e");
+            VBox cardVbox = new VBox(maximizeButton, cardButton);
+            cardsGrid.add(cardButton, col, row);
+            cardsGrid.add(maximizeButton, col, row);
+            cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
+            cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
+
 
             col++;
             if (col >= numCols) {
@@ -115,22 +141,28 @@ public class NewLessonPlanController {
     }
 
     @FXML
-    private void addLessonPlan() {
-        Course plan = new Course(lessonPlanGrid.getRowCount());
-        LessonPlanManager.addLessonPlan(course, plan, lessonPlanGrid, revert);
+    private void addCardGroup() {
+        CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
     }
 
-    private void displayPlanCards(Course plan) {
-        LessonPlanManager.displayPlanCards(plan);
+
+    private void displayPlanCards(CardGroup cardGroup, Button deleteButton) {
+        LessonPlanManager.displayPlanCards(cardGroup, deleteButton);
+
     }
 
 
     @FXML
     private void addCardToPlan(Card card) {
-        for (Course plan : course.getPlans()) {
-            if (plan.getEvent().equals(card.getEvent()) && (!plan.getCards().contains(card)) ){
-                plan.addCard(card);
-                displayPlanCards(plan);
+        for (CardGroup cardGroup : plan.getCardGroups()) {
+            if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
+                Button deleteButton = new Button("Remove");
+                deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(card, cardGroup, deleteButton));
+                cardGroup.addCard(card);
+
+
+                displayPlanCards(cardGroup, deleteButton);
             }
         }
     }
