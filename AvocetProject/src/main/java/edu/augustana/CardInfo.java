@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -49,7 +50,8 @@ public class CardInfo {
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
 
-        ImageView imageView = new ImageView(clickCard.getImageThumbnail());
+        Image image = new Image("file:packs/" + clickCard.getPackName() + "/" + clickCard.getImageFileName());
+        ImageView imageView = new ImageView(image);
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
 
