@@ -1,7 +1,5 @@
 package edu.augustana;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
@@ -15,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
@@ -101,24 +98,13 @@ public class NewLessonPlanController {
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
-            ImageView imageView = new ImageView(myCard.getImageThumbnail());
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(200);
-            Button cardButton = new Button();
-            cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            cardButton.getStyleClass().add("cardPopup");
-            Card clickCard = myCard;
-            cardButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
-            cardButton.setGraphic(imageView);
+
             Button addButton = new Button("Add");
-            addButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            addButton.getStyleClass().add("buttonWhite");
-            addButton.setPrefWidth(220);
             addButton.setOnAction(event -> addCardToPlan(myCard));
 
-            //addButton.setStyle("-fx-background-color: #ff6e4e");
-            VBox cardVbox = new VBox(cardButton, addButton);
+            CardVBox cardVbox = new CardVBox(myCard, addButton);
             cardsGrid.add(cardVbox, col, row);
+            cardsGrid.add(new CardVBox(myCard,addButton), col, row);
 
             col++;
             if (col >= numCols) {
@@ -135,7 +121,7 @@ public class NewLessonPlanController {
     }
 
     private void displayPlanCards(Course plan) {
-        LessonPlanManager.displayPlanCards(plan, lessonPlanGrid);
+        LessonPlanManager.displayPlanCards(plan);
     }
 
 

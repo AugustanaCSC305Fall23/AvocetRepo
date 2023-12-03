@@ -56,6 +56,8 @@ public class Course {
         this.event = evt;
     }
 
+    public void deleteCard(Card card) { cards.remove(card);}
+
     public String getEvent() {
         return event;
 

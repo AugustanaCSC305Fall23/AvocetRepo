@@ -10,6 +10,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class LessonPlanManager {
+
+    private LessonPlan course;
+
     public static void addLessonPlan(LessonPlan course, Course plan, GridPane lessonPlanGrid, boolean revert) {
         plan.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
@@ -56,16 +59,27 @@ public class LessonPlanManager {
         lessonPlanGrid.getChildren().remove(plan.getVBox());
         course.getSelectedEvents().remove(plan.getEvent());
         course.getPlans().remove(plan);
+        lessonPlanGrid.getChildren();
     }
 
-    public static void displayPlanCards(Course plan, GridPane lessonPlanGrid) {
+    public static void displayPlanCards(Course plan) {
         int numCards = plan.getCards().size();
         Card newCard = plan.getCards().get(numCards - 1);
-        ImageView imageView = new ImageView(newCard.getImageThumbnail());
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(200);
-        plan.getHBox().getChildren().add(imageView);
+        Button deleteButton = new Button("Remove");
+//        deleteButton.setOnAction(e -> deleteCardFromPlan(newCard));
+        CardVBox newCardBox = new CardVBox(newCard, deleteButton);
+//        ImageView imageView = new ImageView(newCard.getImageThumbnail());
+//        imageView.setFitWidth(200);
+//        imageView.setFitHeight(200);
+        plan.getHBox().getChildren().add(newCardBox);
     }
+
+//    private static void deleteCardFromPlan(Card newCard) {
+//        for (Course plan : course.getPlans()) {
+//            plan.deleteCard(newCard);
+//            displayPlanCards(plan);
+//        }
+//    }
 
     public static void showAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
