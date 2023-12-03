@@ -1,7 +1,6 @@
 package edu.augustana;
 
 
-import java.awt.*;
 import java.lang.reflect.Type;
 
 
@@ -9,31 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.*;
-import javafx.fxml.FXML;
 
 public class LessonPlan {
 
-    private static List<Course> plans;
+    private static List<CardGroup> cardGroups;
 
-    private List<String> selectedEvents;
+    private List<String> selectedCardGroups;
 
     public String title;
 
 
 
     public LessonPlan() {
-        this.plans = new ArrayList<Course>();
-        this.selectedEvents = new ArrayList<>();
+        this.cardGroups = new ArrayList<CardGroup>();
+        this.selectedCardGroups = new ArrayList<>();
 
     }
 
-    public List<Course> getPlans() {
-        return plans;
+    public List<CardGroup> getCardGroups() {
+        return cardGroups;
     }
 
-    public void addLessonPlan(Course plan) {
-        this.plans.add(plan);
-        System.out.println(plan);
+    public void addCardGroup(CardGroup cardGroup) {
+        this.cardGroups.add(cardGroup);
+        System.out.println(cardGroup);
     }
 
     public static String toJson() {
@@ -41,7 +39,7 @@ public class LessonPlan {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LessonPlan.class, new CourseSerializer());
         Gson gson = gsonBuilder.create();
-        return gson.toJson(plans);
+        return gson.toJson(cardGroups);
     }
 
     private static class CourseSerializer implements JsonSerializer<LessonPlan> {
@@ -49,11 +47,11 @@ public class LessonPlan {
         public JsonElement serialize(LessonPlan course, Type type, JsonSerializationContext context) {
             JsonObject jsonCourse = new JsonObject();
             JsonArray plansArray = new JsonArray();
-            for (Course course1 : course.getPlans()) {
+            for (CardGroup cardGroup1 : course.getCardGroups()) {
                 JsonObject jsonLessonPlan = new JsonObject();
-                jsonLessonPlan.addProperty("event", course1.getEvent());
+                jsonLessonPlan.addProperty("event", cardGroup1.getEvent());
                 JsonArray cardsArray = new JsonArray();
-                for (Card card : course1.getCards()) {
+                for (Card card : cardGroup1.getCards()) {
                     JsonObject jsonCard = new JsonObject();
                     jsonCard.addProperty("code", card.getCode());
                     cardsArray.add(jsonCard);
@@ -68,7 +66,7 @@ public class LessonPlan {
         }
     }
 
-    public List<String> getSelectedEvents() {
-        return selectedEvents;
+    public List<String> getSelectedCardGroups() {
+        return selectedCardGroups;
     }
 }

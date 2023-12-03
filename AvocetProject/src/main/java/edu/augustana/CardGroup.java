@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course {
+public class CardGroup {
 
 
     private List<Card> cards;
@@ -27,7 +27,7 @@ public class Course {
     private transient VBox vb;
 
 
-    public Course(int index) {
+    public CardGroup(int index) {
         this.cards = new ArrayList<>();
         this.event = "";
         this.vb = new VBox();

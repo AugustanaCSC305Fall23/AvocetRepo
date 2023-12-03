@@ -1,10 +1,7 @@
 package edu.augustana;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -16,15 +13,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import static javafx.geometry.Pos.TOP_RIGHT;
 
 
 public class NewLessonPlanController {
@@ -55,7 +49,7 @@ public class NewLessonPlanController {
     @FXML
     private Button saveButton;
     private double width;
-    private LessonPlan course;
+    private LessonPlan plan;
     private PrinterJob job;
     @FXML
     private Button printButton;
@@ -70,10 +64,11 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
         revert = false;
-        course = new LessonPlan();
+        plan = new LessonPlan();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
-        cardsGrid.setPrefWidth(width/2);
+        cardsGridVbox.setPrefWidth(width/2);
+        cardsGrid.setPrefWidth((width/2) - 60);
         cardsGrid.setHgap(20);
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
@@ -100,14 +95,14 @@ public class NewLessonPlanController {
     private void displayCards(List<Card> cardList) {
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
-        cardsGridVbox.setPrefWidth(width/2);
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
             ImageView imageView = new ImageView(myCard.getImageThumbnail());
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(200);
+            imageView.setFitWidth(180);
+            imageView.setFitHeight(180);
+
             ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
             maximizeIcon.setFitHeight(10);
             maximizeIcon.setFitWidth(10);
@@ -138,22 +133,22 @@ public class NewLessonPlanController {
     }
 
     @FXML
-    private void addLessonPlan() {
-        Course plan = new Course(lessonPlanGrid.getRowCount());
-        LessonPlanManager.addLessonPlan(course, plan, lessonPlanGrid, revert);
+    private void addCardGroup() {
+        CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
     }
 
-    private void displayPlanCards(Course plan) {
-        LessonPlanManager.displayPlanCards(plan, lessonPlanGrid);
+    private void displayPlanCards(CardGroup cardGroup) {
+        LessonPlanManager.displayPlanCards(cardGroup, lessonPlanGrid);
     }
 
 
     @FXML
     private void addCardToPlan(Card card) {
-        for (Course plan : course.getPlans()) {
-            if (plan.getEvent().equals(card.getEvent()) && (!plan.getCards().contains(card)) ){
-                plan.addCard(card);
-                displayPlanCards(plan);
+        for (CardGroup cardGroup : plan.getCardGroups()) {
+            if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
+                cardGroup.addCard(card);
+                displayPlanCards(cardGroup);
             }
         }
     }

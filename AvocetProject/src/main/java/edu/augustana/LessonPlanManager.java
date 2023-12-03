@@ -10,12 +10,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class LessonPlanManager {
-    public static void addLessonPlan(LessonPlan course, Course plan, GridPane lessonPlanGrid, boolean revert) {
-        plan.getHBox().setSpacing(10);
+    public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert) {
+        cardGroup.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
         deleteButton.getStyleClass().add("buttonOrange");
-        deleteButton.setOnAction(event -> deletePlan(plan, course, lessonPlanGrid));
+        deleteButton.setOnAction(event -> deletePlan(cardGroup, plan, lessonPlanGrid));
         ComboBox<String> eventComboBox = new ComboBox<>();
         eventComboBox.promptTextProperty().set("Select Event");
         eventComboBox.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
@@ -25,40 +25,40 @@ public class LessonPlanManager {
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (course.getSelectedEvents().contains(newValue)) {
+                if (plan.getSelectedCardGroups().contains(newValue)) {
                     showAlert();
-                    if (plan.getCards().isEmpty()) {
+                    if (cardGroup.getCards().isEmpty()) {
                         eventComboBox.cancelEdit();
                     } else {
-                        course.getSelectedEvents().remove(oldValue);
+                        plan.getSelectedCardGroups().remove(oldValue);
                         eventComboBox.setValue(oldValue);
-                        deletePlan(plan, course, lessonPlanGrid); // Move the deletion logic here
+                        deletePlan(cardGroup, plan, lessonPlanGrid); // Move the deletion logic here
                     }
                 } else {
                     if (!revert) {
-                        plan.setEvent(newValue);
-                        plan.getCards().clear();
-                        plan.getHBox().getChildren().clear();
+                        cardGroup.setEvent(newValue);
+                        cardGroup.getCards().clear();
+                        cardGroup.getHBox().getChildren().clear();
                     }
-                    course.getSelectedEvents().add(newValue);
+                    plan.getSelectedCardGroups().add(newValue);
                 }
             }
         });
         HBox topHB = new HBox(eventComboBox, deleteButton);
 
-        plan.getVBox().getChildren().add(topHB);
-        plan.getVBox().getChildren().add(plan.getHBox());
-        course.addLessonPlan(plan);
-        lessonPlanGrid.add(plan.getVBox(), 0, plan.getIndex());
+        cardGroup.getVBox().getChildren().add(topHB);
+        cardGroup.getVBox().getChildren().add(cardGroup.getHBox());
+        plan.addCardGroup(cardGroup);
+        lessonPlanGrid.add(cardGroup.getVBox(), 0, cardGroup.getIndex());
     }
 
-    public static void deletePlan(Course plan, LessonPlan course, GridPane lessonPlanGrid) {
+    public static void deletePlan(CardGroup plan, LessonPlan course, GridPane lessonPlanGrid) {
         lessonPlanGrid.getChildren().remove(plan.getVBox());
-        course.getSelectedEvents().remove(plan.getEvent());
-        course.getPlans().remove(plan);
+        course.getSelectedCardGroups().remove(plan.getEvent());
+        course.getCardGroups().remove(plan);
     }
 
-    public static void displayPlanCards(Course plan, GridPane lessonPlanGrid) {
+    public static void displayPlanCards(CardGroup plan, GridPane lessonPlanGrid) {
         int numCards = plan.getCards().size();
         Card newCard = plan.getCards().get(numCards - 1);
         ImageView imageView = new ImageView(newCard.getImageThumbnail());
