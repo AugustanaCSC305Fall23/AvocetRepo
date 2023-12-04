@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 
 public class LessonPlanManager {
@@ -28,7 +29,7 @@ public class LessonPlanManager {
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (plan.getSelectedCardGroups().contains(newValue)) {
+                if (plan.getCardGroups().contains(newValue)) {
                     showAlert();
                     if (cardGroup.getCards().isEmpty()) {
                         eventComboBox.cancelEdit();
@@ -63,21 +64,25 @@ public class LessonPlanManager {
     }
 
 
-    public static void displayPlanCards(CardGroup cardGroup, Button deleteButton) {
+    public static void displayPlanCards(CardGroup cardGroup) {
 
         int numCards = cardGroup.getCards().size();
         Card newCard = cardGroup.getCards().get(numCards - 1);
         ImageView imageView = new ImageView(newCard.getImageThumbnail());
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
-        cardGroup.getHBox().getChildren().add(imageView);
-        cardGroup.getHBox().getChildren().add(deleteButton);
+        Button deleteButton = new Button("Remove");
+        VBox cardVBox = new VBox(imageView, deleteButton);
+        cardGroup.getHBox().getChildren().add(cardVBox);
+        deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(newCard, cardGroup, cardVBox));
+
     }
 
-    public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, Button deleteButton) {
+    public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
-                cardGroup.getHBox().getChildren().clear();
-                displayPlanCards(cardGroup, deleteButton);
+                cardGroup.getHBox().getChildren().remove(cardVBox);
+
+
 
     }
 
