@@ -51,7 +51,7 @@
 <BorderPane fx:id="newLessonPlanBorderPane" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.NewLessonPlanController">
 
     <top>
-        <GridPane prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: FF6E4E;" BorderPane.alignment="CENTER">
+        <GridPane prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: #89CFF0;" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -74,7 +74,7 @@
                         </Button>
                   <MenuButton mnemonicParsing="false" text="Print">
                     <items>
-                      <MenuItem fx:id="textOnlyMenu" mnemonicParsing="false" text="Text Only" />
+                      <MenuItem fx:id="textOnlyMenu" mnemonicParsing="false" onAction="#printLessonPlanTextOnly" text="Text Only" />
                       <MenuItem fx:id="withImagesMenu" mnemonicParsing="false" onAction="#printLessonPlanWithImages" text="With Images" />
                     </items>
                      <HBox.margin>
@@ -98,7 +98,7 @@
         </GridPane>
     </top>
     <left>
-        <VBox fx:id="cardsGridVbox" prefHeight="400.0" style="-fx-background-color: FFF2EF;" BorderPane.alignment="CENTER">
+        <VBox fx:id="cardsGridVbox" prefHeight="400.0" BorderPane.alignment="CENTER">
             <children>
             <TextField fx:id="searchBox" onKeyTyped="#searchFiltering" promptText="Search" styleClass="textField" stylesheets="@style.css" />
             <HBox prefHeight="28.0" prefWidth="322.0">
@@ -130,7 +130,7 @@
         </VBox>
     </left>
     <center>
-        <VBox prefHeight="400.0" prefWidth="380.0" style="-fx-background-color: FFF2EF;" BorderPane.alignment="CENTER">
+        <VBox prefHeight="400.0" prefWidth="380.0" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER" prefHeight="56.0" prefWidth="315.0">
                     <children>

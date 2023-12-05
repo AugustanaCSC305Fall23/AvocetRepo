@@ -74,6 +74,7 @@ public class LessonPlanManager {
         Button deleteButton = new Button("Remove");
         VBox cardVBox = new VBox(imageView, deleteButton);
         cardGroup.getHBox().getChildren().add(cardVBox);
+
         deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromCardGroup(newCard, cardGroup, cardVBox));
 
     }
@@ -81,9 +82,6 @@ public class LessonPlanManager {
     public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
                 cardGroup.getHBox().getChildren().remove(cardVBox);
-
-
-
     }
 
     public static void showAlert() {

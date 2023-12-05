@@ -66,7 +66,7 @@ public class App extends Application {
                         String event = row[1];
                         String category = row[2];
                         String title = row[3];
-                        String img = row[5];
+                        String img = row[5].substring(0, row[5].lastIndexOf('.'));;
                         String gender = row[6];
                         String modelSex = row[7];
                         String level = row[8];
