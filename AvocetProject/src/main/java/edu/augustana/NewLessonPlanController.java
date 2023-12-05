@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -58,6 +59,12 @@ public class NewLessonPlanController {
     @FXML
     private BorderPane newLessonPlanBorderPane;
     private Boolean revert;
+
+    @FXML
+    private MenuItem textOnlyMenu;
+
+    @FXML
+    private MenuItem withImagesMenu;
 
     @FXML
     void initialize() {
@@ -165,7 +172,7 @@ public class NewLessonPlanController {
     }
 
     @FXML
-    private void printLessonPlan() {
+    private void printLessonPlanWithImages() {
 
         Node centerNode = newLessonPlanBorderPane.getCenter();
         PrinterJob printerJob = PrinterJob.createPrinterJob();
