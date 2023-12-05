@@ -14,8 +14,11 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,7 +60,12 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
+
+    @FXML
+    private Button openButton;
     private Boolean revert;
+
+    public Stage stage;
 
     @FXML
     void initialize() {
@@ -73,6 +81,7 @@ public class NewLessonPlanController {
         cardsGridVbox.setPrefWidth(width/2);
         cardsGrid.setPrefWidth((width/2) - 60);
         cardsGrid.setHgap(20);
+        lessonPlanGrid.setPrefHeight(screenSize.getHeight());
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
@@ -147,8 +156,8 @@ public class NewLessonPlanController {
     }
 
 
-    private void displayPlanCards(CardGroup cardGroup, Button deleteButton) {
-        LessonPlanManager.displayPlanCards(cardGroup, deleteButton);
+    private void displayPlanCards(CardGroup cardGroup) {
+        LessonPlanManager.displayPlanCards(cardGroup);
 
     }
 
@@ -157,12 +166,8 @@ public class NewLessonPlanController {
     private void addCardToPlan(Card card) {
         for (CardGroup cardGroup : plan.getCardGroups()) {
             if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
-                Button deleteButton = new Button("Remove");
-                deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(card, cardGroup, deleteButton));
                 cardGroup.addCard(card);
-
-
-                displayPlanCards(cardGroup, deleteButton);
+                displayPlanCards(cardGroup);
             }
         }
     }
@@ -185,10 +190,15 @@ public class NewLessonPlanController {
             }
         }
     }
+
+
     @FXML
     void SaveButton(ActionEvent event) {
         SaveCourse.saveFile();
     }
+
+    @FXML
+    void OpenButton(ActionEvent event) { OpenLessonPlan.openFile(); }
 }
 
 
