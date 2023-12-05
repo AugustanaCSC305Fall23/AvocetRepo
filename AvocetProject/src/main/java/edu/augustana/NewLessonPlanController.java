@@ -57,6 +57,8 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
+    @FXML
+    private TextField titleFeild;
     private Boolean revert;
 
     @FXML
@@ -67,7 +69,13 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
         FilterController.comboBoxInitializer(modelFilterComboBox, "model");
         revert = false;
-        plan = new LessonPlan();
+        titleFeild.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Update the lessonPlanTitle when the title field changes
+            String lessonPlanTitle = titleFeild.getText();
+            plan = new LessonPlan(lessonPlanTitle);
+        });
+        String lessonPlanTitle = titleFeild.getText();
+        plan = new LessonPlan(lessonPlanTitle);
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGridVbox.setPrefWidth(width/2);

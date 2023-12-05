@@ -15,13 +15,14 @@ public class LessonPlan {
 
     private List<String> selectedCardGroups;
 
-    public String title;
+    public static String title;
 
 
 
-    public LessonPlan() {
+    public LessonPlan(String title) {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
+        this.title = title;
 
     }
 
@@ -65,7 +66,9 @@ public class LessonPlan {
             return jsonCourse;
         }
     }
-
+    public static String getTitle(){
+        return title;
+    }
     public List<String> getSelectedCardGroups() {
         return selectedCardGroups;
     }

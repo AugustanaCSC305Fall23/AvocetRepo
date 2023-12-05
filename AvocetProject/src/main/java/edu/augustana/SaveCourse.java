@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,7 +10,10 @@ public class SaveCourse {
     public static Object saveFile;
 
     static void saveFile(){
+        String title = LessonPlan.getTitle();
+        System.out.println(title + 1);
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(title);
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
         fileChooser.getExtensionFilters().add(extensionFilter);
 
