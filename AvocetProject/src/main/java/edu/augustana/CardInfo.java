@@ -63,7 +63,7 @@ public class CardInfo {
         BorderPane borderPane = new BorderPane();
         borderPane.setStyle("-fx-background-radius: 5; -fx-border-radius: 5; " +
                 "-fx-border-color: black; -fx-border-width: 3; " +
-                "-fx-background-color: #ff6e4e");
+                "-fx-background-color: #89CFF0");
 
         borderPane.setTop(Title);
         borderPane.setCenter(imageView);
@@ -74,7 +74,7 @@ public class CardInfo {
         Button closeButton = new Button("Close");
         closeButton.setPadding(new Insets(5,5,5,5));
         closeButton.setStyle("-fx-border-radius: 20; -fx-background-radius: 20; " +
-                "-fx-background-color :  #ff6e4e; -fx-text-fill:  white; " +
+                "-fx-background-color :  #89CFF0; -fx-text-fill:  white; " +
                 "-fx-font-weight: bold; -fx-font-size:14");
 
 
