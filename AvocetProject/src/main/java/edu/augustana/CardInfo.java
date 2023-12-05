@@ -50,7 +50,7 @@ public class CardInfo {
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
 
-        Image image = new Image("file:packs/" + clickCard.getPackName() + "/" + clickCard.getImageFileName());
+        Image image = new Image("file:packs/" + clickCard.getPackName() + "/" + clickCard.getImageFileName() + ".png");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
