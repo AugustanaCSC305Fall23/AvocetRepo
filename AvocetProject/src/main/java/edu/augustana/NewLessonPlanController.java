@@ -118,12 +118,6 @@ public class NewLessonPlanController {
             ImageView imageView = new ImageView(myCard.getImageThumbnail());
             imageView.setFitWidth(180);
             imageView.setFitHeight(180);
-
-            ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
-            maximizeIcon.setFitHeight(10);
-            maximizeIcon.setFitWidth(10);
-            Button maximizeButton = new Button();
-            maximizeButton.setGraphic(maximizeIcon);
             Button cardButton = new Button();
             cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             cardButton.getStyleClass().add("cardPopup");
@@ -131,16 +125,21 @@ public class NewLessonPlanController {
             cardButton.setOnAction(event -> addCardToPlan(myCard));
             cardButton.setGraphic(imageView);
 
+            ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
+            maximizeIcon.setFitHeight(10);
+            maximizeIcon.setFitWidth(10);
+            Button maximizeButton = new Button();
+            maximizeButton.setGraphic(maximizeIcon);
+            maximizeButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            maximizeButton.getStyleClass().add("buttonOrange");
             maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
 
-            //maximizeButton.setStyle("-fx-background-color: #ff6e4e");
             VBox cardVbox = new VBox(maximizeButton, cardButton);
             cardsGrid.add(cardButton, col, row);
             cardsGrid.add(maximizeButton, col, row);
             cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
             cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
-
-
+            
             col++;
             if (col >= numCols) {
                 col = 0;

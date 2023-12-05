@@ -75,15 +75,11 @@ public class LessonPlanManager {
         VBox cardVBox = new VBox(imageView, deleteButton);
         cardGroup.getHBox().getChildren().add(cardVBox);
         deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(newCard, cardGroup, cardVBox));
-
     }
 
     public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
                 cardGroup.getHBox().getChildren().remove(cardVBox);
-
-
-
     }
 
     public static void showAlert() {

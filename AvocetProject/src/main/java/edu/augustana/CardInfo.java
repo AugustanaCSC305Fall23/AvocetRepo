@@ -47,7 +47,7 @@ public class CardInfo {
         hBox.getChildren().addAll(equipmentLabel, levelLabel, genderLabel, keywordLabel);
         hBox.setMinHeight(20);
 
-        Image image = new Image("file:packs/" + clickCard.getPackName() + "/" + clickCard.getImageFileName());
+        Image image = new Image("file:packs/" + clickCard.getPackName() + "/" + clickCard.getImageFileName() + ".png");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(600);
         imageView.setFitHeight(500);
@@ -60,7 +60,7 @@ public class CardInfo {
         BorderPane borderPane = new BorderPane();
         borderPane.setStyle("-fx-background-radius: 5; -fx-border-radius: 5; " +
                 "-fx-border-color: black; -fx-border-width: 3; " +
-                "-fx-background-color: #ff6e4e");
+                "-fx-background-color: #89CFF0");
 
         borderPane.setCenter(imageView);
         borderPane.setBottom(hBox);
@@ -70,7 +70,7 @@ public class CardInfo {
         Button closeButton = new Button("Close");
         closeButton.setPadding(new Insets(5,5,5,5));
         closeButton.setStyle("-fx-border-radius: 20; -fx-background-radius: 20; " +
-                "-fx-background-color :  #ff6e4e; -fx-text-fill:  white; " +
+                "-fx-background-color :  #89CFF0; -fx-text-fill:  white; " +
                 "-fx-font-weight: bold; -fx-font-size:14");
 
 
