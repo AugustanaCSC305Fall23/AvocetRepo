@@ -4,16 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -66,6 +65,8 @@ public class NewLessonPlanController {
 
     @FXML
     private MenuItem withImagesMenu;
+    @FXML
+    private TextField lessonPlanTitleTF;
 
     @FXML
     void initialize() {
@@ -76,6 +77,9 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(modelFilterComboBox, "model");
         revert = false;
         plan = new LessonPlan();
+        lessonPlanTitleTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            plan.setTitle(lessonPlanTitleTF.getText());
+        });
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
         cardsGridVbox.setPrefWidth(width/2);
@@ -122,7 +126,7 @@ public class NewLessonPlanController {
             cardButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             cardButton.getStyleClass().add("cardPopup");
             Card clickCard = myCard;
-            cardButton.setOnAction(event -> addCardToPlan(myCard));
+            cardButton.setOnAction(event -> addCardToCardGroup(myCard));
             cardButton.setGraphic(imageView);
 
             ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
@@ -162,7 +166,7 @@ public class NewLessonPlanController {
 
 
     @FXML
-    private void addCardToPlan(Card card) {
+    private void addCardToCardGroup(Card card) {
         for (CardGroup cardGroup : plan.getCardGroups()) {
             if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
                 cardGroup.addCard(card);
@@ -178,6 +182,8 @@ public class NewLessonPlanController {
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
             VBox listContainer = new VBox();
+            Text title = new Text("Lesson Plan Title: " +plan.getTitle());
+            listContainer.getChildren().add(title);
 
             // Replace the following with your actual list data
             List<CardGroup> cardGroups = plan.getCardGroups();
@@ -185,7 +191,7 @@ public class NewLessonPlanController {
                 Text event = new Text(cg.getEvent());
                 listContainer.getChildren().add(event);
                 for (Card card : cg.getCards()) {
-                    Text listItemText = new Text("  "+card.getTitle());
+                    Text listItemText = new Text("  - Code: "+card.getCode()+", Title: " +card.getTitle());
                     listContainer.getChildren().add(listItemText);
                 }
             }
@@ -199,17 +205,50 @@ public class NewLessonPlanController {
     }
     @FXML
     private void printLessonPlanWithImages() {
-
-
         Node centerNode = newLessonPlanBorderPane.getCenter();
         PrinterJob printerJob = PrinterJob.createPrinterJob();
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
-            WritableImage snapshot = centerNode.snapshot(new SnapshotParameters(), null);
-            ImageView center = new ImageView(snapshot);
+            VBox listContainer = new VBox();
+            Text title = new Text("Lesson Plan Title: " +plan.getTitle());
+            listContainer.getChildren().add(title);
+            int numHbox = 0;
+            // Replace the following with your actual list data
+            List<CardGroup> cardGroups = plan.getCardGroups();
+            for (CardGroup cg : cardGroups) {
+                Text event = new Text(cg.getEvent());
+                listContainer.getChildren().add(event);
+                HBox hBox = new HBox();
+                int count = 0;
+
+                for (Card card : cg.getCards()) {
+                    ImageView imageView = new ImageView(card.getImageThumbnail());
+                    hBox.getChildren().add(imageView);
+                    count++;
+                    if (count % 3 == 0) {
+                        listContainer.getChildren().add(hBox);
+                        hBox = new HBox();
+                    }
+
+                }
+                if (!hBox.getChildren().isEmpty()) {
+                    listContainer.getChildren().add(hBox);
+                    numHbox++;
+                }
+                if (numHbox >= 5) {
+                    boolean success = printerJob.printPage(listContainer);
+
+                    if (success) {
+                        listContainer.getChildren().clear(); // Clear the content of the current page
+                        numHbox = 0;
+                    } else {
+                        break;
+                    }
+                }
+            }
 
 
-            boolean success = printerJob.printPage(center);
+            boolean success = printerJob.printPage(listContainer);
 
             if (success) {
                 printerJob.endJob();

@@ -1,6 +1,7 @@
 package edu.augustana;
 
 
+import java.awt.*;
 import java.lang.reflect.Type;
 
 
@@ -22,6 +23,7 @@ public class LessonPlan {
     public LessonPlan() {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
+
 
     }
 
@@ -68,5 +70,13 @@ public class LessonPlan {
 
     public List<String> getSelectedCardGroups() {
         return selectedCardGroups;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
     }
 }

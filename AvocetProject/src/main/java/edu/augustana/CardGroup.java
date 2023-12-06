@@ -80,4 +80,8 @@ public class CardGroup {
     public VBox getVBox() {
         return vb;
     }
+
+    public void setHb(HBox hb) {
+        this.hb = hb;
+    }
 }
