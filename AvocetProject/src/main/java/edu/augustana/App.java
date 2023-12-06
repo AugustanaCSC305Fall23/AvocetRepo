@@ -1,6 +1,7 @@
 package edu.augustana;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import com.opencsv.CSVReader;
+import javafx.stage.WindowEvent;
+
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +30,15 @@ public class App extends Application {
         double height = screenSize.getHeight() - 0.10 * (screenSize.getHeight());
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                NewLessonPlanController.handleCloseRequest(event);
+            }
+        });
         stage.setScene(scene);
         stage.show();
+
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -45,6 +55,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
         File directory = new File("packs");
         File[] packs = directory.listFiles();
         Arrays.sort(packs);
@@ -82,5 +93,6 @@ public class App extends Application {
             }
         }
         launch();
+
     }
 }

@@ -61,6 +61,7 @@ public class LessonPlanManager {
         plan.getSelectedCardGroups().remove(cardGroup.getEvent());
         plan.getCardGroups().remove(cardGroup);
         lessonPlanGrid.getChildren();
+        ChangesMadeManager.setChangesMade(true);
     }
 
 
@@ -80,6 +81,7 @@ public class LessonPlanManager {
     public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
                 cardGroup.getHBox().getChildren().remove(cardVBox);
+                ChangesMadeManager.setChangesMade(true);
     }
 
     public static void showAlert() {

@@ -11,7 +11,6 @@ public class SaveCourse {
 
     static void saveFile(){
         String title = LessonPlan.getTitle();
-        System.out.println(title + 1);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName(title);
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
@@ -21,7 +20,6 @@ public class SaveCourse {
 
         if (file != null) {
             String json = LessonPlan.toJson();
-            System.out.println(json);
             try {
                 FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write(json);
