@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
@@ -16,9 +17,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javafx.stage.WindowEvent;
+
+
 import java.awt.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -58,7 +63,11 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
+    @FXML
+    private TextField titleFeild;
     private Boolean revert;
+
+    private static boolean changesMade = false;
 
     @FXML
     private MenuItem textOnlyMenu;
@@ -156,6 +165,7 @@ public class NewLessonPlanController {
     private void addCardGroup() {
         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
         LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
+        ChangesMadeManager.setChangesMade(true);
     }
 
 
@@ -166,11 +176,14 @@ public class NewLessonPlanController {
 
 
     @FXML
+
     private void addCardToCardGroup(Card card) {
+
         for (CardGroup cardGroup : plan.getCardGroups()) {
             if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
                 cardGroup.addCard(card);
                 displayPlanCards(cardGroup);
+                ChangesMadeManager.setChangesMade(true);
             }
         }
     }
@@ -255,9 +268,35 @@ public class NewLessonPlanController {
             }
         }
     }
+    public static void handleCloseRequest(WindowEvent event) {
+        if(ChangesMadeManager.isThereChanges()){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Unsaved Changes");
+            alert.setHeaderText("There are some unsaved changes");
+
+            ButtonType buttonTypeSave = new ButtonType("Save");
+            ButtonType buttonTypeDoNotSave = new ButtonType("Don't Save");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeDoNotSave, buttonTypeCancel);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == buttonTypeSave){
+                SaveCourse.saveFile();
+            }else if(result.get() == buttonTypeDoNotSave){
+                Platform.exit();
+            }else{
+                event.consume();
+            }
+        }else{
+            Platform.exit();
+        }
+    }
     @FXML
     void SaveButton(ActionEvent event) {
         SaveCourse.saveFile();
+        ChangesMadeManager.setChangesMade(false);
     }
 }
 

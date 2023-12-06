@@ -23,27 +23,24 @@ public class CardInfo {
         }
         scene = App.scene;
         Popup popup = new Popup();
-        Label Title = new Label();
-        Title.setText("Card Information");
-        Title.setStyle("-fx-font-size:28; -fx-font-weight:bold");
 
         Label equipmentLabel = new Label();
         equipmentLabel.setText("Equipment: \n" + clickCard.getEquipment());
-        equipmentLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        equipmentLabel.setStyle("-fx-font-size:13; -fx-font-weight:bold");
         equipmentLabel.setWrapText(true);
 
         Label levelLabel = new Label();
         levelLabel.setText("Level: \n"+ clickCard.getLevel());
-        levelLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        levelLabel.setStyle("-fx-font-size:13; -fx-font-weight:bold");
         levelLabel.setWrapText(true);
 
         Label genderLabel = new Label();
         genderLabel.setText("Gender: \n" + clickCard.getGender());
-        genderLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        genderLabel.setStyle("-fx-font-size:13; -fx-font-weight:bold");
         genderLabel.setWrapText(true);
         Label keywordLabel = new Label();
         keywordLabel.setText("Keywords: \n"+clickCard.getKeywords());
-        keywordLabel.setStyle("-fx-font-size:11; -fx-font-weight:bold");
+        keywordLabel.setStyle("-fx-font-size:13; -fx-font-weight:bold");
         keywordLabel.setWrapText(true);
 
         HBox hBox = new HBox(25);
@@ -65,7 +62,6 @@ public class CardInfo {
                 "-fx-border-color: black; -fx-border-width: 3; " +
                 "-fx-background-color: #89CFF0");
 
-        borderPane.setTop(Title);
         borderPane.setCenter(imageView);
         borderPane.setBottom(hBox);
         borderPane.setRight(vBox);

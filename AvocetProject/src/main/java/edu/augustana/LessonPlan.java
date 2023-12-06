@@ -16,7 +16,7 @@ public class LessonPlan {
 
     private List<String> selectedCardGroups;
 
-    public String title;
+    public static String title;
 
 
 
