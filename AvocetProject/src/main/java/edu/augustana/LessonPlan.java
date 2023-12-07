@@ -18,13 +18,14 @@ public class LessonPlan {
 
     private List<String> selectedCardGroups;
 
-    public String title;
+    public static String title;
 
 
 
     public LessonPlan() {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
+
 
     }
 
@@ -100,5 +101,13 @@ public class LessonPlan {
 
     public List<String> getSelectedCardGroups() {
         return selectedCardGroups;
+    }
+
+    public static String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
     }
 }

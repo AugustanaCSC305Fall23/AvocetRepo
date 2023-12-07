@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 public class LessonPlanManager {
 
 
+
     public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert) {
         cardGroup.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
@@ -62,6 +63,7 @@ public class LessonPlanManager {
         plan.getSelectedCardGroups().remove(cardGroup.getEvent());
         plan.getCardGroups().remove(cardGroup);
         lessonPlanGrid.getChildren();
+        ChangesMadeManager.setChangesMade(true);
     }
 
 
@@ -74,13 +76,24 @@ public class LessonPlanManager {
         imageView.setFitHeight(200);
         Button deleteButton = new Button("Remove");
         VBox cardVBox = new VBox(imageView, deleteButton);
+        System.out.println(cardGroup.getCards().size());
+        if ((cardGroup.getCards().size()-1) % 3 == 0) {
+            HBox hbox = new HBox();
+            cardGroup.getVBox().getChildren().add(hbox);
+            cardGroup.setHb(hbox);
+
+        }
         cardGroup.getHBox().getChildren().add(cardVBox);
-        deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(newCard, cardGroup, cardVBox));
+        deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromCardGroup(newCard, cardGroup, cardVBox));
+
     }
 
-    public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, VBox cardVBox) {
-        cardGroup.getCards().remove(newCard);
-        cardGroup.getHBox().getChildren().remove(cardVBox);
+
+
+    public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
+                cardGroup.getCards().remove(newCard);
+                cardGroup.getHBox().getChildren().remove(cardVBox);
+                ChangesMadeManager.setChangesMade(true);
 
     }
 
