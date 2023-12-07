@@ -89,9 +89,14 @@ public class CardGroup {
         return vb;
     }
 
-    public CardGroup getClone(){
+
+    public CardGroup getClone() {
 
         CardGroup clone = new CardGroup(this.index, this.getVBox(), this.getHBox(), this.event, this.cards);
         return clone;
+    }
+    public void setHb(HBox hb) {
+        this.hb = hb;
+
     }
 }

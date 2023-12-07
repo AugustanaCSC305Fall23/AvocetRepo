@@ -2,6 +2,7 @@ package edu.augustana;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 
 public class LessonPlanManager {
+
 
 
     public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert) {
@@ -74,14 +76,25 @@ public class LessonPlanManager {
         imageView.setFitHeight(200);
         Button deleteButton = new Button("Remove");
         VBox cardVBox = new VBox(imageView, deleteButton);
+        System.out.println(cardGroup.getCards().size());
+        if ((cardGroup.getCards().size()-1) % 3 == 0) {
+            HBox hbox = new HBox();
+            cardGroup.getVBox().getChildren().add(hbox);
+            cardGroup.setHb(hbox);
+
+        }
         cardGroup.getHBox().getChildren().add(cardVBox);
-        deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromPlan(newCard, cardGroup, cardVBox));
+        deleteButton.setOnAction(e -> LessonPlanManager.deleteCardFromCardGroup(newCard, cardGroup, cardVBox));
+
     }
 
-    public static void deleteCardFromPlan(Card newCard, CardGroup cardGroup, VBox cardVBox) {
+
+
+    public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
                 cardGroup.getHBox().getChildren().remove(cardVBox);
                 ChangesMadeManager.setChangesMade(true);
+
     }
 
     public static void showAlert() {

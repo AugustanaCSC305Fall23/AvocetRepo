@@ -1,9 +1,12 @@
 package edu.augustana;
 
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +22,10 @@ public class LessonPlan implements UndoRedo {
 
 
 
-    public LessonPlan(String title) {
+    public LessonPlan() {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
-        this.title = title;
+
 
     }
     public LessonPlan(String title, List<CardGroup> cardGroups ){
@@ -46,6 +49,7 @@ public class LessonPlan implements UndoRedo {
         return gson.toJson(cardGroups);
     }
 
+
     @Override
     public UndoRedo getClone() {
         LessonPlan clone = new LessonPlan(title, cardGroups);
@@ -53,7 +57,16 @@ public class LessonPlan implements UndoRedo {
     }
 
     @Override
-    public void setState() {
+    public void setState() {}
+
+
+    public static LessonPlan fromJson(String filePath) throws IOException {
+        String jsonContent = new String(Files.readAllBytes(Path.of(filePath)));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LessonPlan.class, new CourseSerializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(jsonContent, LessonPlan.class);
 
     }
 
@@ -80,10 +93,36 @@ public class LessonPlan implements UndoRedo {
             return jsonCourse;
         }
     }
-    public static String getTitle(){
-        return title;
+
+    private static class CourseDeserializer implements JsonDeserializer<LessonPlan> {
+        @Override
+        public LessonPlan deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            String code = jsonObject.get("code").getAsString();
+            String event = jsonObject.get("event").getAsString();
+            String category = jsonObject.get("category").getAsString();
+            String title = jsonObject.get("title").getAsString();
+            String imageFileName = jsonObject.get("imageFileName").getAsString();
+            String gender = jsonObject.get("gender").getAsString();
+            String modelSex = jsonObject.get("modelSex").getAsString();
+            String level = jsonObject.get("level").getAsString();
+            String equipment = jsonObject.get("equipment").getAsString();
+            String keywords = jsonObject.get("keywords").getAsString();
+            String packName = jsonObject.get("packName").getAsString();
+            Card card = new Card(code, event, category, title, imageFileName, gender, modelSex, level, equipment, keywords, packName);
+            return null;
+        }
     }
+
     public List<String> getSelectedCardGroups() {
         return selectedCardGroups;
+    }
+
+    public static String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
     }
 }
