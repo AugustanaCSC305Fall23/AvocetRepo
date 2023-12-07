@@ -49,6 +49,14 @@ public class CardGroup {
         });
         this.index = index;
     }
+    public CardGroup(int index, VBox vb, HBox hb, String event, List<Card> cards){
+        this.index = index;
+        this.vb = vb;
+        this.hb = hb;
+        this.event = event;
+        this.cards = cards;
+    }
+
 
     public void addCard(Card card) {
         cards.add(card);
@@ -79,5 +87,11 @@ public class CardGroup {
     }
     public VBox getVBox() {
         return vb;
+    }
+
+    public CardGroup getClone(){
+
+        CardGroup clone = new CardGroup(this.index, this.getVBox(), this.getHBox(), this.event, this.cards);
+        return clone;
     }
 }

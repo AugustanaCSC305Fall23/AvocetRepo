@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.google.gson.*;
 
-public class LessonPlan {
+public class LessonPlan implements UndoRedo {
 
     private static List<CardGroup> cardGroups;
 
@@ -25,6 +25,10 @@ public class LessonPlan {
         this.title = title;
 
     }
+    public LessonPlan(String title, List<CardGroup> cardGroups ){
+        this.title = title;
+        this.cardGroups = cardGroups;
+    }
 
     public List<CardGroup> getCardGroups() {
         return cardGroups;
@@ -32,7 +36,6 @@ public class LessonPlan {
 
     public void addCardGroup(CardGroup cardGroup) {
         this.cardGroups.add(cardGroup);
-        System.out.println(cardGroup);
     }
 
     public static String toJson() {
@@ -41,6 +44,17 @@ public class LessonPlan {
         gsonBuilder.registerTypeAdapter(LessonPlan.class, new CourseSerializer());
         Gson gson = gsonBuilder.create();
         return gson.toJson(cardGroups);
+    }
+
+    @Override
+    public UndoRedo getClone() {
+        LessonPlan clone = new LessonPlan(title, cardGroups);
+        return clone;
+    }
+
+    @Override
+    public void setState() {
+
     }
 
     private static class CourseSerializer implements JsonSerializer<LessonPlan> {
