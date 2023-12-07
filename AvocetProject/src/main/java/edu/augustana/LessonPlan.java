@@ -1,9 +1,12 @@
 package edu.augustana;
 
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +45,15 @@ public class LessonPlan {
         return gson.toJson(cardGroups);
     }
 
+    public static LessonPlan fromJson(String filePath) throws IOException {
+        String jsonContent = new String(Files.readAllBytes(Path.of(filePath)));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LessonPlan.class, new CourseSerializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(jsonContent, LessonPlan.class);
+    }
+
     private static class CourseSerializer implements JsonSerializer<LessonPlan> {
         @Override
         public JsonElement serialize(LessonPlan course, Type type, JsonSerializationContext context) {
@@ -63,6 +75,26 @@ public class LessonPlan {
 
             jsonCourse.add("lessonPlans", plansArray);
             return jsonCourse;
+        }
+    }
+
+    private static class CourseDeserializer implements JsonDeserializer<LessonPlan> {
+        @Override
+        public LessonPlan deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            String code = jsonObject.get("code").getAsString();
+            String event = jsonObject.get("event").getAsString();
+            String category = jsonObject.get("category").getAsString();
+            String title = jsonObject.get("title").getAsString();
+            String imageFileName = jsonObject.get("imageFileName").getAsString();
+            String gender = jsonObject.get("gender").getAsString();
+            String modelSex = jsonObject.get("modelSex").getAsString();
+            String level = jsonObject.get("level").getAsString();
+            String equipment = jsonObject.get("equipment").getAsString();
+            String keywords = jsonObject.get("keywords").getAsString();
+            String packName = jsonObject.get("packName").getAsString();
+            Card card = new Card(code, event, category, title, imageFileName, gender, modelSex, level, equipment, keywords, packName);
+            return null;
         }
     }
 

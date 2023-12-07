@@ -7,7 +7,7 @@ public class Card{
     private String event;
     private String category;
     private String title;
-    private transient String imageFileName;
+    private String imageFileName;
     private transient Image imageThumbnail;
     private String gender;
     private String modelSex;
@@ -22,7 +22,7 @@ public class Card{
         this.category = category;
         this.title = title;
         this.imageFileName = imgFileName;
-        this.imageThumbnail = new Image("file:packs/" + packName + "/thumbs/" + imgFileName.charAt(0) + ".jpg");
+        this.imageThumbnail = new Image("file:packs/" + packName + "/thumbs/" + imgFileName + ".jpg");
         this.gender = gender;
         this.modelSex = modelSex;
         this.level = level;
