@@ -2,6 +2,7 @@ package edu.augustana;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -86,6 +87,8 @@ public class LessonPlanManager {
 
     }
 
+
+
     public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
                 for (HBox hb : cardGroup.getCgHBoxes()) {
@@ -95,6 +98,7 @@ public class LessonPlanManager {
                 }
 
                 ChangesMadeManager.setChangesMade(true);
+
     }
 
     public static void showAlert() {

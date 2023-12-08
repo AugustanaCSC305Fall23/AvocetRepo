@@ -15,12 +15,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
 import javafx.stage.WindowEvent;
 
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -63,10 +68,15 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
+
     @FXML
-    private TextField titleFeild;
+    private Button openButton;
     private Boolean revert;
 
+    public Stage stage;
+
+    @FXML
+    private TextField titleField;
     private static boolean changesMade = false;
 
     @FXML
@@ -76,6 +86,7 @@ public class NewLessonPlanController {
     private MenuItem withImagesMenu;
     @FXML
     private TextField lessonPlanTitleTF;
+
 
     @FXML
     void initialize() {
@@ -211,6 +222,8 @@ public class NewLessonPlanController {
             }
         }
     }
+
+
     @FXML
     private void printLessonPlanWithImages() {
         Node centerNode = newLessonPlanBorderPane.getCenter();
@@ -292,6 +305,9 @@ public class NewLessonPlanController {
         SaveCourse.saveFile();
         ChangesMadeManager.setChangesMade(false);
     }
+
+    @FXML
+    void OpenButton(ActionEvent event) throws IOException { OpenLessonPlan.openFile(); }
 }
 
 

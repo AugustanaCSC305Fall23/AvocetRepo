@@ -7,7 +7,7 @@ public class Card{
     private String event;
     private String category;
     private String title;
-    private transient String imageFileName;
+    private String imageFileName;
     private transient Image imageThumbnail;
     private String gender;
     private String modelSex;
