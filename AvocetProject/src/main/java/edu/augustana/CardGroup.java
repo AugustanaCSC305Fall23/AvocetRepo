@@ -26,13 +26,16 @@ public class CardGroup {
     private transient static ComboBox<String> eventComboBox;
     private transient int index;
     private transient VBox vb;
+    private List<HBox> cgHBoxes;
 
 
     public CardGroup(int index) {
+        this.cgHBoxes = new ArrayList<>();
         this.cards = new ArrayList<>();
         this.event = "";
         this.vb = new VBox();
         this.hb = new HBox();
+        cgHBoxes.add(hb);
         this.eventComboBox = new ComboBox<>();
         for (Card c : App.cardCollection) {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
@@ -83,5 +86,10 @@ public class CardGroup {
 
     public void setHb(HBox hb) {
         this.hb = hb;
+        cgHBoxes.add(hb);
+    }
+
+    public List<HBox> getCgHBoxes() {
+        return cgHBoxes;
     }
 }

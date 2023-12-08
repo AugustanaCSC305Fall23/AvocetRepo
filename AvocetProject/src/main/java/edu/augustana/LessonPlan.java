@@ -72,7 +72,7 @@ public class LessonPlan {
         return selectedCardGroups;
     }
 
-    public String getTitle() {
+    public static String getTitle() {
         return title;
     }
 
