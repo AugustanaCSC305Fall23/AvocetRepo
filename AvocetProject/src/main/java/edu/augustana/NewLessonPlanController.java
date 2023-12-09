@@ -47,6 +47,8 @@ public class NewLessonPlanController {
     @FXML
     private ComboBox<String> modelFilterComboBox;
     @FXML
+    private ComboBox<String> favFilterComboBox;
+    @FXML
     private ResourceBundle resources;
     @FXML
     private URL location;
@@ -102,6 +104,7 @@ public class NewLessonPlanController {
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
         FilterController.comboBoxInitializer(modelFilterComboBox, "model");
+        FilterController.comboBoxInitializer(favFilterComboBox, "fav");
         revert = false;
         plan = new LessonPlan();
         lessonPlanTitleTF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -133,7 +136,7 @@ public class NewLessonPlanController {
      */
     private void searchInitiator() {
         cardsGrid.getChildren().clear();
-        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, searchBox));
+        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, favFilterComboBox, searchBox));
     }
 
     /**
@@ -173,6 +176,14 @@ public class NewLessonPlanController {
      */
     @FXML
     void modelFiltering(ActionEvent event) {searchInitiator();}
+
+    /**
+     * Handles the favorite filtering based on the selected model.
+     *
+     * @param event The ActionEvent triggered by the favorite filtering action.
+     */
+    @FXML
+    void favFiltering(ActionEvent event) {searchInitiator();}
 
     /**
      * Displays cards in the specified card list.
@@ -272,7 +283,6 @@ public class NewLessonPlanController {
         LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
         ChangesMadeManager.setChangesMade(true);
     }
-
 
     /**
      * Displays the cards within a specific card group in the lesson plan.

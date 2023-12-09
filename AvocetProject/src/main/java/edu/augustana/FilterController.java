@@ -20,8 +20,8 @@ public class FilterController {
      * @param searchBox             The TextField for search input.
      * @return                      The list of cards after applying filters.
      */
-    public static List<Card> cardGridHandler(ComboBox<String> eventFilterComboBox, ComboBox<String> genderFilterComboBox, ComboBox<String> levelFilterComboBox, ComboBox<String> modelFilterComboBox, TextField searchBox){
-        return searchFunction(modelFunction(levelFunction(genderFunction(eventFunction(eventFilterComboBox), genderFilterComboBox), levelFilterComboBox), modelFilterComboBox), searchBox);
+    public static List<Card> cardGridHandler(ComboBox<String> eventFilterComboBox, ComboBox<String> genderFilterComboBox, ComboBox<String> levelFilterComboBox, ComboBox<String> modelFilterComboBox, ComboBox<String> favFilterComboBox, TextField searchBox){
+        return searchFunction(favoriteFunction(modelFunction(levelFunction(genderFunction(eventFunction(eventFilterComboBox), genderFilterComboBox), levelFilterComboBox), modelFilterComboBox), favFilterComboBox), searchBox);
     }
 
     /**
@@ -116,6 +116,34 @@ public class FilterController {
     }
 
     /**
+     * Filters cards based on the favourite specification.
+     *
+     * @param tempList              The list of cards after previous filtering.
+     * @param favFilterComboBox     The ComboBox for favorite filtering.
+     * @return                      The list of cards after favorite filtering.
+     */
+    private static List<Card> favoriteFunction(List<Card> tempList, ComboBox<String> favFilterComboBox) {
+        List<Card> favOutputList = new ArrayList<>();
+        String keywords = favFilterComboBox.getValue();
+        if (keywords == null || keywords.equals("All Cards")) {
+            favOutputList = tempList;
+        } else if (keywords == "Favorite Cards") {
+            for (Card myCard : tempList) {
+                if (myCard.isFavorite()) {
+                    favOutputList.add(myCard);
+                }
+            }
+        } else if (keywords == "Non-favorite Cards") {
+            for (Card myCard : tempList) {
+                if (!myCard.isFavorite()) {
+                    favOutputList.add(myCard);
+                }
+            }
+        }
+        return favOutputList;
+    }
+
+    /**
      * Filters cards based on the search input.
      *
      * @param tempList   The list of cards after previous filtering.
@@ -171,6 +199,10 @@ public class FilterController {
                     comboBox.getItems().add(c.getModelSex());
                 }
             }
+        } else if (category.equals("fav")) {
+            comboBox.getItems().add("All Cards");
+            comboBox.getItems().add("Favorite Cards");
+            comboBox.getItems().add("Non-favorite Cards");
         }
     }
 }

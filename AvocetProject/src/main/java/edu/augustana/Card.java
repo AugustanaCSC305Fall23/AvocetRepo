@@ -180,12 +180,22 @@ public class Card{
         String[] levels = level.split("[,\\s]+");
         return levels;
     }
+
+    /**
+     * Sets the favorite status of the object.
+     *
+     * @param status The new favorite status to be set.
+     */
     public void setFavoriteStatus(Boolean status) {
         isFavorite = status;
     }
+
+    /**
+     * Checks whether the object is marked as a favorite.
+     *
+     * @return true if the object is marked as a favorite, false otherwise.
+     */
     public boolean isFavorite() {
         return isFavorite;
     }
-
-
 }

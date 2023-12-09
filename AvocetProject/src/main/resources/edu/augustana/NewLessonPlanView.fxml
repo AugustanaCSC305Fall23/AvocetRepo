@@ -117,6 +117,7 @@
                   <ComboBox fx:id="genderFilterComboBox" onAction="#genderFiltering" promptText="Filter Gender" styleClass="combo-boxWhite" stylesheets="@style.css" />
                   <ComboBox fx:id="levelFilterComboBox" onAction="#levelFiltering" promptText="Filter Level" styleClass="combo-boxWhite" stylesheets="@style.css" />
                   <ComboBox fx:id="modelFilterComboBox" onAction="#modelFiltering" promptText="Filter Model Gender" styleClass="combo-boxWhite" stylesheets="@style.css" />
+                  <ComboBox fx:id="favFilterComboBox" onAction="#favFiltering" prefWidth="150.0" promptText="Filter Favourites" styleClass="combo-boxWhite" stylesheets="@style.css" />
                </children>
             </HBox>
                 <ScrollPane fx:id="cardsGridScrollPane">
