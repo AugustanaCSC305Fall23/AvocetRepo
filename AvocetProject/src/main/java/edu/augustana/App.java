@@ -5,8 +5,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
-import java.awt.Dimension;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -84,6 +86,7 @@ public class App extends Application {
                         String equipment = row[9];
                         String keywords = row[10];
                         String packName = pack.getName();
+
                         Card newCard = new Card(code, event, category, title, img, gender, modelSex, level, equipment, keywords, packName);
                         cardCollection.add(newCard);
                     }
@@ -96,3 +99,4 @@ public class App extends Application {
 
     }
 }
+

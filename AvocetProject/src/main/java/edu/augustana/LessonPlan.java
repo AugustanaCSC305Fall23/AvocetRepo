@@ -20,11 +20,14 @@ public class LessonPlan {
 
     public static String title;
 
+    private List<Card> favoriteCards;
+
 
 
     public LessonPlan() {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
+        this.favoriteCards = new ArrayList<>();
 
 
     }
@@ -94,7 +97,7 @@ public class LessonPlan {
             String equipment = jsonObject.get("equipment").getAsString();
             String keywords = jsonObject.get("keywords").getAsString();
             String packName = jsonObject.get("packName").getAsString();
-            Card card = new Card(code, event, category, title, imageFileName, gender, modelSex, level, equipment, keywords, packName);
+    //        Card card = new Card(code, event, category, title, imageFileName, gender, modelSex, level, equipment, keywords, packName);
             return null;
         }
     }
@@ -109,5 +112,9 @@ public class LessonPlan {
 
     public void setTitle(String newTitle) {
         this.title = newTitle;
+    }
+
+    public List<Card> getFavoriteCards() {
+        return favoriteCards;
     }
 }

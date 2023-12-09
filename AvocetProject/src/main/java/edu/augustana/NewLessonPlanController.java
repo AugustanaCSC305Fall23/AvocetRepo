@@ -24,9 +24,11 @@ import javafx.stage.WindowEvent;
 
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -88,8 +90,10 @@ public class NewLessonPlanController {
     private TextField lessonPlanTitleTF;
 
 
+
     @FXML
     void initialize() {
+
         job = PrinterJob.createPrinterJob();
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
@@ -132,13 +136,15 @@ public class NewLessonPlanController {
     void modelFiltering(ActionEvent event) {searchInitiator();}
 
     private void displayCards(List<Card> cardList) {
+        String filePath = "src/favoriteCards.txt";
+        Path path = Paths.get(filePath);
+
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
-
             ImageView imageView = new ImageView(myCard.getImageThumbnail());
             imageView.setFitWidth(180);
             imageView.setFitHeight(180);
@@ -148,7 +154,6 @@ public class NewLessonPlanController {
             Card clickCard = myCard;
             cardButton.setOnAction(event -> addCardToCardGroup(myCard));
             cardButton.setGraphic(imageView);
-
             ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
             maximizeIcon.setFitHeight(10);
             maximizeIcon.setFitWidth(10);
@@ -157,10 +162,52 @@ public class NewLessonPlanController {
             maximizeButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             maximizeButton.getStyleClass().add("buttonOrange");
             maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
+            CheckBox isFavoriteCB = new CheckBox();
+            isFavoriteCB.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            isFavoriteCB.getStyleClass().add("heart-check-box");
+            try {
+                List<String> lines = Files.readAllLines(path);
+                if (lines.contains(myCard.getCode())) {
+                    myCard.setFavoriteStatus(true);
+                    isFavoriteCB.setSelected(true);
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading lines from the file: " + e.getMessage());
+            }
+            isFavoriteCB.selectedProperty().addListener((obs, oldValue, newValue) -> {
+                try {
+                    if (newValue) {
+                        // Checkbox is checked, add the card code to the file
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/favoriteCards.txt", true))) {
+                            myCard.setFavoriteStatus(true);
+                            writer.write(myCard.getCode());
+                            writer.newLine();
+                        }
+                    } else {
+                        List<String> lines = Files.readAllLines(Paths.get("src/favoriteCards.txt"));
+                        lines.remove(myCard.getCode());
+                        myCard.setFavoriteStatus(false);
+
+                        // Write the updated content back to the file
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/favoriteCards.txt"))) {
+                            for (String line : lines) {
+                                writer.write(line);
+                                writer.newLine(); // Add a newline for better formatting or separation
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    // Handle the IOException appropriately
+                    e.printStackTrace();
+                }
+            });
 
             VBox cardVbox = new VBox(maximizeButton, cardButton);
             cardsGrid.add(cardButton, col, row);
             cardsGrid.add(maximizeButton, col, row);
+            cardsGrid.add(isFavoriteCB, col, row);
+            cardsGrid.setValignment(isFavoriteCB, javafx.geometry.VPos.TOP);
+            cardsGrid.setHalignment(isFavoriteCB, javafx.geometry.HPos.LEFT);
             cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
             cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
             

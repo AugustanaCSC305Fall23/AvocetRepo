@@ -1,6 +1,9 @@
 package edu.augustana;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
+
+import java.awt.*;
 
 public class Card{
     private String code;
@@ -16,7 +19,9 @@ public class Card{
     private String keywords;
     private String packName;
 
-    public Card(String code, String event, String category, String title, String imgFileName, String gender, String modelSex,String level, String equipment, String keywords, String packName) {
+    private Boolean isFavorite;
+
+    public Card(String code, String event, String category, String title, String imgFileName, String gender, String modelSex, String level, String equipment, String keywords, String packName) {
         this.code = code;
         this.event = event;
         this.category = category;
@@ -29,6 +34,9 @@ public class Card{
         this.equipment = equipment;
         this.keywords = keywords;
         this.packName = packName;
+        this.isFavorite = false;
+
+
     }
 
     public boolean matchesSearchText(String searchText) {
@@ -79,4 +87,12 @@ public class Card{
         String[] levels = level.split("[,\\s]+");
         return levels;
     }
+    public void setFavoriteStatus(Boolean status) {
+        isFavorite = status;
+    }
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+
 }
