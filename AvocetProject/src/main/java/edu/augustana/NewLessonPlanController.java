@@ -34,6 +34,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller class for the NewLessonPlan.fxml file.
+ */
 public class NewLessonPlanController {
     @FXML
     private ComboBox<String> eventFilterComboBox;
@@ -61,8 +64,6 @@ public class NewLessonPlanController {
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
-    @FXML
-    private Button saveButton;
     private double width;
     private LessonPlan plan;
     private PrinterJob job;
@@ -70,27 +71,29 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
-
+    @FXML
+    private Button saveButton;
     @FXML
     private Button openButton;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Button redoButton;
     private Boolean revert;
-
     public Stage stage;
-
     @FXML
     private TextField titleField;
     private static boolean changesMade = false;
-
     @FXML
     private MenuItem textOnlyMenu;
-
     @FXML
     private MenuItem withImagesMenu;
     @FXML
     private TextField lessonPlanTitleTF;
-
-
-
+    
+    /**
+     * Initializes the controller.
+     */
     @FXML
     void initialize() {
 
@@ -115,26 +118,57 @@ public class NewLessonPlanController {
         displayCards(App.cardCollection);
     }
 
+    /**
+     * Initiates a search for filtering the displayed cards.
+     */
     private void searchInitiator() {
         cardsGrid.getChildren().clear();
         displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, searchBox));
     }
 
+    /**
+     * Handles the search filtering.
+     */
     @FXML
     void searchFiltering() {searchInitiator();}
 
+    /**
+     * Handles the event filtering based on the selected event.
+     *
+     * @param event The ActionEvent triggered by the event filtering action.
+     */
     @FXML
     void eventFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the gender filtering based on the selected gender.
+     *
+     * @param event The ActionEvent triggered by the gender filtering action.
+     */
     @FXML
     void genderFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the level filtering based on the selected level.
+     *
+     * @param event The ActionEvent triggered by the level filtering action.
+     */
     @FXML
     void levelFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the model filtering based on the selected model.
+     *
+     * @param event The ActionEvent triggered by the model filtering action.
+     */
     @FXML
     void modelFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Displays cards in the specified card list.
+     *
+     * @param cardList The list of cards to be displayed.
+     */
     private void displayCards(List<Card> cardList) {
         String filePath = "src/favoriteCards.txt";
         Path path = Paths.get(filePath);
@@ -219,6 +253,9 @@ public class NewLessonPlanController {
         }
     }
 
+    /**
+     * Adds a new card group to the lesson plan.
+     */
     @FXML
     private void addCardGroup() {
         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
@@ -227,11 +264,20 @@ public class NewLessonPlanController {
     }
 
 
+    /**
+     * Displays the cards within a specific card group in the lesson plan.
+     *
+     * @param cardGroup The CardGroup containing the cards to be displayed.
+     */
     private void displayPlanCards(CardGroup cardGroup) {
         LessonPlanManager.displayPlanCards(cardGroup);
-
     }
 
+    /**
+     * Adds a card to a card group in the lesson plan.
+     *
+     * @param card The card to be added.
+     */
     @FXML
     private void addCardToCardGroup(Card card) {
         for (CardGroup cardGroup : plan.getCardGroups()) {
@@ -243,6 +289,9 @@ public class NewLessonPlanController {
         }
     }
 
+    /**
+     * Prints the lesson plan in text-only format.
+     */
     @FXML
     private void printLessonPlanTextOnly() {
         Node centerNode = newLessonPlanBorderPane.getCenter();
@@ -271,6 +320,9 @@ public class NewLessonPlanController {
     }
 
 
+    /**
+     * Prints the lesson plan with images.
+     */
     @FXML
     private void printLessonPlanWithImages() {
         Node centerNode = newLessonPlanBorderPane.getCenter();
@@ -322,6 +374,12 @@ public class NewLessonPlanController {
             }
         }
     }
+
+    /**
+     * Handles the window close request.
+     *
+     * @param event The window close event.
+     */
     public static void handleCloseRequest(WindowEvent event) {
         if(ChangesMadeManager.isThereChanges()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -347,12 +405,24 @@ public class NewLessonPlanController {
             Platform.exit();
         }
     }
+
+    /**
+     * Handles the "Save" button action.
+     *
+     * @param event The action event.
+     */
     @FXML
     void SaveButton(ActionEvent event) {
         SaveCourse.saveFile();
         ChangesMadeManager.setChangesMade(false);
     }
 
+    /**
+     * Handles the "Open" button action.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     @FXML
     void OpenButton(ActionEvent event) throws IOException { OpenLessonPlan.openFile(); }
 }

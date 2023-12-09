@@ -6,9 +6,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Utility class for saving lesson plans to a file.
+ */
 public class SaveCourse {
     public static Object saveFile;
 
+    /**
+     * Saves the current lesson plan to a selected file.
+     */
     static void saveFile(){
         String title = LessonPlan.getTitle();
         FileChooser fileChooser = new FileChooser();
