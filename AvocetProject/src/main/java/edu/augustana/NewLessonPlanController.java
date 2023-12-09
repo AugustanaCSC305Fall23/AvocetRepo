@@ -118,6 +118,16 @@ public class NewLessonPlanController {
         displayCards(App.cardCollection);
     }
 
+    @FXML
+    void undoFunction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void redoFunction(ActionEvent event) {
+
+    }
+
     /**
      * Initiates a search for filtering the displayed cards.
      */

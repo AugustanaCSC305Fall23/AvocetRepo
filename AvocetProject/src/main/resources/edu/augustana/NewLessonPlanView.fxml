@@ -62,7 +62,7 @@
             <children>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                     <children>
-                  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undoFuntion" styleClass="buttonWhite" stylesheets="@style.css" text="Undo">
+                  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undoFunction" styleClass="buttonWhite" stylesheets="@style.css" text="Undo">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
