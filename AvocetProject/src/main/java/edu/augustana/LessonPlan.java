@@ -12,32 +12,52 @@ import java.util.List;
 
 import com.google.gson.*;
 
+/**
+ * Represents a lesson plan consisting of card groups.
+ */
 public class LessonPlan {
 
+    /** The list of card groups in the lesson plan. */
     private static List<CardGroup> cardGroups;
 
+    /** The list of selected card groups. */
     private List<String> selectedCardGroups;
 
+    /** The title of the lesson plan. */
     public static String title;
 
-
-
+    /**
+     * Creates a new lesson plan with an empty list of card groups and selected card groups.
+     */
     public LessonPlan() {
         this.cardGroups = new ArrayList<CardGroup>();
         this.selectedCardGroups = new ArrayList<>();
-
-
     }
 
+    /**
+     * Gets the list of card groups in the lesson plan.
+     *
+     * @return The list of card groups.
+     */
     public List<CardGroup> getCardGroups() {
         return cardGroups;
     }
 
+    /**
+     * Adds a card group to the lesson plan.
+     *
+     * @param cardGroup The card group to be added.
+     */
     public void addCardGroup(CardGroup cardGroup) {
         this.cardGroups.add(cardGroup);
         System.out.println(cardGroup);
     }
 
+    /**
+     * Converts the lesson plan to a JSON-formatted string.
+     *
+     * @return The JSON-formatted string representing the lesson plan.
+     */
     public static String toJson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
@@ -46,6 +66,13 @@ public class LessonPlan {
         return gson.toJson(cardGroups);
     }
 
+    /**
+     * Creates a LessonPlan object from a JSON file.
+     *
+     * @param filePath The path to the JSON file.
+     * @return The LessonPlan object created from the JSON file.
+     * @throws IOException If an I/O error occurs.
+     */
     public static LessonPlan fromJson(String filePath) throws IOException {
         String jsonContent = new String(Files.readAllBytes(Path.of(filePath)));
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -55,6 +82,9 @@ public class LessonPlan {
         return gson.fromJson(jsonContent, LessonPlan.class);
     }
 
+    /**
+     * Serializes the LessonPlan object to JSON format.
+     */
     private static class CourseSerializer implements JsonSerializer<LessonPlan> {
         @Override
         public JsonElement serialize(LessonPlan course, Type type, JsonSerializationContext context) {
@@ -79,6 +109,9 @@ public class LessonPlan {
         }
     }
 
+    /**
+     * Deserializes the JSON representation of a LessonPlan object.
+     */
     private static class CourseDeserializer implements JsonDeserializer<LessonPlan> {
         @Override
         public LessonPlan deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -99,14 +132,29 @@ public class LessonPlan {
         }
     }
 
+    /**
+     * Gets the list of selected card groups.
+     *
+     * @return The list of selected card groups.
+     */
     public List<String> getSelectedCardGroups() {
         return selectedCardGroups;
     }
 
+    /**
+     * Gets the title of the lesson plan.
+     *
+     * @return The title of the lesson plan.
+     */
     public static String getTitle() {
         return title;
     }
 
+    /**
+     * Sets the title of the lesson plan.
+     *
+     * @param newTitle The new title to set.
+     */
     public void setTitle(String newTitle) {
         this.title = newTitle;
     }

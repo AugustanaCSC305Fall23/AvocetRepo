@@ -5,10 +5,31 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages filtering of cards based on user selections.
+ */
 public class FilterController {
+
+    /**
+     * Filters cards based on user selections and search input.
+     *
+     * @param eventFilterComboBox   The ComboBox for event filtering.
+     * @param genderFilterComboBox  The ComboBox for gender filtering.
+     * @param levelFilterComboBox   The ComboBox for level filtering.
+     * @param modelFilterComboBox   The ComboBox for model filtering.
+     * @param searchBox             The TextField for search input.
+     * @return                      The list of cards after applying filters.
+     */
     public static List<Card> cardGridHandler(ComboBox<String> eventFilterComboBox, ComboBox<String> genderFilterComboBox, ComboBox<String> levelFilterComboBox, ComboBox<String> modelFilterComboBox, TextField searchBox){
         return searchFunction(modelFunction(levelFunction(genderFunction(eventFunction(eventFilterComboBox), genderFilterComboBox), levelFilterComboBox), modelFilterComboBox), searchBox);
     }
+
+    /**
+     * Filters cards based on the selected event.
+     *
+     * @param eventFilterComboBox   The ComboBox for event filtering.
+     * @return                      The list of cards after event filtering.
+     */
     private static List<Card> eventFunction(ComboBox<String> eventFilterComboBox) {
         List<Card> eventOutputList = new ArrayList<>();
         String keywords = eventFilterComboBox.getValue();
@@ -24,6 +45,13 @@ public class FilterController {
         return eventOutputList;
     }
 
+    /**
+     * Filters cards based on the selected gender.
+     *
+     * @param tempList              The list of cards after previous filtering.
+     * @param genderFilterComboBox  The ComboBox for gender filtering.
+     * @return                      The list of cards after gender filtering.
+     */
     private static List<Card> genderFunction(List<Card> tempList, ComboBox<String> genderFilterComboBox) {
         List<Card> genderOutputList = new ArrayList<>();
         String keywords = genderFilterComboBox.getValue();
@@ -39,6 +67,13 @@ public class FilterController {
         return genderOutputList;
     }
 
+    /**
+     * Filters cards based on the selected level.
+     *
+     * @param tempList              The list of cards after previous filtering.
+     * @param levelFilterComboBox   The ComboBox for level filtering.
+     * @return                      The list of cards after level filtering.
+     */
     private static List<Card> levelFunction(List<Card> tempList, ComboBox<String> levelFilterComboBox) {
         List<Card> levelOutputList = new ArrayList<>();
         String keywords = levelFilterComboBox.getValue();
@@ -58,6 +93,13 @@ public class FilterController {
         return levelOutputList;
     }
 
+    /**
+     * Filters cards based on the selected model.
+     *
+     * @param tempList              The list of cards after previous filtering.
+     * @param modelFilterComboBox   The ComboBox for model filtering.
+     * @return                      The list of cards after model filtering.
+     */
     private static List<Card> modelFunction(List<Card> tempList, ComboBox<String> modelFilterComboBox) {
         List<Card> modelOutputList = new ArrayList<>();
         String keywords = modelFilterComboBox.getValue();
@@ -73,6 +115,13 @@ public class FilterController {
         return modelOutputList;
     }
 
+    /**
+     * Filters cards based on the search input.
+     *
+     * @param tempList   The list of cards after previous filtering.
+     * @param searchBox  The TextField for search input.
+     * @return           The list of cards after search filtering.
+     */
     private static List<Card> searchFunction(List<Card> tempList, TextField searchBox) {
         String searchText = searchBox.getText().toLowerCase();
         List<Card> searchOutputList = new ArrayList<>();
@@ -84,6 +133,12 @@ public class FilterController {
         return searchOutputList;
     }
 
+    /**
+     * Initializes ComboBox options based on the specified category.
+     *
+     * @param comboBox  The ComboBox to be initialized.
+     * @param category  The category for ComboBox initialization.
+     */
     public static void comboBoxInitializer(ComboBox<String> comboBox, String category) {
         if (category.equals("event")) {
             comboBox.getItems().add("All Events");
