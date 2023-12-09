@@ -35,6 +35,7 @@ public class CardGroup {
 
     /** The vertical box (VBox) containing the cards. */
     private transient VBox vb;
+    private List<HBox> cgHBoxes;
 
     /**
      * Constructs a CardGroup with the specified index.
@@ -42,10 +43,12 @@ public class CardGroup {
      * @param index The index of the card group.
      */
     public CardGroup(int index) {
+        this.cgHBoxes = new ArrayList<>();
         this.cards = new ArrayList<>();
         this.event = "";
         this.vb = new VBox();
         this.hb = new HBox();
+        cgHBoxes.add(hb);
         this.eventComboBox = new ComboBox<>();
         for (Card c : App.cardCollection) {
             if (!eventComboBox.getItems().contains(c.getEvent())) {
@@ -156,5 +159,10 @@ public class CardGroup {
      */
     public void setHb(HBox hb) {
         this.hb = hb;
+        cgHBoxes.add(hb);
+    }
+
+    public List<HBox> getCgHBoxes() {
+        return cgHBoxes;
     }
 }

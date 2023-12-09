@@ -223,7 +223,7 @@ public class NewLessonPlanController {
     private void displayPlanCards(CardGroup cardGroup) {
         LessonPlanManager.displayPlanCards(cardGroup);
     }
-
+    
     /**
      * Adds a card to a card group in the lesson plan.
      *
@@ -231,7 +231,6 @@ public class NewLessonPlanController {
      */
     @FXML
     private void addCardToCardGroup(Card card) {
-
         for (CardGroup cardGroup : plan.getCardGroups()) {
             if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
                 cardGroup.addCard(card);
@@ -264,9 +263,7 @@ public class NewLessonPlanController {
                     listContainer.getChildren().add(listItemText);
                 }
             }
-
             boolean success = printerJob.printPage(listContainer);
-
             if (success) {
                 printerJob.endJob();
             }
@@ -287,7 +284,6 @@ public class NewLessonPlanController {
             Text title = new Text("Lesson Plan Title: " +plan.getTitle());
             listContainer.getChildren().add(title);
             int numHbox = 0;
-            // Replace the following with your actual list data
             List<CardGroup> cardGroups = plan.getCardGroups();
             for (CardGroup cg : cardGroups) {
                 Text event = new Text(cg.getEvent());

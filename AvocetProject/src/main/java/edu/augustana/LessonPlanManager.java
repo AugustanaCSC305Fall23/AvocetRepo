@@ -40,14 +40,15 @@ public class LessonPlanManager {
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (plan.getCardGroups().contains(newValue)) {
+                if (plan.getSelectedCardGroups().contains(newValue)) {
                     showAlert();
                     if (cardGroup.getCards().isEmpty()) {
                         eventComboBox.cancelEdit();
+                        deleteCardGroup(cardGroup, plan, lessonPlanGrid);
                     } else {
                         plan.getSelectedCardGroups().remove(oldValue);
                         eventComboBox.setValue(oldValue);
-                        deleteCardGroup(cardGroup, plan, lessonPlanGrid); // Move the deletion logic here
+                        deleteCardGroup(cardGroup, plan, lessonPlanGrid);
                     }
                 } else {
                     if (!revert) {
@@ -60,7 +61,6 @@ public class LessonPlanManager {
             }
         });
         HBox topHB = new HBox(eventComboBox, deleteButton);
-
         cardGroup.getVBox().getChildren().add(topHB);
         cardGroup.getVBox().getChildren().add(cardGroup.getHBox());
         plan.addCardGroup(cardGroup);
@@ -79,7 +79,6 @@ public class LessonPlanManager {
         plan.getSelectedCardGroups().remove(cardGroup.getEvent());
         plan.getCardGroups().remove(cardGroup);
         lessonPlanGrid.getChildren();
-        ChangesMadeManager.setChangesMade(true);
     }
 
 
@@ -118,7 +117,12 @@ public class LessonPlanManager {
      */
     public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
-                cardGroup.getHBox().getChildren().remove(cardVBox);
+                for (HBox hb : cardGroup.getCgHBoxes()) {
+                    if (hb.getChildren().contains(cardVBox)) {
+                        hb.getChildren().remove(cardVBox);
+                    }
+                }
+
                 ChangesMadeManager.setChangesMade(true);
     }
 

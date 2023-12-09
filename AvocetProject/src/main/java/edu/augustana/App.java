@@ -108,7 +108,7 @@ public class App extends Application {
                 return f.getName().endsWith("csv");
             }
         };
-        for (File pack : packs) {
+        for (File pack : packs) { 
             if (pack.getName().charAt(0) != '.') {
                 File[] files = pack.listFiles(filter);
                 File csvFile = files[0];
