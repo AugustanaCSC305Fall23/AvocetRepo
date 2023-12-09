@@ -62,8 +62,6 @@ public class NewLessonPlanController {
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
-    @FXML
-    private Button saveButton;
     private double width;
     private LessonPlan plan;
     private PrinterJob job;
@@ -72,7 +70,13 @@ public class NewLessonPlanController {
     @FXML
     private BorderPane newLessonPlanBorderPane;
     @FXML
+    private Button saveButton;
+    @FXML
     private Button openButton;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Button redoButton;
     private Boolean revert;
     public Stage stage;
     @FXML
@@ -84,8 +88,7 @@ public class NewLessonPlanController {
     private MenuItem withImagesMenu;
     @FXML
     private TextField lessonPlanTitleTF;
-
-
+    
     /**
      * Initializes the controller.
      */
@@ -223,7 +226,7 @@ public class NewLessonPlanController {
     private void displayPlanCards(CardGroup cardGroup) {
         LessonPlanManager.displayPlanCards(cardGroup);
     }
-    
+
     /**
      * Adds a card to a card group in the lesson plan.
      *
