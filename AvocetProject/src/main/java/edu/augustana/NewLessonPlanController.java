@@ -24,14 +24,18 @@ import javafx.stage.WindowEvent;
 
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 
+/**
+ * Controller class for the NewLessonPlan.fxml file.
+ */
 public class NewLessonPlanController {
     @FXML
     private ComboBox<String> eventFilterComboBox;
@@ -41,6 +45,8 @@ public class NewLessonPlanController {
     private ComboBox<String> genderFilterComboBox;
     @FXML
     private ComboBox<String> modelFilterComboBox;
+    @FXML
+    private ComboBox<String> favFilterComboBox;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -59,8 +65,6 @@ public class NewLessonPlanController {
     private GridPane lessonPlanGrid;
     @FXML
     private Button addEventButton;
-    @FXML
-    private Button saveButton;
     private double width;
     private LessonPlan plan;
     private PrinterJob job;
@@ -68,33 +72,38 @@ public class NewLessonPlanController {
     private Button printButton;
     @FXML
     private BorderPane newLessonPlanBorderPane;
-
+    @FXML
+    private Button saveButton;
     @FXML
     private Button openButton;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Button redoButton;
     private Boolean revert;
-
     public Stage stage;
-
     @FXML
     private TextField titleField;
     private static boolean changesMade = false;
-
     @FXML
     private MenuItem textOnlyMenu;
-
     @FXML
     private MenuItem withImagesMenu;
     @FXML
     private TextField lessonPlanTitleTF;
-
-
+    
+    /**
+     * Initializes the controller.
+     */
     @FXML
     void initialize() {
+
         job = PrinterJob.createPrinterJob();
         FilterController.comboBoxInitializer(eventFilterComboBox, "event");
         FilterController.comboBoxInitializer(genderFilterComboBox, "gender");
         FilterController.comboBoxInitializer(levelFilterComboBox, "level");
         FilterController.comboBoxInitializer(modelFilterComboBox, "model");
+        FilterController.comboBoxInitializer(favFilterComboBox, "fav");
         revert = false;
         plan = new LessonPlan();
         lessonPlanTitleTF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -111,34 +120,85 @@ public class NewLessonPlanController {
         displayCards(App.cardCollection);
     }
 
-    private void searchInitiator() {
-        cardsGrid.getChildren().clear();
-        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, searchBox));
+    @FXML
+    void undoFunction(ActionEvent event) {
+
     }
 
     @FXML
+    void redoFunction(ActionEvent event) {
+
+    }
+
+    /**
+     * Initiates a search for filtering the displayed cards.
+     */
+    private void searchInitiator() {
+        cardsGrid.getChildren().clear();
+        displayCards(FilterController.cardGridHandler(eventFilterComboBox, genderFilterComboBox, levelFilterComboBox, modelFilterComboBox, favFilterComboBox, searchBox));
+    }
+
+    /**
+     * Handles the search filtering.
+     */
+    @FXML
     void searchFiltering() {searchInitiator();}
 
+    /**
+     * Handles the event filtering based on the selected event.
+     *
+     * @param event The ActionEvent triggered by the event filtering action.
+     */
     @FXML
     void eventFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the gender filtering based on the selected gender.
+     *
+     * @param event The ActionEvent triggered by the gender filtering action.
+     */
     @FXML
     void genderFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the level filtering based on the selected level.
+     *
+     * @param event The ActionEvent triggered by the level filtering action.
+     */
     @FXML
     void levelFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the model filtering based on the selected model.
+     *
+     * @param event The ActionEvent triggered by the model filtering action.
+     */
     @FXML
     void modelFiltering(ActionEvent event) {searchInitiator();}
 
+    /**
+     * Handles the favorite filtering based on the selected model.
+     *
+     * @param event The ActionEvent triggered by the favorite filtering action.
+     */
+    @FXML
+    void favFiltering(ActionEvent event) {searchInitiator();}
+
+    /**
+     * Displays cards in the specified card list.
+     *
+     * @param cardList The list of cards to be displayed.
+     */
     private void displayCards(List<Card> cardList) {
+        String filePath = "src/favoriteCards.txt";
+        Path path = Paths.get(filePath);
+
         int numRows = cardsGrid.getRowConstraints().size();
         int numCols = 3;
         cardsGrid.setVgap(10);
         int col = 0;
         int row = 0;
         for (Card myCard : cardList) {
-
             ImageView imageView = new ImageView(myCard.getImageThumbnail());
             imageView.setFitWidth(180);
             imageView.setFitHeight(180);
@@ -148,7 +208,6 @@ public class NewLessonPlanController {
             Card clickCard = myCard;
             cardButton.setOnAction(event -> addCardToCardGroup(myCard));
             cardButton.setGraphic(imageView);
-
             ImageView maximizeIcon = new ImageView("file:src/maximizeicon.png");
             maximizeIcon.setFitHeight(10);
             maximizeIcon.setFitWidth(10);
@@ -157,10 +216,52 @@ public class NewLessonPlanController {
             maximizeButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             maximizeButton.getStyleClass().add("buttonOrange");
             maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
+            CheckBox isFavoriteCB = new CheckBox();
+            isFavoriteCB.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            isFavoriteCB.getStyleClass().add("heart-check-box");
+            try {
+                List<String> lines = Files.readAllLines(path);
+                if (lines.contains(myCard.getCode())) {
+                    myCard.setFavoriteStatus(true);
+                    isFavoriteCB.setSelected(true);
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading lines from the file: " + e.getMessage());
+            }
+            isFavoriteCB.selectedProperty().addListener((obs, oldValue, newValue) -> {
+                try {
+                    if (newValue) {
+                        // Checkbox is checked, add the card code to the file
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/favoriteCards.txt", true))) {
+                            myCard.setFavoriteStatus(true);
+                            writer.write(myCard.getCode());
+                            writer.newLine();
+                        }
+                    } else {
+                        List<String> lines = Files.readAllLines(Paths.get("src/favoriteCards.txt"));
+                        lines.remove(myCard.getCode());
+                        myCard.setFavoriteStatus(false);
+
+                        // Write the updated content back to the file
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/favoriteCards.txt"))) {
+                            for (String line : lines) {
+                                writer.write(line);
+                                writer.newLine(); // Add a newline for better formatting or separation
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    // Handle the IOException appropriately
+                    e.printStackTrace();
+                }
+            });
 
             VBox cardVbox = new VBox(maximizeButton, cardButton);
             cardsGrid.add(cardButton, col, row);
             cardsGrid.add(maximizeButton, col, row);
+            cardsGrid.add(isFavoriteCB, col, row);
+            cardsGrid.setValignment(isFavoriteCB, javafx.geometry.VPos.TOP);
+            cardsGrid.setHalignment(isFavoriteCB, javafx.geometry.HPos.LEFT);
             cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
             cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
             
@@ -172,6 +273,9 @@ public class NewLessonPlanController {
         }
     }
 
+    /**
+     * Adds a new card group to the lesson plan.
+     */
     @FXML
     private void addCardGroup() {
         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
@@ -179,17 +283,22 @@ public class NewLessonPlanController {
         ChangesMadeManager.setChangesMade(true);
     }
 
-
+    /**
+     * Displays the cards within a specific card group in the lesson plan.
+     *
+     * @param cardGroup The CardGroup containing the cards to be displayed.
+     */
     private void displayPlanCards(CardGroup cardGroup) {
         LessonPlanManager.displayPlanCards(cardGroup);
-
     }
 
-
+    /**
+     * Adds a card to a card group in the lesson plan.
+     *
+     * @param card The card to be added.
+     */
     @FXML
-
     private void addCardToCardGroup(Card card) {
-
         for (CardGroup cardGroup : plan.getCardGroups()) {
             if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
                 cardGroup.addCard(card);
@@ -199,6 +308,9 @@ public class NewLessonPlanController {
         }
     }
 
+    /**
+     * Prints the lesson plan in text-only format.
+     */
     @FXML
     private void printLessonPlanTextOnly() {
         Node centerNode = newLessonPlanBorderPane.getCenter();
@@ -206,7 +318,7 @@ public class NewLessonPlanController {
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
             VBox listContainer = new VBox();
-            Text title = new Text("Lesson Plan Title: " +plan.getTitle());
+            Text title = new Text("Lesson Plan Title: " + plan.getTitle());
             listContainer.getChildren().add(title);
 
             // Replace the following with your actual list data
@@ -219,9 +331,7 @@ public class NewLessonPlanController {
                     listContainer.getChildren().add(listItemText);
                 }
             }
-
             boolean success = printerJob.printPage(listContainer);
-
             if (success) {
                 printerJob.endJob();
             }
@@ -229,6 +339,9 @@ public class NewLessonPlanController {
     }
 
 
+    /**
+     * Prints the lesson plan with images.
+     */
     @FXML
     private void printLessonPlanWithImages() {
         Node centerNode = newLessonPlanBorderPane.getCenter();
@@ -239,7 +352,6 @@ public class NewLessonPlanController {
             Text title = new Text("Lesson Plan Title: " +plan.getTitle());
             listContainer.getChildren().add(title);
             int numHbox = 0;
-            // Replace the following with your actual list data
             List<CardGroup> cardGroups = plan.getCardGroups();
             for (CardGroup cg : cardGroups) {
                 Text event = new Text(cg.getEvent());
@@ -281,6 +393,12 @@ public class NewLessonPlanController {
             }
         }
     }
+
+    /**
+     * Handles the window close request.
+     *
+     * @param event The window close event.
+     */
     public static void handleCloseRequest(WindowEvent event) {
         if(ChangesMadeManager.isThereChanges()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -296,7 +414,7 @@ public class NewLessonPlanController {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == buttonTypeSave){
-                SaveCourse.saveFile();
+                //saveAction();
             }else if(result.get() == buttonTypeDoNotSave){
                 Platform.exit();
             }else{
@@ -306,14 +424,75 @@ public class NewLessonPlanController {
             Platform.exit();
         }
     }
+
+    /**
+     * Handles the "Save" button action.
+     *
+     * @param event The action event.
+     */
     @FXML
     void SaveButton(ActionEvent event) {
-        SaveCourse.saveFile();
-        ChangesMadeManager.setChangesMade(false);
+        //saveAction();
+        System.out.println("Temporary event handler");
     }
 
+//    private static void saveAction(){
+//        String title = LessonPlan.getTitle();
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setInitialFileName(title);
+//        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
+//        fileChooser.getExtensionFilters().add(extensionFilter);
+//        File file = fileChooser.showSaveDialog(App.scene.getWindow());
+//        saveCurrentLessonPlanToFile(file);
+//    }
+//
+//    private static void saveCurrentLessonPlanToFile(File chosenFile) {
+//        if (chosenFile != null) {
+//            try {
+//                App.saveCurrentLessonPlanToFile(chosenFile);
+//            } catch (IOException e) {
+//                new Alert(Alert.AlertType.ERROR, "Error saving lesson plan file: " + chosenFile).show();
+//            }
+//        }
+//    }
+
+    /**
+     * Handles the "Open" button action.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     @FXML
-    void OpenButton(ActionEvent event) throws IOException { OpenLessonPlan.openFile(); }
+    void OpenButton(ActionEvent event) throws IOException {
+        openAction(lessonPlanGrid);
+    }
+
+    private static void openAction(GridPane lessonPlanGrid){
+        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)", "*.jrsm");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(ex1);
+        fileChooser.setTitle("Select an lesson plan");
+        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
+        File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
+        if (selectedFile != null){
+            try{
+                App.loadCurrentLessonPlanToFile(selectedFile);
+                lessonPlanGrid.getChildren().clear();
+//                LessonPlan.getCardGroups().clear();
+                LessonPlan loadedPlan = App.getCurrentLessonPlan();
+                System.out.println("hello");
+                List<CardGroup> loadedCardGroups = loadedPlan.getCardGroups();
+                for (CardGroup cardGroup: loadedCardGroups){
+                    System.out.println(loadedCardGroups.size());
+                }
+                System.out.println("hello");
+
+            }catch (IOException ex){
+                new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
+            }
+
+        }
+    }
 }
 
 

@@ -12,10 +12,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
+/**
+ * Manages lesson plans, card groups, and card interactions.
+ */
 public class LessonPlanManager {
 
-
-
+    /**
+     * Adds a card group to the lesson plan and updates the UI.
+     *
+     * @param plan           The lesson plan.
+     * @param cardGroup      The card group to be added.
+     * @param lessonPlanGrid The GridPane representing the lesson plan UI.
+     * @param revert         A flag indicating whether to revert changes.
+     */
     public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert) {
         cardGroup.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
@@ -31,14 +40,15 @@ public class LessonPlanManager {
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (plan.getCardGroups().contains(newValue)) {
+                if (plan.getSelectedCardGroups().contains(newValue)) {
                     showAlert();
                     if (cardGroup.getCards().isEmpty()) {
                         eventComboBox.cancelEdit();
+                        deleteCardGroup(cardGroup, plan, lessonPlanGrid);
                     } else {
                         plan.getSelectedCardGroups().remove(oldValue);
                         eventComboBox.setValue(oldValue);
-                        deleteCardGroup(cardGroup, plan, lessonPlanGrid); // Move the deletion logic here
+                        deleteCardGroup(cardGroup, plan, lessonPlanGrid);
                     }
                 } else {
                     if (!revert) {
@@ -51,22 +61,32 @@ public class LessonPlanManager {
             }
         });
         HBox topHB = new HBox(eventComboBox, deleteButton);
-
         cardGroup.getVBox().getChildren().add(topHB);
         cardGroup.getVBox().getChildren().add(cardGroup.getHBox());
         plan.addCardGroup(cardGroup);
         lessonPlanGrid.add(cardGroup.getVBox(), 0, cardGroup.getIndex());
     }
 
+    /**
+     * Deletes a card group from the lesson plan and updates the UI.
+     *
+     * @param cardGroup      The card group to be deleted.
+     * @param plan           The lesson plan.
+     * @param lessonPlanGrid The GridPane representing the lesson plan UI.
+     */
     public static void deleteCardGroup(CardGroup cardGroup, LessonPlan plan, GridPane lessonPlanGrid) {
         lessonPlanGrid.getChildren().remove(cardGroup.getVBox());
         plan.getSelectedCardGroups().remove(cardGroup.getEvent());
         plan.getCardGroups().remove(cardGroup);
         lessonPlanGrid.getChildren();
-        ChangesMadeManager.setChangesMade(true);
     }
 
 
+    /**
+     * Displays cards in the lesson plan UI for a specific card group.
+     *
+     * @param cardGroup The card group for which to display cards.
+     */
     public static void displayPlanCards(CardGroup cardGroup) {
 
         int numCards = cardGroup.getCards().size();
@@ -88,15 +108,27 @@ public class LessonPlanManager {
 
     }
 
-
-
+    /**
+     * Deletes a card from a card group and updates the UI.
+     *
+     * @param newCard   The card to be deleted.
+     * @param cardGroup The card group from which to delete the card.
+     * @param cardVBox  The VBox representing the card in the UI.
+     */
     public static void deleteCardFromCardGroup(Card newCard, CardGroup cardGroup, VBox cardVBox) {
                 cardGroup.getCards().remove(newCard);
-                cardGroup.getHBox().getChildren().remove(cardVBox);
-                ChangesMadeManager.setChangesMade(true);
+                for (HBox hb : cardGroup.getCgHBoxes()) {
+                    if (hb.getChildren().contains(cardVBox)) {
+                        hb.getChildren().remove(cardVBox);
+                    }
+                }
 
+                ChangesMadeManager.setChangesMade(true);
     }
 
+    /**
+     * Shows an alert with a specific message.
+     */
     public static void showAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Message");
