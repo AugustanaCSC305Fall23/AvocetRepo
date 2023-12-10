@@ -36,7 +36,6 @@ public class LessonPlanManager {
         eventComboBox.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
         eventComboBox.getStyleClass().add("combo-boxWhite");
         FilterController.comboBoxInitializer(eventComboBox, "event");
-
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -60,11 +59,14 @@ public class LessonPlanManager {
                 }
             }
         });
+
         HBox topHB = new HBox(eventComboBox, deleteButton);
         cardGroup.getVBox().getChildren().add(topHB);
         cardGroup.getVBox().getChildren().add(cardGroup.getHBox());
+        eventComboBox.setValue(cardGroup.getEvent());
         plan.addCardGroup(cardGroup);
         lessonPlanGrid.add(cardGroup.getVBox(), 0, cardGroup.getIndex());
+
     }
 
     /**

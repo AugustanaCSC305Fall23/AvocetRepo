@@ -161,5 +161,14 @@ public class App extends Application {
         currentLessonPlanFile = lessonPlanFile;
     }
     public static File getCurrentLessonPlanFile(){return currentLessonPlanFile;}
+
+    public static Card getCard(String code) {
+        for (Card card : cardCollection) {
+            if (card.getCode().equals(code)) {
+                return card;
+            }
+        }
+        return null;
+    }
 }
 
