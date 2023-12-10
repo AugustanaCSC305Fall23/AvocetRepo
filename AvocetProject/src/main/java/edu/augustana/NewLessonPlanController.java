@@ -93,7 +93,7 @@ public class NewLessonPlanController {
     @FXML
     private TextField lessonPlanTitleTF;
     public File filePath;
-    
+
     /**
      * Initializes the controller.
      */
@@ -113,11 +113,11 @@ public class NewLessonPlanController {
         });
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.getWidth();
-        cardsGridVbox.setPrefWidth(width/2);
-        cardsGrid.setPrefWidth((width/2) - 60);
+        cardsGridVbox.setPrefWidth(width / 2);
+        cardsGrid.setPrefWidth((width / 2) - 60);
         cardsGrid.setHgap(20);
         lessonPlanGrid.setPrefHeight(screenSize.getHeight());
-        lessonPlanGrid.setMinWidth(width/2);
+        lessonPlanGrid.setMinWidth(width / 2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
 
@@ -146,7 +146,9 @@ public class NewLessonPlanController {
      * Handles the search filtering.
      */
     @FXML
-    void searchFiltering() {searchInitiator();}
+    void searchFiltering() {
+        searchInitiator();
+    }
 
     /**
      * Handles the event filtering based on the selected event.
@@ -154,7 +156,9 @@ public class NewLessonPlanController {
      * @param event The ActionEvent triggered by the event filtering action.
      */
     @FXML
-    void eventFiltering(ActionEvent event) {searchInitiator();}
+    void eventFiltering(ActionEvent event) {
+        searchInitiator();
+    }
 
     /**
      * Handles the gender filtering based on the selected gender.
@@ -162,7 +166,9 @@ public class NewLessonPlanController {
      * @param event The ActionEvent triggered by the gender filtering action.
      */
     @FXML
-    void genderFiltering(ActionEvent event) {searchInitiator();}
+    void genderFiltering(ActionEvent event) {
+        searchInitiator();
+    }
 
     /**
      * Handles the level filtering based on the selected level.
@@ -170,7 +176,9 @@ public class NewLessonPlanController {
      * @param event The ActionEvent triggered by the level filtering action.
      */
     @FXML
-    void levelFiltering(ActionEvent event) {searchInitiator();}
+    void levelFiltering(ActionEvent event) {
+        searchInitiator();
+    }
 
     /**
      * Handles the model filtering based on the selected model.
@@ -178,7 +186,9 @@ public class NewLessonPlanController {
      * @param event The ActionEvent triggered by the model filtering action.
      */
     @FXML
-    void modelFiltering(ActionEvent event) {searchInitiator();}
+    void modelFiltering(ActionEvent event) {
+        searchInitiator();
+    }
 
     /**
      * Handles the favorite filtering based on the selected model.
@@ -186,7 +196,9 @@ public class NewLessonPlanController {
      * @param event The ActionEvent triggered by the favorite filtering action.
      */
     @FXML
-    void favFiltering(ActionEvent event) {searchInitiator();}
+    void favFiltering(ActionEvent event) {
+        searchInitiator();
+    }
 
     /**
      * Displays cards in the specified card list.
@@ -268,7 +280,7 @@ public class NewLessonPlanController {
             cardsGrid.setHalignment(isFavoriteCB, javafx.geometry.HPos.LEFT);
             cardsGrid.setValignment(maximizeButton, javafx.geometry.VPos.TOP);
             cardsGrid.setHalignment(maximizeButton, javafx.geometry.HPos.RIGHT);
-            
+
             col++;
             if (col >= numCols) {
                 col = 0;
@@ -283,7 +295,13 @@ public class NewLessonPlanController {
     @FXML
     private void addCardGroup() {
         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
-        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert, false);
+        ChangesMadeManager.setChangesMade(true);
+    }
+
+    @FXML
+    private void addCardGroup(CardGroup cardGroup) {
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert, true);
         ChangesMadeManager.setChangesMade(true);
     }
 
@@ -304,7 +322,7 @@ public class NewLessonPlanController {
     @FXML
     private void addCardToCardGroup(Card card) {
         for (CardGroup cardGroup : plan.getCardGroups()) {
-            if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card)) ){
+            if (cardGroup.getEvent().equals(card.getEvent()) && (!cardGroup.getCards().contains(card))) {
                 cardGroup.addCard(card);
                 displayPlanCards(cardGroup);
                 ChangesMadeManager.setChangesMade(true);
@@ -331,7 +349,7 @@ public class NewLessonPlanController {
                 Text event = new Text(cg.getEvent());
                 listContainer.getChildren().add(event);
                 for (Card card : cg.getCards()) {
-                    Text listItemText = new Text("  - Code: "+card.getCode()+", Title: " +card.getTitle());
+                    Text listItemText = new Text("  - Code: " + card.getCode() + ", Title: " + card.getTitle());
                     listContainer.getChildren().add(listItemText);
                 }
             }
@@ -353,7 +371,7 @@ public class NewLessonPlanController {
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
             VBox listContainer = new VBox();
-            Text title = new Text("Lesson Plan Title: " +plan.getTitle());
+            Text title = new Text("Lesson Plan Title: " + plan.getTitle());
             listContainer.getChildren().add(title);
             int numHbox = 0;
             List<CardGroup> cardGroups = plan.getCardGroups();
@@ -403,8 +421,8 @@ public class NewLessonPlanController {
      *
      * @param event The window close event.
      */
-    public void  handleCloseRequest(WindowEvent event) {
-        if(ChangesMadeManager.isThereChanges()){
+    public void handleCloseRequest(WindowEvent event) {
+        if (ChangesMadeManager.isThereChanges()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Unsaved Changes");
             alert.setHeaderText("There are some unsaved changes");
@@ -417,14 +435,14 @@ public class NewLessonPlanController {
 
             Optional<ButtonType> result = alert.showAndWait();
 
-            if(result.get() == buttonTypeSave){
+            if (result.get() == buttonTypeSave) {
                 saveAction();
-            }else if(result.get() == buttonTypeDoNotSave){
+            } else if (result.get() == buttonTypeDoNotSave) {
                 Platform.exit();
-            }else{
+            } else {
                 event.consume();
             }
-        }else{
+        } else {
             Platform.exit();
         }
     }
@@ -443,7 +461,7 @@ public class NewLessonPlanController {
      * it checks if the user has already saved in a file then any new changes are saved on that file
      * else it makes you choose a new file to save at.
      */
-    private void saveHelper(){
+    private void saveHelper() {
         ChangesMadeManager.setChangesMade(false);
         if (filePath == null) {
             saveAction();
@@ -456,11 +474,11 @@ public class NewLessonPlanController {
      * Initiates the process of saving the current lesson plan to a file. displays the file chooser dialog
      * for the user to select the destination for saving the file.
      */
-    private void saveAction(){
+    private void saveAction() {
         String title = plan.getTitle();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName(title);
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.txt)","*.txt");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showSaveDialog(App.scene.getWindow());
         filePath = file;
@@ -468,9 +486,10 @@ public class NewLessonPlanController {
     }
 
     /**
-     *This method writes the title of the lesson plan and its associated card groups
-     *to the provided file.The data is written in a structured format to facilitate
-     *loading later.
+     * This method writes the title of the lesson plan and its associated card groups
+     * to the provided file.The data is written in a structured format to facilitate
+     * loading later.
+     *
      * @param chosenFile the file where the lesson plan will be saved
      */
     private void saveCurrentLessonPlanToFile(File chosenFile) {
@@ -481,7 +500,7 @@ public class NewLessonPlanController {
                 writer.write(plan.getTitle());
                 writer.newLine();
                 for (CardGroup cg : plan.getCardGroups()) {
-                    writer.write(cg.getEvent()+" ");
+                    writer.write(cg.getEvent() + ",");
                     for (Card card : cg.getCards()) {
                         writer.write(card.getCode() + " ");
                     }
@@ -508,8 +527,44 @@ public class NewLessonPlanController {
     }
 
 
-}
+    private void openAction(GridPane lessonPlanGrid) {
+        plan = new LessonPlan();
+        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.txt)", "*.txt");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(ex1);
+        fileChooser.setTitle("Select an lesson plan");
+        File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
+        if (selectedFile != null) {
+            try {
+                Path path = Paths.get(selectedFile.getPath());
+                List<String> lines = Files.readAllLines(path);
+                lessonPlanGrid.getChildren().clear();
+                plan.setTitle(lines.get(0));
+                lessonPlanTitleTF.setText(lines.get(0));
+                int i = 0;
+                for (String line : lines) {
+                    if (i != 0) {
+                        String[] dataArray = line.split(",");
+                        CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
+                        String[] dataArrayNew = dataArray[1].split(" ");
+                        cardGroup.setEvent(dataArray[0]);
+                        addCardGroup(cardGroup);
 
+                        for (int j = 0; j < dataArrayNew.length; j++) {
+                            String code = dataArrayNew[j];
+                            addCardToCardGroup(App.getCard(code));
+                        }
+                    }
+                    i++;
+                }
+
+
+            }catch (IOException ex){
+                new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
+            }
+        }
+    }
+}
 
 
 

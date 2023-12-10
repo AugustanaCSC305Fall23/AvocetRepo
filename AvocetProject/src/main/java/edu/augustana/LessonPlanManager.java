@@ -25,7 +25,10 @@ public class LessonPlanManager {
      * @param lessonPlanGrid The GridPane representing the lesson plan UI.
      * @param revert         A flag indicating whether to revert changes.
      */
-    public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert) {
+    public static void addCardGroup(LessonPlan plan, CardGroup cardGroup, GridPane lessonPlanGrid, boolean revert, boolean fromOpenedFile) {
+        if (fromOpenedFile) {
+
+        }
         cardGroup.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
@@ -36,7 +39,6 @@ public class LessonPlanManager {
         eventComboBox.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
         eventComboBox.getStyleClass().add("combo-boxWhite");
         FilterController.comboBoxInitializer(eventComboBox, "event");
-
         eventComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -52,6 +54,7 @@ public class LessonPlanManager {
                     }
                 } else {
                     if (!revert) {
+                        plan.getSelectedCardGroups().remove(oldValue);
                         cardGroup.setEvent(newValue);
                         cardGroup.getCards().clear();
                         cardGroup.getHBox().getChildren().clear();
@@ -60,11 +63,17 @@ public class LessonPlanManager {
                 }
             }
         });
+
         HBox topHB = new HBox(eventComboBox, deleteButton);
         cardGroup.getVBox().getChildren().add(topHB);
         cardGroup.getVBox().getChildren().add(cardGroup.getHBox());
+        if (fromOpenedFile) {
+            cardGroup.getEventComboBox().setValue(cardGroup.getEvent());
+
+        }
         plan.addCardGroup(cardGroup);
         lessonPlanGrid.add(cardGroup.getVBox(), 0, cardGroup.getIndex());
+
     }
 
     /**
