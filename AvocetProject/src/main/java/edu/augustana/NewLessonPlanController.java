@@ -432,29 +432,41 @@ public class NewLessonPlanController {
      */
     @FXML
     void SaveButton(ActionEvent event) {
-        //saveAction();
-        System.out.println("Temporary event handler");
+        saveAction();
     }
 
-//    private static void saveAction(){
-//        String title = LessonPlan.getTitle();
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setInitialFileName(title);
-//        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
-//        fileChooser.getExtensionFilters().add(extensionFilter);
-//        File file = fileChooser.showSaveDialog(App.scene.getWindow());
-//        saveCurrentLessonPlanToFile(file);
-//    }
-//
-//    private static void saveCurrentLessonPlanToFile(File chosenFile) {
-//        if (chosenFile != null) {
-//            try {
-//                App.saveCurrentLessonPlanToFile(chosenFile);
-//            } catch (IOException e) {
-//                new Alert(Alert.AlertType.ERROR, "Error saving lesson plan file: " + chosenFile).show();
-//            }
-//        }
-//    }
+    private void saveAction(){
+        String title = plan.getTitle();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(title);
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.txt)","*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(App.scene.getWindow());
+        saveCurrentLessonPlanToFile(file);
+    }
+
+    private void saveCurrentLessonPlanToFile(File chosenFile) {
+        if (chosenFile != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(chosenFile);
+                BufferedWriter writer = new BufferedWriter(fileWriter);
+                writer.write(plan.getTitle());
+                writer.newLine();
+                for (CardGroup cg : plan.getCardGroups()) {
+                    writer.write(cg.getEvent()+" ");
+                    for (Card card : cg.getCards()) {
+                        writer.write(card.getCode() + " ");
+                    }
+                    writer.newLine();
+                }
+                writer.close();
+
+
+            } catch (IOException e) {
+                new Alert(Alert.AlertType.ERROR, "Error saving lesson plan file: " + chosenFile).show();
+            }
+        }
+    }
 
     /**
      * Handles the "Open" button action.
@@ -472,7 +484,7 @@ public class NewLessonPlanController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(ex1);
         fileChooser.setTitle("Select an lesson plan");
-        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
+//        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
         File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
         if (selectedFile != null){
             try{

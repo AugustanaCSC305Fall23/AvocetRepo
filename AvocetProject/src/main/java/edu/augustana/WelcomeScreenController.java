@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
  */
 public class WelcomeScreenController {
 
+
+
     /**
      * Switches to the main lesson plan screen.
      *
@@ -16,5 +18,12 @@ public class WelcomeScreenController {
     @FXML
     private void switchToMainScreen() throws IOException {
         App.setRoot("NewLessonPlanView");
+    }
+
+    @FXML
+    void switchToAboutPage() throws IOException{
+        App.setRoot("AboutPageView");
+
+
     }
 }
