@@ -12,11 +12,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 
+/**
+ * Represents a class for displaying card information in a popup window.
+ */
 public class CardInfo {
 
+    /** The scene associated with the application. */
     private static Scene scene;
+
+    /** A flag indicating whether the popup is currently showing. */
     private static Boolean popupShowing = false;
 
+    /**
+     * Displays a popup window with information about the clicked card.
+     *
+     * @param clickCard The card that was clicked.
+     */
     public static void displayPopup(Card clickCard) {
         if (popupShowing){
             return;

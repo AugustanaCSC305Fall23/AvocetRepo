@@ -91,3 +91,19 @@
     -fx-background-color: #89CFF0;
 }
 
+.heart-check-box .box{
+-fx-shape: "M 150 200 C 150 90 400 90 400 200 C 400 340 150 450 150 450 C 150 450 -100 340 -100 200 C -100 90 150 90 150 200 Z";
+    -fx-background-color: gray;
+    -fx-stroke: black;
+}
+
+.heart-check-box:selected .box{
+    -fx-background-color: red;
+-fx-shape: "M 150 200 C 150 90 400 90 400 200 C 400 340 150 450 150 450 C 150 450 -100 340 -100 200 C -100 90 150 90 150 200 Z";
+}
+
+.heart-check-box:selected .mark{
+    -fx-background-color: red;
+}
+
+
