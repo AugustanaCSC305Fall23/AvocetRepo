@@ -214,7 +214,7 @@ public class NewLessonPlanController {
             Button maximizeButton = new Button();
             maximizeButton.setGraphic(maximizeIcon);
             maximizeButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            maximizeButton.getStyleClass().add("buttonOrange");
+            maximizeButton.getStyleClass().add("buttonBlue");
             maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             CheckBox isFavoriteCB = new CheckBox();
             isFavoriteCB.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -502,7 +502,6 @@ public class NewLessonPlanController {
             }catch (IOException ex){
                 new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
             }
-
         }
     }
 }

@@ -11,30 +11,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.AboutPageController">
-    <top>
-        <Label text="About" BorderPane.alignment="CENTER">
-            <font>
-                <Font name="System Bold" size="22.0" />
-            </font>
-            <graphic>
-                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#switchToWelcomeScreen" text="Home" />
-            </graphic>
-        </Label>
-    </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #89CFF0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.AboutPageController">
     <center>
-        <ScrollPane BorderPane.alignment="CENTER">
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #89CFF0;" BorderPane.alignment="CENTER">
             <content>
-                <VBox prefHeight="200.0" prefWidth="100.0">
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label text="ACE Consulting">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <HBox prefHeight="100.0">
+                        <HBox alignment="CENTER" prefHeight="100.0">
                             <children>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
                               <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -42,23 +32,23 @@
                                  </image>
                               </ImageView>
                                         
-                                        <Label text="Forrest Stonedahl" />
-                                        <Label text="Project Supervisor" />
+                                                                <Label alignment="CENTER" text="Forrest Stonedahl" />
+                                        <Label alignment="CENTER" text="Project Supervisor" />
                                     </children>
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                                 </VBox>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
                               <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="https://www.augustana.edu/files/styles/faculty_profile_image/public/profile-photos/Keehn_Samantha.jpg?itok=iA_PEAl6" />
                                  </image>
                               </ImageView>
-
-                                        <Label text="Samantha Keehn" />
-                                        <Label text="Product Designer" />
+      
+                                                          <Label alignment="CENTER" text="Samantha Keehn" />
+                                        <Label alignment="CENTER" text="Product Designer" />
                                     </children>
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -74,9 +64,9 @@
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <HBox prefHeight="100.0">
+                        <HBox alignment="CENTER" prefHeight="100.0">
                             <children>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
                                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                                         <Label text="Rohaan Farrukh" />
@@ -85,7 +75,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                                 </VBox>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
                                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                                         <Label text="Soban Hassan" />
@@ -94,7 +84,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                                 </VBox>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
                                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                                         <Label text="Minh Nguyen" />
@@ -103,15 +93,12 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                                 </VBox>
-                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                    <children>
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                                        <Label text="Jay Nolledo" />
-                                    </children>
-                           <HBox.margin>
-                              <Insets top="10.0" />
-                           </HBox.margin>
-                                </VBox>
+                        <VBox alignment="CENTER" layoutX="323.0" layoutY="20.0" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                              <Label text="Jay Nolledo" />
+                           </children>
+                        </VBox>
                             </children>
                         </HBox>
                         <Label text="GymnastPro Sofware">
@@ -124,4 +111,22 @@
             </content>
         </ScrollPane>
     </center>
+   <top>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#switchToWelcomeScreen" styleClass="buttonWhite" stylesheets="@style.css" text="Home">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+              <Label text="About">
+                  <font>
+                      <Font name="System Bold" size="22.0" />
+                  </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+              </Label>
+         </children>
+      </VBox>
+   </top>
 </BorderPane>

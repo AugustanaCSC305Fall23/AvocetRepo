@@ -174,7 +174,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </ScrollPane>
-            <Button fx:id="addEventButton" mnemonicParsing="false" onAction="#addCardGroup" styleClass="buttonOrange" stylesheets="@style.css" text="Add Event">
+            <Button fx:id="addEventButton" mnemonicParsing="false" onAction="#addCardGroup" styleClass="buttonBlue" stylesheets="@style.css" text="Add Event">
                <VBox.margin>
                   <Insets bottom="20.0" left="10.0" />
                </VBox.margin></Button>
