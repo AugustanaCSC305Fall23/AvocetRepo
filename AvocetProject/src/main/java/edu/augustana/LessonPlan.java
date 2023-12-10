@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 public class LessonPlan  {
 
     /** The list of card groups in the lesson plan. */
-    private static ArrayList<CardGroup> cardGroups;
+    private ArrayList<CardGroup> cardGroups;
 
 
     /** The list of selected card groups. */
@@ -48,7 +48,7 @@ public class LessonPlan  {
      *
      * @return The list of card groups.
      */
-    public static ArrayList<CardGroup> getCardGroups() {
+    public ArrayList<CardGroup> getCardGroups() {
         return cardGroups;
     }
 
@@ -95,7 +95,7 @@ public class LessonPlan  {
      *
      * @return The title of the lesson plan.
      */
-    public static String getTitle() {
+    public String getTitle() {
         return title;
     }
 
