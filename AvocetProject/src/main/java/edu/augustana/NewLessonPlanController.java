@@ -282,6 +282,11 @@ public class NewLessonPlanController {
         LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
         ChangesMadeManager.setChangesMade(true);
     }
+    @FXML
+    private void addCardGroup(CardGroup cardGroup) {
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
+        ChangesMadeManager.setChangesMade(true);
+    }
 
     /**
      * Displays the cards within a specific card group in the lesson plan.
@@ -453,7 +458,7 @@ public class NewLessonPlanController {
                 writer.write(plan.getTitle());
                 writer.newLine();
                 for (CardGroup cg : plan.getCardGroups()) {
-                    writer.write(cg.getEvent()+" ");
+                    writer.write(cg.getEvent()+",");
                     for (Card card : cg.getCards()) {
                         writer.write(card.getCode() + " ");
                     }
@@ -479,25 +484,36 @@ public class NewLessonPlanController {
         openAction(lessonPlanGrid);
     }
 
-    private static void openAction(GridPane lessonPlanGrid){
-        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)", "*.jrsm");
+    private void openAction(GridPane lessonPlanGrid){
+        plan = new LessonPlan();
+        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.txt)", "*.txt");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(ex1);
         fileChooser.setTitle("Select an lesson plan");
-//        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
         File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
         if (selectedFile != null){
             try{
-                App.loadCurrentLessonPlanToFile(selectedFile);
+                Path path = Paths.get(selectedFile.getPath());
+                List<String> lines = Files.readAllLines(path);
                 lessonPlanGrid.getChildren().clear();
-//                LessonPlan.getCardGroups().clear();
-                LessonPlan loadedPlan = App.getCurrentLessonPlan();
-                System.out.println("hello");
-                List<CardGroup> loadedCardGroups = loadedPlan.getCardGroups();
-                for (CardGroup cardGroup: loadedCardGroups){
-                    System.out.println(loadedCardGroups.size());
+                plan.setTitle(lines.get(0));
+                lessonPlanTitleTF.setText(lines.get(0));
+                int i = 0;
+                for (String line : lines) {
+                    if (i != 0) {
+                        String[] dataArray = line.split(",");
+                        CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
+                        String[] dataArrayNew = dataArray[1].split(" ");
+                        cardGroup.setEvent(dataArray[0]);
+                        addCardGroup(cardGroup);
+
+                        for (int j = 0; j < dataArrayNew.length; j++) {
+                            String code = dataArrayNew[j];
+                            addCardToCardGroup(App.getCard(code));
+                        }
+                    }
+                    i++;
                 }
-                System.out.println("hello");
 
             }catch (IOException ex){
                 new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
