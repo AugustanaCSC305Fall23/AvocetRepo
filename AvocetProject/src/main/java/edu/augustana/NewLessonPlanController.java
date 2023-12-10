@@ -279,12 +279,12 @@ public class NewLessonPlanController {
     @FXML
     private void addCardGroup() {
         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
-        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert, false);
         ChangesMadeManager.setChangesMade(true);
     }
     @FXML
     private void addCardGroup(CardGroup cardGroup) {
-        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert);
+        LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert, true);
         ChangesMadeManager.setChangesMade(true);
     }
 
