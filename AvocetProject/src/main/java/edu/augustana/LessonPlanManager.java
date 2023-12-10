@@ -54,6 +54,7 @@ public class LessonPlanManager {
                     }
                 } else {
                     if (!revert) {
+                        plan.getSelectedCardGroups().remove(oldValue);
                         cardGroup.setEvent(newValue);
                         cardGroup.getCards().clear();
                         cardGroup.getHBox().getChildren().clear();
