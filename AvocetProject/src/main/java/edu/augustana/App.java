@@ -23,6 +23,10 @@ public class App extends Application {
     public static Scene scene;
     public static List<Card> cardCollection = new ArrayList<>();
 
+    private static LessonPlan currentLessonPlan = new LessonPlan();
+
+    private static File currentLessonPlanFile = null;
+
     @Override
     public void start(Stage stage) throws IOException {
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -95,4 +99,19 @@ public class App extends Application {
         launch();
 
     }
+
+    public static LessonPlan getCurrentLessonPlan(){
+        return currentLessonPlan;
+    }
+
+    public static void saveCurrentLessonPlanToFile(File chosenFile) throws IOException{
+        currentLessonPlan.saveToFile(chosenFile);
+        currentLessonPlanFile = chosenFile;
+    }
+
+    public static void loadCurrentLessonPlanToFile(File lessonPlanFile) throws IOException{
+        currentLessonPlan = LessonPlan.loadFromFile(lessonPlanFile);
+        currentLessonPlanFile = lessonPlanFile;
+    }
+    public static File getCurrentLessonPlanFile(){return currentLessonPlanFile;}
 }

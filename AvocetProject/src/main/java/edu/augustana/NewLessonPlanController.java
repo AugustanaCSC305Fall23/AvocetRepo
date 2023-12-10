@@ -27,9 +27,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 
 public class NewLessonPlanController {
@@ -206,7 +205,7 @@ public class NewLessonPlanController {
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
             VBox listContainer = new VBox();
-            Text title = new Text("Lesson Plan Title: " +plan.getTitle());
+            Text title = new Text("Lesson Plan Title: " + plan.getTitle());
             listContainer.getChildren().add(title);
 
             // Replace the following with your actual list data
@@ -296,7 +295,7 @@ public class NewLessonPlanController {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == buttonTypeSave){
-                SaveCourse.saveFile();
+                saveAction();
             }else if(result.get() == buttonTypeDoNotSave){
                 Platform.exit();
             }else{
@@ -308,12 +307,63 @@ public class NewLessonPlanController {
     }
     @FXML
     void SaveButton(ActionEvent event) {
-        SaveCourse.saveFile();
-        ChangesMadeManager.setChangesMade(false);
+        saveAction();
+    }
+
+    private static void saveAction(){
+        String title = LessonPlan.getTitle();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(title);
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)","*.jrsm");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(App.scene.getWindow());
+        saveCurrentLessonPlanToFile(file);
+    }
+
+    private static void saveCurrentLessonPlanToFile(File chosenFile) {
+        if (chosenFile != null) {
+            try {
+                App.saveCurrentLessonPlanToFile(chosenFile);
+            } catch (IOException e) {
+                new Alert(Alert.AlertType.ERROR, "Error saving lesson plan file: " + chosenFile).show();
+            }
+        }
     }
 
     @FXML
-    void OpenButton(ActionEvent event) throws IOException { OpenLessonPlan.openFile(); }
+    void OpenButton(ActionEvent event) throws IOException {
+        openAction(lessonPlanGrid);
+    }
+
+    private static void openAction(GridPane lessonPlanGrid){
+        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)", "*.jrsm");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(ex1);
+        fileChooser.setTitle("Select an lesson plan");
+        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
+        File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
+        if (selectedFile != null){
+            try{
+                App.loadCurrentLessonPlanToFile(selectedFile);
+                lessonPlanGrid.getChildren().clear();
+//                LessonPlan.getCardGroups().clear();
+                LessonPlan loadedPlan = App.getCurrentLessonPlan();
+                System.out.println("hello");
+                List<CardGroup> loadedCardGroups = loadedPlan.getCardGroups();
+                for (CardGroup cardGroup: loadedCardGroups){
+                    System.out.println(loadedCardGroups.size());
+                }
+                System.out.println("hello");
+
+
+
+
+            }catch (IOException ex){
+                new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
+            }
+
+        }
+    }
 }
 
 
