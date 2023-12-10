@@ -64,25 +64,6 @@ public class LessonPlan  {
         this.cardGroups.add(cardGroup);
     }
 
-    public void saveToFile(File logFile) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.add("Lesson Plan", gson.toJsonTree(cardGroups));
-        String serializedLessonPlan = gson.toJson(cardGroups);
-        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
-        writer.println(serializedLessonPlan);
-        writer.close();
-
-    }
-
-
-    public static LessonPlan loadFromFile(File openedFile) throws IOException {
-        FileReader jsonContent = new FileReader(openedFile);
-        Gson gson = new Gson();
-
-        return gson.fromJson(jsonContent, LessonPlan.class);
-
-    }
 
 
     /**

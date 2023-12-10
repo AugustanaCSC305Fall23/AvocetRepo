@@ -1,11 +1,8 @@
 package edu.augustana;
 
 
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;

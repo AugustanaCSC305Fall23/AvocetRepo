@@ -96,7 +96,6 @@ public class LessonPlanManager {
         imageView.setFitHeight(200);
         Button deleteButton = new Button("Remove");
         VBox cardVBox = new VBox(imageView, deleteButton);
-        System.out.println(cardGroup.getCards().size());
         if ((cardGroup.getCards().size()-1) % 3 == 0) {
             HBox hbox = new HBox();
             cardGroup.getVBox().getChildren().add(hbox);

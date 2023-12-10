@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -91,6 +92,7 @@ public class NewLessonPlanController {
     private MenuItem withImagesMenu;
     @FXML
     private TextField lessonPlanTitleTF;
+    public File filePath;
     
     /**
      * Initializes the controller.
@@ -118,7 +120,9 @@ public class NewLessonPlanController {
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
+
     }
+
 
     @FXML
     void undoFunction(ActionEvent event) {
@@ -399,7 +403,7 @@ public class NewLessonPlanController {
      *
      * @param event The window close event.
      */
-    public static void handleCloseRequest(WindowEvent event) {
+    public void  handleCloseRequest(WindowEvent event) {
         if(ChangesMadeManager.isThereChanges()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Unsaved Changes");
@@ -414,7 +418,7 @@ public class NewLessonPlanController {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == buttonTypeSave){
-                //saveAction();
+                saveAction();
             }else if(result.get() == buttonTypeDoNotSave){
                 Platform.exit();
             }else{
@@ -432,9 +436,26 @@ public class NewLessonPlanController {
      */
     @FXML
     void SaveButton(ActionEvent event) {
-        saveAction();
+        saveHelper();
     }
 
+    /**
+     * it checks if the user has already saved in a file then any new changes are saved on that file
+     * else it makes you choose a new file to save at.
+     */
+    private void saveHelper(){
+        ChangesMadeManager.setChangesMade(false);
+        if (filePath == null) {
+            saveAction();
+        } else {
+            saveCurrentLessonPlanToFile(filePath);
+        }
+    }
+
+    /**
+     * Initiates the process of saving the current lesson plan to a file. displays the file chooser dialog
+     * for the user to select the destination for saving the file.
+     */
     private void saveAction(){
         String title = plan.getTitle();
         FileChooser fileChooser = new FileChooser();
@@ -442,9 +463,16 @@ public class NewLessonPlanController {
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Gym Pro(*.txt)","*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showSaveDialog(App.scene.getWindow());
+        filePath = file;
         saveCurrentLessonPlanToFile(file);
     }
 
+    /**
+     *This method writes the title of the lesson plan and its associated card groups
+     *to the provided file.The data is written in a structured format to facilitate
+     *loading later.
+     * @param chosenFile the file where the lesson plan will be saved
+     */
     private void saveCurrentLessonPlanToFile(File chosenFile) {
         if (chosenFile != null) {
             try {
@@ -476,35 +504,10 @@ public class NewLessonPlanController {
      */
     @FXML
     void OpenButton(ActionEvent event) throws IOException {
-        openAction(lessonPlanGrid);
+
     }
 
-    private static void openAction(GridPane lessonPlanGrid){
-        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Gym Pro(*.jrsm)", "*.jrsm");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(ex1);
-        fileChooser.setTitle("Select an lesson plan");
-//        fileChooser.setInitialDirectory(new File("D:/lessonplanfile"));
-        File selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
-        if (selectedFile != null){
-            try{
-                App.loadCurrentLessonPlanToFile(selectedFile);
-                lessonPlanGrid.getChildren().clear();
-//                LessonPlan.getCardGroups().clear();
-                LessonPlan loadedPlan = App.getCurrentLessonPlan();
-                System.out.println("hello");
-                List<CardGroup> loadedCardGroups = loadedPlan.getCardGroups();
-                for (CardGroup cardGroup: loadedCardGroups){
-                    System.out.println(loadedCardGroups.size());
-                }
-                System.out.println("hello");
 
-            }catch (IOException ex){
-                new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
-            }
-
-        }
-    }
 }
 
 

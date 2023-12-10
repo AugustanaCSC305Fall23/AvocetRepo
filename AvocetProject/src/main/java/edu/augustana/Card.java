@@ -1,10 +1,6 @@
 package edu.augustana;
 
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
-
-
-import java.awt.*;
 
 
 
@@ -18,7 +14,7 @@ public class Card{
     private String category;
     private String title;
     private String imageFileName;
-    private transient Image imageThumbnail;
+    private Image imageThumbnail;
     private String gender;
     private String modelSex;
     private String level;

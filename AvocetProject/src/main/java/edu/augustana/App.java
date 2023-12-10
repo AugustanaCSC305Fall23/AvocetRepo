@@ -1,21 +1,19 @@
 package edu.augustana;
 
+import com.opencsv.CSVReader;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
-import com.opencsv.CSVReader;
-import javafx.stage.WindowEvent;
-
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +30,7 @@ public class App extends Application {
     /** The collection of cards used in the application. */
     public static List<Card> cardCollection = new ArrayList<>();
 
-    private static LessonPlan currentLessonPlan = new LessonPlan();
-
-    private static File currentLessonPlanFile = null;
+    private NewLessonPlanController newLessonPlanController;
 
 
     /**
@@ -51,10 +47,13 @@ public class App extends Application {
         double height = screenSize.getHeight() - 0.10 * (screenSize.getHeight());
         scene = new Scene(loadFXML("WelcomeScreenView"), width, height);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLessonPlanView.fxml"));
+        Parent root = loader.load();
+        newLessonPlanController = loader.getController();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                NewLessonPlanController.handleCloseRequest(event);
+                newLessonPlanController.handleCloseRequest(event);
             }
         });
         stage.setScene(scene);
@@ -147,19 +146,5 @@ public class App extends Application {
 
     }
 
-    public static LessonPlan getCurrentLessonPlan(){
-        return currentLessonPlan;
-    }
-
-//    public static void saveCurrentLessonPlanToFile(File chosenFile) throws IOException{
-//        currentLessonPlan.saveToFile(chosenFile);
-//        currentLessonPlanFile = chosenFile;
-//    }
-
-    public static void loadCurrentLessonPlanToFile(File lessonPlanFile) throws IOException{
-        currentLessonPlan = LessonPlan.loadFromFile(lessonPlanFile);
-        currentLessonPlanFile = lessonPlanFile;
-    }
-    public static File getCurrentLessonPlanFile(){return currentLessonPlanFile;}
 }
 
