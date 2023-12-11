@@ -76,10 +76,6 @@ public class NewLessonPlanController {
     private Button saveButton;
     @FXML
     private Button openButton;
-    @FXML
-    private Button undoButton;
-    @FXML
-    private Button redoButton;
     private Boolean revert;
     public Stage stage;
     @FXML
@@ -118,16 +114,6 @@ public class NewLessonPlanController {
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
-    }
-
-    @FXML
-    void undoFunction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void redoFunction(ActionEvent event) {
-
     }
 
     /**
