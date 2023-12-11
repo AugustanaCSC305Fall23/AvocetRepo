@@ -1,11 +1,11 @@
-.buttonOrange {
+.buttonBlue {
     -fx-background-color: #89CFF0;
     -fx-text-fill: white;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
 }
 
-.buttonOrange:hover {
+.buttonBlue:hover {
     -fx-background-color: white;
     -fx-text-fill: #89CFF0;
     -fx-border-color: #89CFF0;

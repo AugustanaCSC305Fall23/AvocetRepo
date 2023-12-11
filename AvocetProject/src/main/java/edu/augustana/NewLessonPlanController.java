@@ -76,10 +76,6 @@ public class NewLessonPlanController {
     private Button saveButton;
     @FXML
     private Button openButton;
-    @FXML
-    private Button undoButton;
-    @FXML
-    private Button redoButton;
     private Boolean revert;
     public Stage stage;
     @FXML
@@ -118,16 +114,6 @@ public class NewLessonPlanController {
         lessonPlanGrid.setMinWidth(width/2);
         lessonPlanGrid.setVgap(10);
         displayCards(App.cardCollection);
-    }
-
-    @FXML
-    void undoFunction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void redoFunction(ActionEvent event) {
-
     }
 
     /**
@@ -214,7 +200,7 @@ public class NewLessonPlanController {
             Button maximizeButton = new Button();
             maximizeButton.setGraphic(maximizeIcon);
             maximizeButton.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            maximizeButton.getStyleClass().add("buttonOrange");
+            maximizeButton.getStyleClass().add("buttonBlue");
             maximizeButton.setOnAction(event -> CardInfo.displayPopup(clickCard));
             CheckBox isFavoriteCB = new CheckBox();
             isFavoriteCB.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -518,7 +504,6 @@ public class NewLessonPlanController {
             }catch (IOException ex){
                 new Alert(Alert.AlertType.ERROR, "Error loading lesson plan file: " + selectedFile).show();
             }
-
         }
     }
 }
