@@ -32,7 +32,7 @@ public class LessonPlanManager {
         cardGroup.getHBox().setSpacing(10);
         Button deleteButton = new Button("Delete");
         deleteButton.getStylesheets().add(LessonPlanManager.class.getResource("style.css").toExternalForm());
-        deleteButton.getStyleClass().add("buttonOrange");
+        deleteButton.getStyleClass().add("buttonBlue");
         deleteButton.setOnAction(event -> deleteCardGroup(cardGroup, plan, lessonPlanGrid));
         ComboBox<String> eventComboBox = new ComboBox<>();
         eventComboBox.promptTextProperty().set("Select Event");

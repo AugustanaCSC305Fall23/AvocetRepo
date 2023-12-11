@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.WelcomeScreenController">
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.WelcomeScreenController">
    <center>
       <VBox alignment="CENTER" prefHeight="338.0" prefWidth="502.0" spacing="20.0" styleClass="welcomeScreen" stylesheets="@style.css">
          <padding>
@@ -19,7 +19,7 @@
                   <Font name="Arial Black" size="33.0" />
                </font>
             </Label>
-            <Button fx:id="primaryButton" mnemonicParsing="false" onAction="#switchToMainScreen" styleClass="buttonOrange" stylesheets="@style.css" text="Create A Lesson Plan" textFill="WHITE">
+            <Button fx:id="primaryButton" mnemonicParsing="false" onAction="#switchToMainScreen" styleClass="buttonBlue" stylesheets="@style.css" text="Create A Lesson Plan" textFill="WHITE">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
@@ -29,7 +29,7 @@
                <VBox.margin>
                   <Insets top="100.0" />
                </VBox.margin></Button>
-            <Button fx:id="aboutButton" mnemonicParsing="false" onAction="#switchToAboutPage" text="About" />
+            <Button fx:id="aboutButton" mnemonicParsing="false" onAction="#switchToAboutPage" styleClass="buttonWhite" stylesheets="@style.css" text="About" />
          </children>
       </VBox>
    </center>
