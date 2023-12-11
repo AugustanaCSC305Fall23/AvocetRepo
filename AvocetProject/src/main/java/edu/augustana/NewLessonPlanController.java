@@ -509,7 +509,7 @@ public class NewLessonPlanController {
      */
     @FXML
     void OpenButton(ActionEvent event) throws IOException {
-
+        openAction(lessonPlanGrid);
     }
 
 
@@ -527,6 +527,7 @@ public class NewLessonPlanController {
                 lessonPlanGrid.getChildren().clear();
                 plan.setTitle(lines.get(0));
                 lessonPlanTitleTF.setText(lines.get(0));
+                filePath = selectedFile;
                 int i = 0;
                 for (String line : lines) {
                     if (i != 0) {

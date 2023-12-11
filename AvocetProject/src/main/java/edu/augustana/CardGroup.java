@@ -25,7 +25,7 @@ public class CardGroup {
     private transient HBox hb;
 
     /** The static combo box for selecting events. */
-    private transient static ComboBox<String> eventComboBox;
+    private static ComboBox<String> eventComboBox;
 
     /** The index of the card group. */
     private transient int index;
@@ -81,13 +81,6 @@ public class CardGroup {
     }
 
     /**
-     * Removes a card from the group.
-     *
-     * @param card The card to be removed.
-     */
-    public void removeCard(Card card) { cards.remove(card);}
-
-    /**
      * Sets the event associated with the group.
      *
      * @param evt The event to be set.
@@ -95,13 +88,6 @@ public class CardGroup {
     public void setEvent(String evt) {
         this.event = evt;
     }
-
-    /**
-     * Deletes a card from the group.
-     *
-     * @param card The card to be deleted.
-     */
-    public void deleteCard(Card card) { cards.remove(card);}
 
     /**
      * Gets the event associated with the group.
@@ -157,12 +143,6 @@ public class CardGroup {
         return vb;
     }
 
-
-    public CardGroup getClone() {
-
-        CardGroup clone = new CardGroup(this.index, this.getVBox(), this.getHBox(), this.event, this.cards);
-        return clone;
-    }
 
 
     /**
