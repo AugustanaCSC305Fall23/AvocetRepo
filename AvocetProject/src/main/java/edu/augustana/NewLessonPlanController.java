@@ -283,7 +283,7 @@ public class NewLessonPlanController {
         ChangesMadeManager.setChangesMade(true);
     }
     @FXML
-    private void addCardGroup(CardGroup cardGroup) {
+    private void addCardGroupFromFile(CardGroup cardGroup) {
         LessonPlanManager.addCardGroup(plan, cardGroup, lessonPlanGrid, revert, true);
         ChangesMadeManager.setChangesMade(true);
     }
@@ -505,7 +505,7 @@ public class NewLessonPlanController {
                         CardGroup cardGroup = new CardGroup(lessonPlanGrid.getRowCount());
                         String[] dataArrayNew = dataArray[1].split(" ");
                         cardGroup.setEvent(dataArray[0]);
-                        addCardGroup(cardGroup);
+                        addCardGroupFromFile(cardGroup);
 
                         for (int j = 0; j < dataArrayNew.length; j++) {
                             String code = dataArrayNew[j];
